@@ -1,6 +1,7 @@
 var allControlller = ['ngRoute','ngAnimate', 'ngSanitize', 'ui.bootstrap'];
 var customController = [
-    'user_list','product_list','customer_list', 'dashboard_init', 'order_list', 'warehouse_list','settings_init'
+    'user_list','product_list','customer_list', 'dashboard_init', 'order_list', 'warehouse_list','settings_init',
+    'plan_list'
 ];
 
 allControlller = allControlller.concat(customController);

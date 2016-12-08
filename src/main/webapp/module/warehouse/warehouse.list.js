@@ -33,13 +33,6 @@ angular.module('warehouse_list', []).controller('warehouse_list', function($root
         detailsList: []
     };
 
-    function dateStr(dateIn) {
-        var yyyy = dateIn.getFullYear();
-        var mm = dateIn.getMonth()+1; // getMonth() is zero-based
-        var dd  = dateIn.getDate();
-        return yyyy+'-'+mm+'-'+dd+' 12:00:00.0'; // Leading zeros for mm and dd
-    }
-
     $scope.find = function() {
         $http.get('stock/balance?warehouseId='+$scope.search.warehouse+'&page='+$scope.page+'&size='+$scope.size).then(function(response) {
             $scope.productlist = response.data.data;
@@ -118,6 +111,15 @@ angular.module('warehouse_list', []).controller('warehouse_list', function($root
             $scope.find();
             $('#modal').modal('hide');
         }, function(response) {
+        });
+    };
+
+    $scope.log = function() {
+        $rootScope.products.forEach(function (el, i, arr) {
+            if (el.id == $scope.detail.productId) {
+                $scope.detail.product = el;
+                console.log($scope.detail.product);
+            }
         });
     };
 });

@@ -39,7 +39,7 @@ public class GenericDao<T>{
 	public void update(final T entity) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.saveOrUpdate(entity);
+		session.merge(entity);
 		tx.commit();
 		session.close();
 	}

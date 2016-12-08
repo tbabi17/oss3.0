@@ -3,57 +3,111 @@
         <div class="col-sm-2">
             <div data-ng-include="'template/left.html'"></div>
         </div>
-        <div class="col-sm-3">
-            <div class="row">
-                <div class="mod-white">
+        <div class="col-sm-5">
+           <div class="mod-white">
+                <div class="title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Үнийн төрлүүд
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <button class="btn btn-sm btn-primary" type="button" ng-click="add_pricetag()">Нэмэх</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-round">
+                            <table id="data">
+                            <thead>
+                            <tr>
+                                <td style="width:5%">Код</td>
+                                <td style="width:85%">Үнийн төрөл</td>
+                                <td style="width:10%">Үйлдэл</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="item in pricetags">
+                                <td>{{item.id}}</td>
+                                <td>{{item.tagName}}</td>
+                                <td style="text-align:center;">
+                                    <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    &nbsp;&nbsp;
+                                    <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div  style="float: left;">
+                            <span style="font-weight: bold;">Нийт: {{pricetagtotal || 0 |  number:0}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="pageable">
+                            <pagination  style="margin: 0" ng-change="findPriceTag()" page-label="0" items-per-page="size" boundary-links="true" total-items="pricetagtotal" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+           <div class="mod-white">
                     <div class="title">
                         <div class="row">
-                            <div class="col-sm-9">
-                                <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Үнийн тохиргоо
+                            <div class="col-sm-6">
+                                <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Агуулахын жагсаалт
                             </div>
-                            <div class="col-sm-3">
-                                <button class="btn btn-sm btn-primary" type="button" ng-click="add_pricetag()"><i class="glyphicon glyphicon-plus"></i> Үнэ нэмэх</button>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <button class="btn btn-sm btn-primary" type="button" ng-click="add_warehouse()">Нэмэх</button>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id="data">
-                                <thead>
-                                <tr>
-                                    <td style="width:5%">Код</td>
-                                    <td style="width:15%">Нэр</td>
-                                    <td style="width:15%">Үйлдэл</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr data-ng-repeat="item in pricetags">
-                                    <td>{{item.id}}</td>
-                                    <td>{{item.tagName}}</td>
-                                    <td style="text-align:center;">
-                                        <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
-                                        &nbsp;&nbsp;
-                                        <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-round">
+                                <table id="data">
+                                    <thead>
+                                    <tr>
+                                        <td style="width:5%">Код</td>
+                                        <td style="width:85%">Агуулахын нэр</td>
+                                        <td style="width:10%">Үйлдэл</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-ng-repeat="item in warehouses">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td style="text-align:center;">
+                                            <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
+                                            &nbsp;&nbsp;
+                                            <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
+                    <br>
                     <div class="row">
                         <div class="col-md-6">
                             <div  style="float: left;">
-                                <span style="font-weight: bold;">Нийт: {{pricetagtotal || 0 |  number:0}}</span>
+                                <span style="font-weight: bold;">Нийт: {{warehousetotal || 0 |  number:0}}</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="pageable">
-                                <pagination  style="margin: 0" ng-change="find()" page-label="0" items-per-page="size" boundary-links="true" total-items="pricetagtotal" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                                <pagination  style="margin: 0" ng-change="findWareHouse()" page-label="0" items-per-page="size" boundary-links="true" total-items="warehousetotal" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
@@ -63,10 +117,10 @@
             <div class="modal-header" style="text-align: center;">
                 <div class="pull-right white-color pointer" data-dismiss="modal" aria-hidden="true"
                      style="margin-top: 4px;"><span class="glyphicon glyphicon-remove"></span></div>
-                <h4 class="modal-title">Үнийн мэдээлэл</h4>
+                <h4 class="modal-title">Үнийн төрөл нэмэх</h4>
             </div>
             <div class="modal-body">
-                <div style="font-size:13px;text-align: justify">
+                <div style="font-size:13px;text-align: justify;">
                     <form class="form-horizontal" role="form" name="userForm">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -86,6 +140,43 @@
                         <div class="form-group ">
                             <div class="col-sm-12">
                                 <button style="margin-right:15px;" type="submit" class="btn btn-sm btn-blue-flat pull-right" data-ng-click="update_pricetag(selectedPricetag)">Хадгалах</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="pricetag_modal" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <div class="pull-right white-color pointer" data-dismiss="modal" aria-hidden="true"
+                     style="margin-top: 4px;"><span class="glyphicon glyphicon-remove"></span></div>
+                <h4 class="modal-title">Агуулах нэмэх</h4>
+            </div>
+            <div class="modal-body">
+                <div style="font-size:13px;text-align: justify;">
+                    <form class="form-horizontal" role="form" name="userForm">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Код</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input input-sm" disabled data-ng-model="selectedWarehouse.id">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Нэр</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selectedWarehouse.name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="col-sm-12">
+                                <button style="margin-right:15px;" type="submit" class="btn btn-sm btn-blue-flat pull-right" data-ng-click="update_warehouse(selectedWarehouse)">Хадгалах</button>
                             </div>
                         </div>
                     </form>

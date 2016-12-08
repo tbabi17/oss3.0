@@ -38,3 +38,22 @@ function replaceAll(str, find, replace) {
 function map_load(lat, lng) {
     window.open('https://www.google.mn/maps/@'+lat+','+lng+',14z');
 };
+
+function dateStr(dateIn) {
+    var yyyy = dateIn.getFullYear();
+    var mm = dateIn.getMonth()+1; // getMonth() is zero-based
+    var dd  = dateIn.getDate();
+    var hh = dateIn.getHours();
+    var m = dateIn.getMinutes();
+    var ss = dateIn.getSeconds();
+    return yyyy+'-'+(mm<10?'0'+mm:mm)+'-'+(dd<10?'0'+dd:dd)+' '+(hh<10?'0'+hh:hh)+':'+(m<10?'0'+m:m)+':'+(ss<10?'0'+ss:ss); // Leading zeros for mm and dd
+}
+
+function findAndRemove(array, property, value) {
+    array.forEach(function(result, index) {
+        if(result[property] === value) {
+            //Remove from array
+            array.splice(index, 1);
+        }
+    });
+}

@@ -3,7 +3,7 @@
         <li data-ng-click="url('/dashboard_init')" id="dashboard_init"><span class="glyphicon glyphicon-th-large"></span>&nbsp;&nbsp;Ажлын хяналт</li>
         <li data-ng-click="url('/order_list')" id="order_list"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;<span>Ирсэн хүсэлтүүд</span> <span style="float:right;" class="badge alert-success">{{new_order}}</span></li>
         <li data-ng-click="url('/warehouse_list')" id="warehouse_list"><span class="glyphicon glyphicon-modal-window"></span>&nbsp;&nbsp;Агуулахын үлдэгдэл</li>
-        <li><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Төлөвлөгөө, тайлан</li>
+        <li data-ng-click="url('/plan_list')"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Гүйцэтгэл</li>
         <li data-ng-click="url('/customer_list')" id="customer_list"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Харилцагчид <span style="float:right;" class="badge alert-success">{{new_customer}}</span></li>
         <li data-ng-click="url('/product_list')" id="product_list"><span class="glyphicon glyphicon-gbp"></span>&nbsp;&nbsp;Барааны жагсаалт</li>
         <li data-ng-click="url('/user_list')" id="user_list"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Борлуулагчид</li>

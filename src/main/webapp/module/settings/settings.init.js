@@ -2,8 +2,10 @@ angular.module('settings_init', []).controller('settings_init', function($rootSc
     $scope.page = 1;
     $scope.size = 10;
     $scope.pricetagtotal = 0;
+    $scope.warehousetotal = 0;
     $scope.pricetags = [];
-    $scope.find = function() {
+    $scope.warehouses = [];
+    $scope.findPriceTag = function() {
         var fun = 'findAll';
         $http.get('pricetag/'+fun+'?page='+$scope.page+'&size='+$scope.size).then(function(response) {
             $scope.pricetags = response.data.data;
@@ -11,6 +13,17 @@ angular.module('settings_init', []).controller('settings_init', function($rootSc
         }, function(response) {
             $scope.pricetags = [];
             $scope.pricetagtotal = 0;
+        });
+    };
+
+    $scope.findWareHouse = function() {
+        var fun = 'findAll';
+        $http.get('warehouse/'+fun+'?page='+$scope.page+'&size='+$scope.size).then(function(response) {
+            $scope.warehouses = response.data.data;
+            $scope.warehousetotal = response.data.total;
+        }, function(response) {
+            $scope.warehouses = [];
+            $scope.warehousetotal = 0;
         });
     };
     $scope.add_pricetag = function(item) {
@@ -23,24 +36,23 @@ angular.module('settings_init', []).controller('settings_init', function($rootSc
 
     $scope.update_pricetag = function(item) {
         $http.put('pricetag/update', item).then(function(response) {
-            $scope.find();
-            //$scope.findRoute();
+            $scope.findPriceTag();
             $('#pricetag_modal').modal('hide');
         }, function(response) {
         });
     };
-    $scope.find();
+    $scope.findPriceTag();
+    $scope.findWareHouse();
 
     $scope.dialog = function(item) {
         $scope.selectedPricetag = item;
         $('#pricetag_modal').modal('show');
     };
+
     $scope.delete = function(item) {
         $http.delete('pricetag/delete?id='+item.id).then(function(response) {
-            $scope.find();
+            $scope.findPriceTag();
         }, function(response) {
         });
     };
-
-//pr
 });

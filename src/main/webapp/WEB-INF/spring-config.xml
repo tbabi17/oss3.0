@@ -30,6 +30,9 @@
 			<list>
 				<value>mn.mxc.oss.domain.Orders</value>
 				<value>mn.mxc.oss.domain.Details</value>
+				<value>mn.mxc.oss.domain.Plan</value>
+				<value>mn.mxc.oss.domain.PlanDetails</value>
+				<value>mn.mxc.oss.domain.PlanUsers</value>
 			</list>
 		</property>
 		<property name="annotatedClasses">
@@ -51,6 +54,9 @@
 				<value>mn.mxc.oss.domain.BalanceByUser</value>
 				<value>mn.mxc.oss.domain.BalanceByProduct</value>
 				<value>mn.mxc.oss.domain.BalanceByDay</value>
+				<value>mn.mxc.oss.domain.Plan</value>
+				<value>mn.mxc.oss.domain.PlanDetails</value>
+				<value>mn.mxc.oss.domain.PlanUsers</value>
 			</list>
         </property> 
 		<property name="hibernateProperties">
@@ -104,4 +110,6 @@
 	<bean id="stockDao" class="mn.mxc.oss.dao.StockDao"/>
 	<bean id="stockEndService" class="mn.mxc.oss.services.StockEndService"/>
 
+	<bean id="planDao" class="mn.mxc.oss.dao.PlanDao"/>
+	<bean id="planService" class="mn.mxc.oss.services.PlanService"/>
 </beans>
