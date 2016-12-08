@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:component-scan base-package="mn.mxc.oss" />
+	<context:property-placeholder location="classpath:database.properties" />
+	<mvc:annotation-driven />
+	<mvc:resources location="/assets/" mapping="/assets/**" />
+	<mvc:resources location="/lib/" mapping="/lib/**" />
+	<mvc:resources location="/module/" mapping="/module/**" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${database.driver}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>mn.mxc.oss.domain.Orders</value>
+				<value>mn.mxc.oss.domain.Details</value>
+			</list>
+		</property>
+		<property name="annotatedClasses">
+            <list>  
+				<value>mn.mxc.oss.domain.User</value>
+				<value>mn.mxc.oss.domain.Product</value>
+				<value>mn.mxc.oss.domain.Customer</value>
+				<value>mn.mxc.oss.domain.Orders</value>
+				<value>mn.mxc.oss.domain.PriceTag</value>
+				<value>mn.mxc.oss.domain.Route</value>
+				<value>mn.mxc.oss.domain.Prices</value>
+				<value>mn.mxc.oss.domain.Warehouse</value>
+				<value>mn.mxc.oss.domain.Details</value>
+				<value>mn.mxc.oss.domain.ProductOnly</value>
+				<value>mn.mxc.oss.domain.CustomerOnly</value>
+				<value>mn.mxc.oss.domain.StockBalance</value>
+				<value>mn.mxc.oss.domain.StockEnd</value>
+				<value>mn.mxc.oss.domain.StockCurrent</value>
+				<value>mn.mxc.oss.domain.BalanceByUser</value>
+				<value>mn.mxc.oss.domain.BalanceByProduct</value>
+				<value>mn.mxc.oss.domain.BalanceByDay</value>
+			</list>
+        </property> 
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.connection.CharSet">utf8</prop>
+				<prop key="hibernate.connection.characterEncoding">utf8</prop>
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<!--<prop key="hibernate.current_session_context_class">thread</prop>-->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		  class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<bean id="userDao" class="mn.mxc.oss.dao.UserDao"/>
+	<bean id="userService" class="mn.mxc.oss.services.UserService"/>
+
+	<bean id="productDao" class="mn.mxc.oss.dao.ProductDao"/>
+	<bean id="productService" class="mn.mxc.oss.services.ProductService"/>
+
+	<bean id="customerDao" class="mn.mxc.oss.dao.CustomerDao"/>
+	<bean id="customerService" class="mn.mxc.oss.services.CustomerService"/>
+
+	<bean id="orderDao" class="mn.mxc.oss.dao.OrderDao"/>
+	<bean id="orderService" class="mn.mxc.oss.services.OrderService"/>
+
+	<bean id="priceTagDao" class="mn.mxc.oss.dao.PriceTagDao"/>
+	<bean id="priceTagService" class="mn.mxc.oss.services.PriceTagService"/>
+
+	<bean id="routeDao" class="mn.mxc.oss.dao.RouteDao"/>
+	<bean id="routeService" class="mn.mxc.oss.services.RouteService"/>
+
+	<bean id="pricesDao" class="mn.mxc.oss.dao.PricesDao"/>
+	<bean id="pricesService" class="mn.mxc.oss.services.PricesService"/>
+
+	<bean id="warehouseDao" class="mn.mxc.oss.dao.WarehouseDao"/>
+	<bean id="warehouseService" class="mn.mxc.oss.services.WarehouseService"/>
+
+	<bean id="detailsDao" class="mn.mxc.oss.dao.DetailsDao"/>
+	<bean id="detailsService" class="mn.mxc.oss.services.DetailsService"/>
+
+	<bean id="stockDao" class="mn.mxc.oss.dao.StockDao"/>
+	<bean id="stockEndService" class="mn.mxc.oss.services.StockEndService"/>
+
+</beans>

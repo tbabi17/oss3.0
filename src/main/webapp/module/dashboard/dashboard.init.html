@@ -1,0 +1,112 @@
+<div class="container-full">
+    <div class="row">
+        <div class="col-sm-2">
+            <div data-ng-include="'template/left.html'"></div>
+        </div>
+        <div class="col-sm-10">
+            <div class="mod-white">
+                <div class="row">
+                    <div class="col-sm-8">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control input input-sm" data-ng-model="search.range" name="daterange" value="01/01/2015 - 01/31/2015"/>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-sm btn-primary" type="button" ng-click="findNew(true)"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="title">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Бараа нэр төрлөөр
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-round" style="min-height: 300px; overflow-y: scroll;">
+                            <table id="data">
+                                <thead>
+                                <tr>
+                                    <td style="width:30%">Бараа, бүтээгдэхүүн</td>
+                                    <td style="width:30%;text-align: right;">Тоо ширхэг</td>
+                                    <td style="width:40%;text-align: right;">Нийт дүн</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="item in balanceByProductList">
+                                    <td>{{item.product.name}}</td>
+                                    <td style="text-align: right;">{{item.qty | number: 0}}</td>
+                                    <td style="text-align: right;">{{item.amount | currency: "₮ "}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="title">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Борлуулагчаар
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-round" style="min-height: 300px; overflow-y: scroll;">
+                            <table id="data">
+                                <thead>
+                                <tr>
+                                    <td style="width:30%">Борлуулагч</td>
+                                    <td style="width:30%;text-align: right;">Захиалгын тоо</td>
+                                    <td style="width:40%;text-align: right;">Захиалгын дүн</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="item in balanceByUserList">
+                                    <td>{{item.user.firstName}}</td>
+                                    <td style="text-align: right;">{{item.qty | number: 0}}</td>
+                                    <td style="text-align: right;">{{item.amount | currency: "₮ "}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="title">
+                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Борлуулалтын үзүүлэлт
+                        </div>
+                        <div class="table-round" style="min-height: 300px; overflow-y: scroll;">
+                            <table id="data">
+                                <thead>
+                                    <tr>
+                                        <td style="width:10%">Өдөр</td>
+                                        <td style="width:15%;text-align: right;">Ажилласан борлуулагч</td>
+                                        <td style="width:10%;text-align: right;">Харилцагчийн тоо</td>
+                                        <td style="width:10%;text-align: right;">Цэгийн тоо</td>
+                                        <td style="width:15%;text-align: right;">Барааны нэр төрөл</td>
+                                        <td style="width:10%;text-align: right;">Захиалагын тоо</td>
+                                        <td style="width:15%;text-align: right;">Захиалагын дүн</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-ng-repeat="item in balanceByDayList">
+                                        <td>{{item.date}}</td>
+                                        <td style="text-align: right;">{{item.userCount}}</td>
+                                        <td style="text-align: right;">{{item.customerCount}}</td>
+                                        <td style="text-align: right;">{{item.orderCount}}</td>
+                                        <td style="text-align: right;">{{item.productCount}}</td>
+                                        <td style="text-align: right;">{{item.qty | number: 0}}</td>
+                                        <td style="text-align: right;">{{item.amount | currency: "₮ "}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

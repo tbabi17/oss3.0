@@ -1,0 +1,258 @@
+<div class="container-full">
+    <div class="row">
+        <div class="col-sm-2">
+            <div data-ng-include="'template/left.html'"></div>
+        </div>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="mod-white">
+                <div class="title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Шинэ болон чиглэл тодорхойгүй
+                        </div>
+                        <div class="col-sm-3" style="text-align: right;">
+                            <button class="btn btn-sm btn-primary" type="button" ng-click="add()">Шинэ харилцагч</button>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control input input-sm col-sm-6" placeholder="Хайх утгаа оруулна уу" data-ng-model="search.value">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-sm btn-primary" type="button" ng-click="find()"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-round">
+                            <table id="data">
+                            <thead>
+                            <tr>
+                                <td style="width: 40px; text-align: right;">Код</td>
+                                <td style="width:20%">Нэр</td>
+                                <td style="width:10%">Утас</td>
+                                <td style="width:30%">Хаяг</td>
+                                <td style="width:20%">Огноо</td>
+                                <td style="width:10%">Бүртгэсэн</td>
+                                <td style="text-align:center;">Үйлдэл</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="item in list" data-ng-click="dialog(item)">
+                                <td style="text-align: right;">{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.phone}}</td>
+                                <td>{{item.address}}</td>
+                                <td>{{item.createdDate}}</td>
+                                <td>{{item.user.firstName}}</td>
+                                <td style="text-align:center;">
+                                    <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    &nbsp;&nbsp;
+                                    <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="float: left;">
+                            <span style="font-weight: bold;">Нийт: {{total || 0 |  number:0}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="pageable">
+                            <pagination  style="margin: 0" ng-change="find()" page-label="0" items-per-page="size" boundary-links="true" total-items="total" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="mod-white">
+                    <div class="title">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Чиглэл ба цэгүүд
+                            </div>
+                            <div class="col-sm-3" style="text-align: right;">
+                               <button class="btn btn-sm btn-primary" type="button" ng-click="addroute()">Чиглэл нэмэх</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-round">
+                                <table id="data">
+                                <thead>
+                                <tr>
+                                    <td style="width: 40px; text-align: right;">Код</td>
+                                    <td style="width:15%; v-align: top;">Нэр</td>
+                                    <td style="width:80%">Цэгүүд</td>
+                                    <td style="text-align:center;">Үйлдэл</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="item in routeList">
+                                    <td style="text-align: right;">{{item.id}}</td>
+                                    <td>{{item.routeName}}&nbsp;({{item.customerList.length}})</td>
+                                    <td>
+                                        <div style="width: 100%; height: 150px; overflow-y: scroll;">
+                                            <div data-ng-repeat="customer in item.customerList" class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button type="button" data-ng-click="dialog(customer)" class="btn btn-xs btn-default" style="margin: 3px;">{{customer.name}}</button>&nbsp;
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <a data-ng-click="route_dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        &nbsp;&nbsp;
+                                        <a data-ng-click="route_delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="float: left;">
+                                <span style="font-weight: bold;">Нийт: {{routeTotal || 0 |  number:0}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="pageable">
+                                <pagination  style="margin: 0" ng-change="findRoute()" page-label="0" items-per-page="size" boundary-links="true" total-items="routeTotal" max-size="size" ng-model="routePage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal" class="modal fade">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <div class="pull-right white-color pointer" data-dismiss="modal" aria-hidden="true"
+                     style="margin-top: 4px;"><span class="glyphicon glyphicon-remove"></span></div>
+                <h4 class="modal-title">Харилцагчийн дэлгэрэнгүй</h4>
+            </div>
+            <div class="modal-body">
+                <div style="font-size:13px;text-align: justify">
+                    <form class="form-horizontal" role="form" name="userForm">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Нэр</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input input-sm" data-ng-model="selected.name">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary" type="button" ng-click="map_load(selected)">Байршил</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Утас</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Хаяг</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.address">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Байршил</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.lat">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.lng">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Үнэ</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control input-sm" data-ng-model="selected.price">
+                                        <option data-ng-repeat="item in pricetags" value="{{item.id}}">{{item.tagName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Чиглэл</label>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <select class="form-control input-sm" data-ng-model="selected.route">
+                                                <option data-ng-repeat="item in routes" value="{{item.id}}">{{item.routeName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button type="submit" class="btn btn-sm btn-blue-flat pull-right" data-ng-click="removeFromRoute(selected)" ng-show="selected.id==0?false:true">Хасах</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button style="margin-right:15px;" type="submit" class="btn btn-sm btn-blue-flat pull-right" data-ng-click="update(selected)">Хадгалах</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="route_modal" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <div class="pull-right white-color pointer" data-dismiss="modal" aria-hidden="true"
+                     style="margin-top: 4px;"><span class="glyphicon glyphicon-remove"></span></div>
+                <h4 class="modal-title">Чиглэл дэлгэрэнгүй</h4>
+            </div>
+            <div class="modal-body">
+                <div style="font-size:13px;text-align: justify">
+                    <form class="form-horizontal" role="form" name="userForm">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Дугаар</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input input-sm" disabled data-ng-model="selectedRoute.id">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Нэр</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selectedRoute.routeName">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="col-sm-12">
+                                <button style="margin-right:15px;" type="submit" class="btn btn-sm btn-blue-flat pull-right" data-ng-click="update_route(selectedRoute)">Хадгалах</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
