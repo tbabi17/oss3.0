@@ -13,7 +13,7 @@ import java.util.List;
 public class CustomerController {
 	
 	@Autowired
-	CustomerService service;
+	CustomerService service;/*test*/
 
 	@RequestMapping(value = "customer/save", method = RequestMethod.POST, consumes="application/json", produces=MediaType.APPLICATION_JSON_VALUE)
 	public Customer save(@RequestBody Customer entity) {
