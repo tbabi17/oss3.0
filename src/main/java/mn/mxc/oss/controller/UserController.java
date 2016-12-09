@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -56,34 +57,31 @@ public class UserController {
 		service.update(entity);
 		return entity;
 	}
-	@RequestMapping(value="user/login",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Hashtable PostService(@RequestParam(value="user", required=false) String username, @RequestParam(value="password",required=false) String password,HttpServletRequest request) throws ServletException, IOException {
-		String object = "{\"correct\":\"correct\"}";
-		List list = service.findLogin(username,password);
-		Hashtable pageable = new Hashtable();
-		pageable.put("total",  list.size());
-		if (list.size()>0) {
-			pageable.put("status",true);
+	@RequestMapping(value="user/login",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public User login(@RequestParam String username, @RequestParam String password, HttpServletRequest request) throws ServletException, IOException {
+		User user = service.findLogin(username, password);
+		if (user != null) {
 			HttpSession session = request.getSession();
-			String user = username;
-			session.setAttribute("logged", username);
-			System.out.println("logged user is "+session.getAttribute("logged"));
-		}else{
-			pageable.put("status",false);
+			session.setAttribute("logged", user);
 		}
-		System.out.println(list);
-		return pageable;
+		return user;
 	}
-	@RequestMapping(value="user/checkSession",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable checkSession(HttpServletRequest req){
-		HttpSession session = req.getSession(true);
-		String logged = (String) req.getAttribute("logged");
-		Hashtable data = new Hashtable();
-		if(req.getAttribute("logged")!=null){
-			data.put("status",true);
-		}else{
-			data.put("status",false);
+	@RequestMapping(value="user/checkSession",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public User checkSession(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("logged");
+		return user;
+	}
+
+	@RequestMapping(value="user/logout",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public User logout(HttpServletRequest req, HttpServletResponse response) {
+		HttpSession session = req.getSession();
+		session.setAttribute("logged", null);
+		try {
+			response.sendRedirect("/");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return data;
+		return new User();
 	}
 }

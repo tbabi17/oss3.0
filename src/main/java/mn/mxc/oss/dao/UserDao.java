@@ -32,7 +32,7 @@ public class UserDao extends GenericDao<User> {
         List<User> list = crit.list();
         return list;
     }
-    public List<User> findLogin(String user,String password){
+    public User findLogin(String user,String password){
         Session session = getSession();
         crit = session.createCriteria(User.class);
         crit.setFirstResult(0);
@@ -40,6 +40,8 @@ public class UserDao extends GenericDao<User> {
         crit.add(Restrictions.eq("owner",user));
         crit.add(Restrictions.eq("password",password));
         List<User> list = crit.list();
-        return list;
+        if (list.size() > 0)
+            return list.get(0);
+        return null;
     }
 }

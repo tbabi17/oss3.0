@@ -36,6 +36,20 @@ angular
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
             $httpProvider.interceptors.push('myHttpInterceptor');
         }).run(function($rootScope, $http, $location) {
+            $rootScope.logged = {};
+            $rootScope.checkSession = function() {
+                $http.get('user/checkSession').then(function (response) {
+                    $rootScope.logged = response.data;
+                    if (!$rootScope.logged.owner)
+                        $location.path('/login_user');
+                    else
+                        $location.path('/dashboard_init');
+                }, function (response) {
+                    $rootScope.logged = {};
+                });
+            };
+            $rootScope.checkSession();
+
             $rootScope.url = function(url){
                 $location.path(url);
             };

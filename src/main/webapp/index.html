@@ -28,14 +28,14 @@
                 <h3 style="margin-top: 0px !important; color: #fff;"><img src="../assets/img/target.png" style="height: 24px;"/></h3>
             </div>
             <div class="col-sm-6">
-                <div id="user" class="dropdown" style="float: right;">
+                <div id="user" class="dropdown" style="float: right;" ng-show="{{logged.owner != ''?true:false}}">
                     <img src="../assets/img/user.jpg" style="width: 33px;"/>
                     <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Батбилэг
+                        {{logged.firstName}}
                         &nbsp;<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="margin-left: -18px;">
-                        <li><a href="#">Нууц үг солих</a></li>
+                        <li><a href="user/logout">Нууц үг солих</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#">Гарах</a></li>
                     </ul>
