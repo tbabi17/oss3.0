@@ -31,6 +31,8 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
         $http.get('order/'+fun+'?userId='+$scope.search.user+'&start='+param[0].trim()+'&end='+param[1].trim()+'&page='+$scope.page + '&size=' + $scope.size).then(function (response) {
             $scope.list = response.data.data;
             $scope.total = response.data.total;
+
+            $scope.findOld();
         }, function (response) {
             $scope.list = [];
             $scope.total = 0;
@@ -53,7 +55,6 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
     $scope.update = function(item) {
         $http.put('order/update', item).then(function(response) {
             $scope.findNew();
-            $scope.findOld();
             $('#modal').modal('hide');
         }, function(response) {
         });
@@ -61,7 +62,7 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
 
     $scope.delete = function(item) {
         $http.delete('order/delete?id='+item.id).then(function(response) {
-            $scope.find();
+            $scope.findNew();
         }, function(response) {
         });
     };
@@ -72,5 +73,4 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
     };
 
     $scope.findNew();
-    $scope.findOld();
 });

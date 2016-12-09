@@ -25,7 +25,13 @@ public class GenericDao<T>{
 //		else
 //			session.clear();
 //		return session;
+		if (session != null) session.clear();
 		return sessionFactory.openSession();
+	}
+
+	public void close() {
+		if (session != null)
+		session.close();
 	}
 
 	public void save(final T entity) {
@@ -57,7 +63,8 @@ public class GenericDao<T>{
 	}
 
 	public long total(final Class<T> type) {
-		crit = getSession().createCriteria(type);
+		session = getSession();
+		crit = session.createCriteria(type);
 		crit.setProjection(Projections.rowCount());
 		long total = (Long)crit.uniqueResult();
 		return total;
