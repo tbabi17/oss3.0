@@ -37,13 +37,16 @@ angular
             $httpProvider.interceptors.push('myHttpInterceptor');
         }).run(function($rootScope, $http, $location) {
             $rootScope.logged = {};
+            $rootScope.logshow = false;
             $rootScope.checkSession = function() {
                 $http.get('user/checkSession').then(function (response) {
                     $rootScope.logged = response.data;
                     if (!$rootScope.logged.owner)
                         $location.path('/login_user');
-                    else
+                    else {
                         $location.path('/dashboard_init');
+                        $rootScope.logshow = true;
+                    }
                 }, function (response) {
                     $rootScope.logged = {};
                 });
@@ -119,6 +122,16 @@ angular
                 });
             };
             $rootScope.orderNotify();
+
+            $rootScope.logout = function() {
+                $http.get('user/logout').then(function (response) {
+                    $rootScope.logged = {};
+                    $rootScope.logshow = false;
+                    $location.path('/login_user');
+                }, function (response) {
+                    $rootScope.logged = {};
+                });
+            };
         })
         .factory('myHttpInterceptor', function ($q, $window, $location) {
             var reqNumber = 0;

@@ -8,6 +8,7 @@ angular.module('login_user', []).controller('login_user', function($rootScope, $
             if ($rootScope.logged) {
                 $scope.errorMsg = "Амжилттай";
                 setTimeout(function(){
+                    $rootScope.logshow = true;
                     window.location.href = "/#/dashboard_init";
                 },500);
             }else{

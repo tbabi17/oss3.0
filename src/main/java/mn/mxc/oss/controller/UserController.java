@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -74,14 +73,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value="user/logout",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public User logout(HttpServletRequest req, HttpServletResponse response) {
+	public User logout(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		session.setAttribute("logged", null);
-		try {
-			response.sendRedirect("/");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return new User();
 	}
 }
