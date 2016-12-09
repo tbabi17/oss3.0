@@ -37,7 +37,8 @@ public class UserDao extends GenericDao<User> {
         crit = session.createCriteria(User.class);
         crit.setFirstResult(0);
         crit.setMaxResults(1);
-        crit.add(Restrictions.disjunction().add(Restrictions.eq("owner",user)).add(Restrictions.eq("password",password)));
+        crit.add(Restrictions.eq("owner",user));
+        crit.add(Restrictions.eq("password",password));
         List<User> list = crit.list();
         return list;
     }

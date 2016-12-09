@@ -1,6 +1,6 @@
 var allControlller = ['ngRoute','ngAnimate', 'ngSanitize', 'ui.bootstrap'];
 var customController = [
-    'user_list','product_list','customer_list', 'dashboard_init', 'order_list', 'warehouse_list','settings_init'
+    'user_list','product_list','customer_list', 'dashboard_init', 'order_list', 'warehouse_list','settings_init','login_user'
 ];
 
 allControlller = allControlller.concat(customController);
@@ -49,7 +49,16 @@ angular
                 });
             };
             $rootScope.getProductList();
-
+            $rootScope.checkSession = function(){
+              $http.get("user/checkSession").then(function(response){
+                    if(response.status==false){
+                        window.location.href = "/#/login_user";
+                    }else{
+                        window.location.href = "/#/dashboard_init";
+                    }
+              });
+            };
+            $rootScope.checkSession();
             $rootScope.getWarehouseList = function() {
                 $http.get('warehouse/findAll?page=1&size=50').then(function (response) {
                     $rootScope.warehouses = response == undefined ? {} : response.data.data;
