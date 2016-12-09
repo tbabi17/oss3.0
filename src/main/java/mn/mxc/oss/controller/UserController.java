@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
 import java.util.List;
 @RestController
@@ -26,6 +28,7 @@ public class UserController {
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);
+		System.out.println(list);
 		return pageable;
 	}
 
@@ -50,6 +53,21 @@ public class UserController {
 	public User update(@RequestBody User entity) {
 		service.update(entity);
 		return entity;
+	}
+	@RequestMapping(value="user/login",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Hashtable PostService(HttpServletRequest request, @RequestParam(value="user", required=false) String username, @RequestParam(value="password",required=false) String password){
+		String object = "{\"correct\":\"correct\"}";
+		System.out.println("username is "+username);
+		System.out.println("password is "+password);
+		List list = service.findLogin(username,password);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total",  list.size());
+		pageable.put("data", list);
+		System.out.println(list.get(0));
+		if(list.size()>0){
+			HttpSession sess = request.getSession(true);
+		}
+		return pageable;
 	}
 
 }

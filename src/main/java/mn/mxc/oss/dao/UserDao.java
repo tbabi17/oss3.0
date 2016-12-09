@@ -1,7 +1,6 @@
 package mn.mxc.oss.dao;
 
 import mn.mxc.oss.domain.User;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
@@ -30,6 +29,15 @@ public class UserDao extends GenericDao<User> {
         Criterion phone = Restrictions.like("phone", "%"+value+"%");
         Disjunction exp1 = Restrictions.or(firstName, lastName, phone);
         crit.add(exp1);
+        List<User> list = crit.list();
+        return list;
+    }
+    public List<User> findLogin(String user,String password){
+        Session session = getSession();
+        crit = session.createCriteria(User.class);
+        crit.setFirstResult(0);
+        crit.setMaxResults(1);
+        crit.add(Restrictions.disjunction().add(Restrictions.eq("owner",user)).add(Restrictions.eq("password",password)));
         List<User> list = crit.list();
         return list;
     }
