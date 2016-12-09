@@ -1,7 +1,7 @@
 var allControlller = ['ngRoute','ngAnimate', 'ngSanitize', 'ui.bootstrap'];
 var customController = [
     'user_list','product_list','customer_list', 'dashboard_init', 'order_list', 'warehouse_list','settings_init',
-    'plan_list'
+    'plan_list','login_user'
 ];
 
 allControlller = allControlller.concat(customController);
@@ -27,9 +27,9 @@ angular
                 });
             });
 
-            $routeProvider.when('/', {
-                templateUrl : 'module/user/user.list.html',
-                controller : 'user_list',
+            $routeProvider.when('/#/', {
+                templateUrl : 'module/user/login.user.html',
+                controller : 'login_user',
                 controllerAs : 'controller'
             }).otherwise('/');
 
@@ -40,7 +40,8 @@ angular
                 $location.path(url);
             };
 
-            $('li#'+$location.path().substring(1, $location.path().length)).addClass('active');
+            if ($location.path().length > 5)
+                $('li#'+$location.path().substring(1, $location.path().length)).addClass('active');
 
             $rootScope.getProductList = function() {
                 $http.get('product/findAll?page=1&size=50').then(function (response) {
@@ -116,7 +117,8 @@ angular
                     return config;
                 },
                 response : function(response) {
-                    $('li#'+$location.path().substring(1, $location.path().length)).addClass('active');
+                    if ($location.path().length > 5)
+                        $('li#'+$location.path().substring(1, $location.path().length)).addClass('active');
 
                     resNumber++;
                     if (reqNumber == resNumber) {
