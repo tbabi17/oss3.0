@@ -1,4 +1,4 @@
-angular.module('plan_list', []).controller('plan_list', function($rootScope, $http, $scope, $location) {
+angular.module('promotion_list', []).controller('promotion_list', function($rootScope, $http, $scope, $location) {
     $scope.list = [];
     $scope.old = [];
     $scope.total = 0;
@@ -11,7 +11,7 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
 
     $scope.newPlanId = 'PL-'+parseInt(new Date().getTime()/1000);
     $scope.detail = {
-        planId: $scope.newPlanId,
+        promotionId: $scope.newPlanId,
         productId: 0,
         product: {
 
@@ -20,23 +20,13 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
         price: 0,
         amount: 0
     };
-    $scope.user = {
-        planId: $scope.newPlanId,
-        userId: 0,
-        user: {
-
-        }
-    };
-    $scope.plan = {
-        planId : $scope.newPlanId,
-        percent: 0,
+    $scope.promotion = {
+        promotionId : $scope.newPlanId,
         name: '',
-        amount:0,
         status: 'active',
         createdDate: dateStr(new Date()),
         userId: 3,
         detailsList: [],
-        usersList:[]
     };
 
     $scope.fixDate = function(date) {
@@ -56,7 +46,7 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
 
     $scope.findNew = function() {
         var fun = 'findByActive';
-        $http.get('plan/'+fun+'?page='+$scope.page + '&size=' + $scope.size).then(function (response) {
+        $http.get('promotion/'+fun+'?page='+$scope.page + '&size=' + $scope.size).then(function (response) {
             $scope.list = response.data.data;
             $scope.total = response.data.total;
             $scope.findOld();
@@ -68,7 +58,7 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
 
     $scope.findOld = function() {
         var fun = 'findByNonActive';
-        $http.get('plan/'+fun+'?page='+$scope.page + '&size=' + $scope.size).then(function (response) {
+        $http.get('promotion/'+fun+'?page='+$scope.page + '&size=' + $scope.size).then(function (response) {
             $scope.old = response.data.data;
             $scope.oldtotal = response.data.total;
         }, function (response) {
@@ -77,18 +67,18 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
         });
     };
 
-    $scope.plansave = function() {
-        $scope.plan.detailsList.forEach(function(item) {
+    $scope.promotionsave = function() {
+        $scope.promotion.detailsList.forEach(function(item) {
             delete item.priceList;
             delete item.product;
         });
-        if ($scope.plan.id == 0) {
-            $scope.plan.startDate = $scope.fixDate($scope.plan.startDate);
-            $scope.plan.endDate = $scope.fixDate($scope.plan.endDate);
+        if ($scope.promotion.id == 0) {
+            $scope.promotion.startDate = $scope.fixDate($scope.promotion.startDate);
+            $scope.promotion.endDate = $scope.fixDate($scope.promotion.endDate);
         } else {
-            delete $scope.plan.user;
+            delete $scope.promotion.user;
         }
-        $http.put('plan/update', $scope.plan).then(function(response) {
+        $http.put('promotion/update', $scope.promotion).then(function(response) {
             $scope.findNew();
             $('#modal').modal('hide');
         }, function(response) {
@@ -96,14 +86,14 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
     };
 
     $scope.update = function(item) {
-        $http.put('plan/update', item).then(function(response) {
+        $http.put('promotion/update', item).then(function(response) {
             $scope.findNew();
             $('#modal').modal('hide');
         }, function(response) {
         });
 
         $scope.delete_product.forEach(function (el, i, arr) {
-            $http.put('plandetail/delete',el).then(function(response) {
+            $http.put('promotiondetail/delete',el).then(function(response) {
 
             }, function(response) {
 
@@ -112,31 +102,28 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
     };
 
     $scope.delete = function(item) {
-        $http.delete('plan/delete?id='+item.id).then(function(response) {
-            $scope.find();
+        $http.delete('promotion/delete?id='+item.id).then(function(response) {
+            $scope.findNew();
         }, function(response) {
         });
     };
 
-    $scope.newplan = function() {
-        $scope.newPlanId = 'PL-'+parseInt(new Date().getTime()/1000);
-        $scope.plan = {
+    $scope.newpromotion = function() {
+        $scope.newPromotionId = 'PM-'+parseInt(new Date().getTime()/1000);
+        $scope.promotion = {
             id: 0,
-            planId : $scope.newPlanId,
-            percent: 0,
+            promotionId : $scope.newPromotionId,
             name: '',
-            amount:0,
             status: 'active',
             startDate: '',
             endDate: '',
             createdDate: dateStr(new Date()),
             userId: 3,
-            detailsList: [],
-            usersList:[]
+            detailsList: []
         };
 
         $scope.detail = {
-            planId: $scope.newPlanId,
+            promotionId: $scope.newPromotionId,
             productId: 0,
             product: {
 
@@ -145,32 +132,21 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
             price: 0,
             amount: 0
         };
-        $scope.user = {
-            planId: $scope.newPlanId,
-            userId: 0,
-            user: {
-
-            }
-        };
         $('#modal').modal('show');
     };
 
     $scope.dialog = function(item) {
-        $scope.plan = item;
+        $scope.promotion = item;
         $('#modal').modal('show');
     };
 
     $scope.findNew();
 
     $scope.product_dialog = function() {
-        $scope.detail.planId = $scope.plan.planId;
+        $scope.detail.promotionId = $scope.plan.promotionId;
         $('#product_modal').modal('show');
     };
 
-    $scope.user_dialog = function() {
-        $scope.user.planId = $scope.plan.planId;
-        $('#user_modal').modal('show');
-    };
 
     $scope.qtyChange = function() {
         $scope.detail.amount = $scope.detail.price*$scope.detail.qty;
@@ -182,9 +158,9 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
                 $scope.detail.product = el;
         });
 
-        $scope.plan.detailsList.push($scope.detail);
+        $scope.promotion.detailsList.push($scope.detail);
         $scope.detail = {
-            planId : $scope.plan.planId,
+            promotionId : $scope.promtion.promotionId,
             id: 0,
             productId: 0,
             product: {
@@ -195,49 +171,14 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
             amount: 0
         };
 
-        $scope.plan.amount = 0;
-        $scope.plan.detailsList.forEach(function (el, i, arr) {
-            $scope.plan.amount += el.amount;
-        });
         $('#product_modal').modal('hide');
-    };
-
-
-    $scope.adduser = function() {
-        $rootScope.users.forEach(function (el, i, arr) {
-            if (el.id == $scope.user.userId)
-                $scope.user.user = el;
-        });
-
-        $scope.plan.usersList.push($scope.user);
-        $scope.user = {
-            planId : $scope.plan.planId,
-            id: 0,
-            userId: 0,
-            user: {
-
-            }
-        };
-
-        $('#user_modal').modal('hide');
     };
 
     $scope.delete_product = [];
 
     $scope.deleteproduct = function(product) {
         $scope.delete_product.push(product);
-        findAndRemove($scope.plan.detailsList, 'id', product.id);
-        $scope.plan.amount = 0;
-        $scope.plan.detailsList.forEach(function (el, i, arr) {
-             $scope.plan.amount += el.amount;
-        });
-    };
-
-    $scope.deleteuser = function(user) {
-        $http.put('planuser/delete',user).then(function(response) {
-            findAndRemove($scope.plan.usersList, 'id', user.id);
-        }, function(response) {
-        });
+        findAndRemove($scope.promotion.detailsList, 'id', product.id);
     };
 
     $scope.log = function() {

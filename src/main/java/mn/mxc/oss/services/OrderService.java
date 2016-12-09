@@ -32,4 +32,5 @@ public class OrderService {
 	}
 
 	public long total() { return dao.total(); }
+	public void close() { dao.close(); }
 }
