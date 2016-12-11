@@ -338,3 +338,8 @@ label {
     border: 1px solid transparent;
     border-radius: 4px;
 }
+
+.label {
+    font-size: 100% !important;
+    font-weight: normal;
+}
