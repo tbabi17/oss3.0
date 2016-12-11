@@ -32,29 +32,35 @@ public class StockDao extends GenericDao<StockCurrent> {
         return result;
     }
 
-    public List<BalanceByUser> balanceByUsers() {
+    public List<BalanceByUser> balanceByUsers(String startDate, String endDate) {
         //Query query = session.getNamedQuery("findStockByStockCodeNativeSQL").setString("stockCode", "7277");
         session = getSession();
         Transaction tx = session.beginTransaction();
         Query query = session.getNamedQuery("balanceByUser");
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
         List<BalanceByUser> list = query.list();
         tx.commit();
         return list;
     }
 
-    public List<BalanceByProduct> balanceByProduct() {
+    public List<BalanceByProduct> balanceByProduct(String startDate, String endDate) {
         session = getSession();
         Transaction tx = session.beginTransaction();
         Query query = session.getNamedQuery("balanceByProduct");
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
         List<BalanceByProduct> list = query.list();
         tx.commit();
         return list;
     }
 
-    public List<BalanceByDay> balanceByDay() {
+    public List<BalanceByDay> balanceByDay(String startDate, String endDate) {
         session = getSession();
         Transaction tx = session.beginTransaction();
         Query query = session.getNamedQuery("balanceByDay");
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
         List<BalanceByDay> list = query.list();
         tx.commit();
         return list;

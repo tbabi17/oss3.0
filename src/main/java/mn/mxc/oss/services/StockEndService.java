@@ -20,9 +20,9 @@ public class StockEndService {
 	}
 
 	public List<StockCurrent> findAll(int page, int size) { return dao.findAll(page, size); }
-	public List<BalanceByUser> balanceByUsers(int page, int size) { return dao.balanceByUsers(); }
-	public List<BalanceByProduct> balanceByProducts(int page, int size) { return dao.balanceByProduct(); }
-	public List<BalanceByDay> balanceByDay(int page, int size) { return dao.balanceByDay(); }
+	public List<BalanceByUser> balanceByUsers(String startDate, String endDate, int page, int size) { return dao.balanceByUsers(startDate, endDate); }
+	public List<BalanceByProduct> balanceByProducts(String startDate, String endDate, int page, int size) { return dao.balanceByProduct(startDate, endDate); }
+	public List<BalanceByDay> balanceByDay(String startDate, String endDate, int page, int size) { return dao.balanceByDay(startDate, endDate); }
 
 	public int calc(int warehouseId) {
 		return dao.calc(warehouseId);
