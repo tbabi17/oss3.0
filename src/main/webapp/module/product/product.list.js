@@ -4,6 +4,8 @@ angular.module('product_list', []).controller('product_list', function($rootScop
     $scope.total = 0;
     $scope.page = 1;
     $scope.size = 10;
+    $scope.error = '';
+    $scope.success = '';
     $scope.find = function() {
         var fun = 'findAll';
         if ($scope.search.value) fun = 'findBySearch';
@@ -24,7 +26,12 @@ angular.module('product_list', []).controller('product_list', function($rootScop
     };
 
     $scope.update = function(item) {
+        if (item.code.length == 0) { $scope.error = 'Код оруулна уу !'; $('#code').focus(); return;}
+        if (item.name.length == 0) { $scope.error = 'Нэр оруулна уу !'; $('#name').focus(); return;}
+        if (item.brand.length == 0) { $scope.error = 'Төрөл оруулна уу !'; $('#brand').focus(); return;}
+
         $http.put('product/update', item).then(function(response) {
+            $scope.success = 'Амжилттай хадгаллаа !';
             $scope.find();
         }, function(response) {
         });
@@ -32,9 +39,9 @@ angular.module('product_list', []).controller('product_list', function($rootScop
 
     $scope.updateprice = function() {
         $scope.selected.priceList.forEach(function(item) {
-            console.log(item);
             $http.put('prices/update', item).then(function(response) {
                 $scope.find();
+                $scope.success = 'Амжилттай хадгаллаа !';
             }, function(response) {
             });
         })

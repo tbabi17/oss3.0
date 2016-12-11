@@ -1,7 +1,7 @@
 package mn.mxc.oss.dao;
 
 import mn.mxc.oss.domain.User;
-import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
@@ -20,7 +20,8 @@ public class UserDao extends GenericDao<User> {
     }
 
     public List<User> findBySearch(String value) {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(User.class);
         crit.setFirstResult(0);
         crit.setMaxResults(10);
@@ -30,18 +31,24 @@ public class UserDao extends GenericDao<User> {
         Disjunction exp1 = Restrictions.or(firstName, lastName, phone);
         crit.add(exp1);
         List<User> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
     public User findLogin(String user,String password){
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(User.class);
         crit.setFirstResult(0);
         crit.setMaxResults(1);
         crit.add(Restrictions.eq("owner",user));
         crit.add(Restrictions.eq("password",password));
         List<User> list = crit.list();
-        if (list.size() > 0)
+        if (list.size() > 0) {
+            tx.commit();
             return list.get(0);
+        }
+        tx.commit();
         return null;
     }
 }

@@ -3,8 +3,15 @@ package mn.mxc.oss.domain;
 import javax.persistence.*;
 import java.util.List;
 
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "productsAvailable",
+                query = "select * from product where id in (select productId from stockend where qty>0 and warehouseId=:warehouseId)",
+                resultClass = Product.class
+        )
+})
 @Entity
-public class Product {
+public class Product implements java.io.Serializable{
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -20,7 +27,7 @@ public class Product {
     private String createdDate;
     @Column String status;
 
-    @OneToMany(mappedBy="product")
+    @OneToMany(mappedBy="product", cascade = CascadeType.ALL)
     private List<Prices> priceList;
 
     public List<Prices> getPriceList() {

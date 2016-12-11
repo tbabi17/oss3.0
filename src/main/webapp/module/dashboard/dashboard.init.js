@@ -9,10 +9,11 @@ angular.module('dashboard_init', []).controller('dashboard_init', function($root
     });
 
 
-    $scope.balanceByUsers = function(find) {
+    $scope.balanceByUsers = function() {
         var fun = 'balanceByUsers';
         $http.get('stock/'+fun+'?page='+$scope.page + '&size=' + $scope.size).then(function (response) {
             $scope.balanceByUserList = response.data.data;
+            $scope.balanceByProducts();
         }, function (response) {
             $scope.balanceByUserList = [];
         });
@@ -20,18 +21,17 @@ angular.module('dashboard_init', []).controller('dashboard_init', function($root
 
     $scope.balanceByUsers();
 
-    $scope.balanceByProducts = function(find) {
+    $scope.balanceByProducts = function() {
         var fun = 'balanceByProducts';
         $http.get('stock/'+fun+'?page='+$scope.page + '&size=' + $scope.size).then(function (response) {
             $scope.balanceByProductList = response.data.data;
+            $scope.balanceByDay();
         }, function (response) {
             $scope.balanceByProductList = [];
         });
     };
 
-    $scope.balanceByProducts();
-
-    $scope.balanceByDay = function(find) {
+    $scope.balanceByDay = function() {
         var fun = 'balanceByDay';
         $http.get('stock/'+fun+'?page='+$scope.page + '&size=' + $scope.size).then(function (response) {
             $scope.balanceByDayList = response.data.data;
@@ -40,5 +40,4 @@ angular.module('dashboard_init', []).controller('dashboard_init', function($root
         });
     };
 
-    $scope.balanceByDay();
 });

@@ -8,10 +8,10 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
     $scope.statusName = [];
     $scope.statusName['info'] = "Идэвхтэй";
     $scope.statusName['success'] = "Идэвхгүй";
-
-    $scope.newPlanId = 'PL-'+parseInt(new Date().getTime()/1000);
+    $scope.error = '';
+    $scope.newPromotionId = 'PL-'+parseInt(new Date().getTime()/1000);
     $scope.detail = {
-        promotionId: $scope.newPlanId,
+        promotionId: $scope.newPromotionId,
         productId: 0,
         product: {
 
@@ -21,27 +21,28 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
         amount: 0
     };
     $scope.promotion = {
-        promotionId : $scope.newPlanId,
+        promotionId : $scope.newPromotionId,
         name: '',
         status: 'active',
         createdDate: dateStr(new Date()),
         userId: 3,
+        used: 0,
         detailsList: [],
-    };
-
-    $scope.fixDate = function(date) {
-        var param = date;
-        param = param.substring(6,10)+'/'+param.substring(0, 5);
-        return param;
     };
 
     $('input[name="startDate"]').daterangepicker({
         singleDatePicker: true,
-        showDropdowns: true
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
     });
     $('input[name="endDate"]').daterangepicker({
         singleDatePicker: true,
-        showDropdowns: true
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
     });
 
     $scope.findNew = function() {
@@ -73,8 +74,6 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
             delete item.product;
         });
         if ($scope.promotion.id == 0) {
-            $scope.promotion.startDate = $scope.fixDate($scope.promotion.startDate);
-            $scope.promotion.endDate = $scope.fixDate($scope.promotion.endDate);
         } else {
             delete $scope.promotion.user;
         }
@@ -118,7 +117,8 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
             startDate: '',
             endDate: '',
             createdDate: dateStr(new Date()),
-            userId: 3,
+            userId: $rootScope.logged.id,
+            used: 0,
             detailsList: []
         };
 
@@ -143,35 +143,34 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
     $scope.findNew();
 
     $scope.product_dialog = function() {
-        $scope.detail.promotionId = $scope.plan.promotionId;
+        $scope.detail.promotionId = $scope.promotion.promotionId;
         $('#product_modal').modal('show');
     };
 
 
-    $scope.qtyChange = function() {
-        $scope.detail.amount = $scope.detail.price*$scope.detail.qty;
-    };
-
     $scope.addproduct = function() {
-        $rootScope.products.forEach(function (el, i, arr) {
-            if (el.id == $scope.detail.productId)
-                $scope.detail.product = el;
-        });
+        $scope.error = '';
+        var passed = ($scope.detail.productId > 0 && parseFloat($scope.detail.qty) > 0 && parseFloat($scope.detail.price) && parseFloat($scope.detail.amount));
+        if (passed) {
+            $rootScope.products.forEach(function (el, i, arr) {
+                if (el.id == $scope.detail.productId)
+                    $scope.detail.product = el;
+            });
 
-        $scope.promotion.detailsList.push($scope.detail);
-        $scope.detail = {
-            promotionId : $scope.promtion.promotionId,
-            id: 0,
-            productId: 0,
-            product: {
+            $scope.promotion.detailsList.push($scope.detail);
+            $scope.detail = {
+                promotionId: $scope.promotion.promotionId,
+                id: 0,
+                productId: 0,
+                product: {},
+                qty: 0,
+                price: 0,
+                amount: 0
+            };
 
-            },
-            qty: 0,
-            price: 0,
-            amount: 0
-        };
-
-        $('#product_modal').modal('hide');
+            $('#product_modal').modal('hide');
+        } else
+            $scope.error = 'Мэдээлэл буруу !';
     };
 
     $scope.delete_product = [];
@@ -189,4 +188,9 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
             }
         });
     };
+
+    $scope.qtyChange = function() {
+        $scope.detail.amount = $scope.detail.price*$scope.detail.qty;
+    };
+
 });

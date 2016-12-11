@@ -1,5 +1,8 @@
 package mn.mxc.oss.domain;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 @Table(name="Customer")
@@ -30,6 +33,7 @@ public class CustomerOnly {
     private double lng;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="route", nullable=false, insertable=false, updatable=false)
     private Route routeName;
 

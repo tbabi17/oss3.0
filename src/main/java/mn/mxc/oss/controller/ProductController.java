@@ -30,6 +30,15 @@ public class ProductController {
 		return pageable;
 	}
 
+	@RequestMapping(value = "product/findAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findAvailable(@RequestParam int warehouseId) {
+		List list = service.findByAvailable(warehouseId);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", list.size());
+		pageable.put("data", list);
+		return pageable;
+	}
+
 	@RequestMapping(value = "product/findBySearch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findBySearch(@RequestParam String value) {
 		List list = service.findBySearch(value);

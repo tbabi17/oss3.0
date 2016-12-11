@@ -1,7 +1,7 @@
 package mn.mxc.oss.dao;
 
 import mn.mxc.oss.domain.Details;
-import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -18,12 +18,15 @@ public class DetailsDao extends GenericDao<Details> {
     }
 
     public List<Details> findByOrderId(int orderId, int page, int size) {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Details.class);
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.eq("orderId", orderId));
         List<Details> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
 }

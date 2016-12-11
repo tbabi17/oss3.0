@@ -1,7 +1,7 @@
 package mn.mxc.oss.dao;
 
 import mn.mxc.oss.domain.Customer;
-import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
@@ -20,7 +20,8 @@ public class CustomerDao extends GenericDao<Customer> {
     }
 
     public List<Customer> findBySearch(String value) {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Customer.class);
         crit.setFirstResult(0);
         crit.setMaxResults(10);
@@ -29,16 +30,21 @@ public class CustomerDao extends GenericDao<Customer> {
         LogicalExpression exp1 = Restrictions.or(name, phone);
         crit.add(exp1);
         List<Customer> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
 
     public List<Customer> findByNonRoute() {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Customer.class);
         crit.setFirstResult(0);
         crit.setMaxResults(10);
         crit.add(Restrictions.eq("route", new Integer(1)));
         List<Customer> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
 }

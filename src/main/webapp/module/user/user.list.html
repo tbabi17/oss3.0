@@ -8,8 +8,11 @@
                 <div class="mod-white">
                 <div class="title">
                     <div class="row">
-                        <div class="col-sm-9">
+                        <div class="col-sm-6">
                             <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Борлуулагчдын мэдээлэл
+                        </div>
+                        <div class="col-sm-3" style="text-align: right;">
+                            <button class="btn btn-sm btn-primary" type="button" ng-click="adduser()">Шинэ борлуулагч</button>
                         </div>
                         <div class="col-sm-3">
                             <div class="input-group">
@@ -89,19 +92,25 @@
                             <div class="form-group">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">Овог</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.firstName">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.firstName" id="firstName">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">Нэр</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.lastName">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.lastName" id="lastName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Нэвтрэх код</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.owner" id="owner">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">Утас</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.phone">
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.phone" id="phone">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -174,6 +183,9 @@
                         </div>
 
                         <div class="form-group ">
+                            <div class="col-sm-12">
+                                <div class="alert alert-danger alert-dismissible" role="alert" ng-show="error.length>0?true:false">{{error}}</div>
+                            </div>
                             <div class="col-sm-12">
                                 <button style="margin-right:15px;" type="submit" class="btn btn-sm btn-blue-flat pull-right" data-ng-click="update(selected)">Хадгалах</button>
                             </div>

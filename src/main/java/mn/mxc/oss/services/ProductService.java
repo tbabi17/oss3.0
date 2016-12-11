@@ -22,6 +22,9 @@ public class ProductService {
 	public List<Product> findAll(int page, int size) {
 		return dao.findAll(page, size);
 	}
+	public List<Product> findByAvailable(int warehouseId) {
+		return dao.findByAvailable(warehouseId);
+	}
 
 	public void update(Product entity) {
 		dao.update(entity);

@@ -1,7 +1,7 @@
 package mn.mxc.oss.dao;
 
 import mn.mxc.oss.domain.Route;
-import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -18,12 +18,15 @@ public class RouteDao extends GenericDao<Route> {
     }
 
     public List<Route> findByActive(int page, int size) {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Route.class);
         crit.setFirstResult((page-1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.ne("id", new Integer(1)));
         List<Route> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
 }

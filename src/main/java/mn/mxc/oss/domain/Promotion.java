@@ -3,9 +3,15 @@ package mn.mxc.oss.domain;
 import javax.persistence.*;
 import java.util.List;
 
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "promotionExecute",
+                query = "update promotion p set p.usage=0 where p.status='active'",
+                resultClass = Promotion.class
+        )
+})
 @Entity
-@Table(name="Plan")
-public class PlanOnly implements java.io.Serializable{
+public class Promotion implements java.io.Serializable{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
@@ -19,7 +25,7 @@ public class PlanOnly implements java.io.Serializable{
     }
 
     @Column
-    private String planId;
+    private String promotionId;
     @Column
     private String name;
     @Column
@@ -33,13 +39,17 @@ public class PlanOnly implements java.io.Serializable{
     @Column
     private String status;
     @Column
-    private double amount;
-    @Column
-    private double percent;
+    private int used;
+    @OneToMany(mappedBy="details", cascade = CascadeType.ALL)
+    private List<PromotionDetails> detailsList;
 
-    @OneToOne
-    @JoinColumn(name="userId", insertable=false, updatable=false)
-    private User user;
+    public String getPromotionId() {
+        return promotionId;
+    }
+
+    public void setPromotionId(String promotionId) {
+        this.promotionId = promotionId;
+    }
 
     public String getName() {
         return name;
@@ -65,6 +75,14 @@ public class PlanOnly implements java.io.Serializable{
         this.endDate = endDate;
     }
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public int getUserId() {
         return userId;
     }
@@ -81,43 +99,20 @@ public class PlanOnly implements java.io.Serializable{
         this.status = status;
     }
 
-    public User getUser() {
-        return user;
+
+    public List<PromotionDetails> getDetailsList() {
+        return detailsList;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDetailsList(List<PromotionDetails> detailsList) {
+        this.detailsList = detailsList;
     }
 
-    public String getPlanId() {
-        return planId;
+    public int getUsed() {
+        return used;
     }
 
-    public void setPlanId(String planId) {
-        this.planId = planId;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public double getPercent() {
-        return percent;
-    }
-
-    public void setPercent(double percent) {
-        this.percent = percent;
-    }
-
-    public String getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setUsed(int used) {
+        this.used = used;
     }
 }

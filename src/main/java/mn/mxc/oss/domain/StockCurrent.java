@@ -2,6 +2,12 @@ package mn.mxc.oss.domain;
 
 import javax.persistence.*;
 
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "balanceCheck",
+                query = "insert into stockcurrent (productId,startBalance,orlogo,zarlaga,lastBalance,wareHouseId) select p.id,ifnull((select sum(qty) from stockend where productId=p.id and endDate=(select endDate from stockend where endDate<:startDate limit 1) and warehouseId=:warehouseId),0) as a,ifnull((select sum(qty) from stockbalance where productId=p.id and qty>=0 and createdDate between :startDate and :endDate and warehouseId=:warehouseId),0) as b,ifnull((select sum(qty) from stockbalance where productId=p.id and qty<=0 and createdDate between :startDate and :endDate and warehouseId=:warehouseId),0) as c,0,:warehouseId from product as p"
+        )
+})
 @Table(name="StockCurrent")
 @Entity
 public class StockCurrent {
