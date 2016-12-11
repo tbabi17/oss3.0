@@ -39,7 +39,6 @@ public class GenericDao<T>{
 	}
 
 	public void save(final T entity) {
-//		Session session = sessionFactory.openSession();
 		session = getSession();
 		Transaction tx = session.beginTransaction();
 		session.save(entity);
@@ -47,7 +46,6 @@ public class GenericDao<T>{
 	}
 
 	public void update(final T entity) {
-//		Session session = sessionFactory.openSession();
 		session = getSession();
 		Transaction tx = session.beginTransaction();
 		session.merge(entity);

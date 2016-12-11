@@ -37,16 +37,6 @@ angular.module('product_list', []).controller('product_list', function($rootScop
         });
     };
 
-    $scope.updateprice = function() {
-        $scope.selected.priceList.forEach(function(item) {
-            $http.put('prices/update', item).then(function(response) {
-                $scope.find();
-                $scope.success = 'Амжилттай хадгаллаа !';
-            }, function(response) {
-            });
-        })
-    };
-
     $scope.addprice = function() {
         $rootScope.pricetags.forEach(function(value) {
             var nvalue = {
