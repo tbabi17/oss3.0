@@ -4,8 +4,8 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
             "format": "YYYY/MM/DD",
             "separator": "-",
         },
-        startDate: '2016-12-01',
-        endDate: '2016-12-31'
+        startDate: dateDay(new Date()),
+        endDate: dateDayLast()
     });
 
     $scope.error = '';
@@ -19,7 +19,7 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
         }
     );
 
-    $scope.search = {warehouse: 1};
+    $scope.search = {warehouse: 1, range: ''};
     $scope.list = [];
     $scope.total = 0;
     $scope.page = 1;
@@ -51,9 +51,11 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
     };
 
     $rootScope.selectWareHouse($scope.search.warehouse);
-
     $scope.find = function() {
-        $http.get('stock/balance?warehouseId='+$scope.search.warehouse+'&page='+$scope.page+'&size='+$scope.size).then(function(response) {
+        var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var field = '&startDate='+start+'&endDate='+end;
+        $http.get('stock/balance?warehouseId='+$scope.search.warehouse+field+'&page='+$scope.page+'&size='+$scope.size).then(function(response) {
             $scope.productlist = response.data.data;
             $scope.total = response.data.total;
         }, function(response) {

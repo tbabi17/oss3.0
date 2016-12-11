@@ -1,5 +1,5 @@
 angular.module('order_list', []).controller('order_list', function($rootScope, $http, $scope, $location) {
-    $scope.search = {'range': '', 'user': 0, 'mode': false};
+    $scope.search = {'user': 0, 'mode': false};
     $scope.list = [];
     $scope.old = [];
     $scope.total = 0;
@@ -16,18 +16,10 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
             "format": "YYYY/MM/DD",
             "separator": "-",
         },
-        startDate: '2016-01-01',
-        endDate: '2016-12-31'
+        startDate: dateDay(new Date()),
+        endDate: dateDayLast()
     });
 
-    $scope.fixDate = function(date) {
-        var param = date.split('-');
-        if (param.length > 2) {
-            param[0] = param[0].trim();
-            param[1] = param[1].trim();
-        }
-        return param;
-    };
 
     $scope.findNew = function() {
         var fun = 'findByNewOrder';
@@ -44,12 +36,9 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
 
     $scope.findOld = function(find) {
         var fun = 'findByNonNewOrder';
-        var field = '';
-        if (find) {
-            var param = $scope.fixDate($scope.search.range);
-            fun = 'findBySearch'; $scope.search.mode = true;
-            field = '&start='+param[0]+'&end='+param[1];
-        }
+        var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var field = '&startDate='+start+'&endDate='+end;
         $http.get('order/'+fun+'?userId='+$scope.search.user+field+'&page='+$scope.page + '&size=' + $scope.size).then(function (response) {
             $scope.old = response.data.data;
             $scope.oldtotal = response.data.total;

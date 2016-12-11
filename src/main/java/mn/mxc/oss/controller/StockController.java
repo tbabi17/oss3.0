@@ -64,8 +64,8 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "stock/balance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable balance(@RequestParam int warehouseId, @RequestParam int page, @RequestParam int size) {
-		List list = service.balance(warehouseId, page, size);
+	public Hashtable balance(@RequestParam int warehouseId, @RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size) {
+		List list = service.balance(warehouseId, startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);

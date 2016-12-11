@@ -60,7 +60,7 @@ public class StockDao extends GenericDao<StockCurrent> {
         return list;
     }
 
-    public List<StockCurrent> balance(int warehouseId, int page, int size) {
+    public List<StockCurrent> balance(int warehouseId, String startDate, String endDate, int page, int size) {
         //insert into stockend (productId,qty,price,amount,endDate,warehouseId)
         // select productId,sum(qty) as first,avg(price),sum(amount),curdate(),1 from stockbalance where wareHouseId=1 group by productId
         session = getSession();
@@ -70,8 +70,8 @@ public class StockDao extends GenericDao<StockCurrent> {
         sqlQuery.executeUpdate();
 
         Query query = session.getNamedQuery("balanceCheck");
-        query.setParameter("startDate", "2016-12-01");
-        query.setParameter("endDate", "2016-12-31");
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
         query.setParameter("warehouseId", new Integer(warehouseId));
         query.executeUpdate();
 

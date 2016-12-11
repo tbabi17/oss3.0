@@ -330,3 +330,11 @@ label {
     background-color: #fff;
     cursor: pointer;
 }
+
+.alert {
+    padding: 0px;
+    padding-left: 5px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

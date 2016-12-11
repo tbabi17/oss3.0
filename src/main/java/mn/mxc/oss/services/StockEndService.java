@@ -28,8 +28,8 @@ public class StockEndService {
 		return dao.calc(warehouseId);
 	}
 
-	public List<StockCurrent> balance(int warehouseId, int page, int size) {
-		return dao.balance(warehouseId, page, size);
+	public List<StockCurrent> balance(int warehouseId, String startDate, String endDate, int page, int size) {
+		return dao.balance(warehouseId, startDate, endDate, page, size);
 	}
 
 	public long total() { return dao.total(); }

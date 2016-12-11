@@ -8,10 +8,10 @@
                 <div class="mod-white">
                     <div class="title">
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Агуулахын үлдэгдэл
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <div class="alert alert-success alert-dismissible" role="alert" ng-show="success.length>0?true:false">{{success}}</div>
                             </div>
                             <div class="col-sm-3">
@@ -26,9 +26,9 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input type="text" class="form-control input input-sm" name="daterange" value="01/01/2015 - 01/31/2015"/>
+                                    <input type="text" class="form-control input input-sm" name="daterange" value="" id="range"/>
                                         <span class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary" type="button" ng-click="findOld(true)"><span class="glyphicon glyphicon-search"></span></button>
+                                            <button class="btn btn-sm btn-primary" type="button" ng-click="find(true)"><span class="glyphicon glyphicon-search"></span></button>
                                         </span>
                                 </div>
                             </div>
