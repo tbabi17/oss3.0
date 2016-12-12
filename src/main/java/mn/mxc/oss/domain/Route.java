@@ -20,7 +20,7 @@ public class Route {
     @Column
     private String routeName;
 
-    @OneToMany(mappedBy="routeName")
+    @OneToMany(mappedBy="routeName", cascade = CascadeType.ALL)
     private List<CustomerOnly> customerList;
 
     public List<CustomerOnly> getCustomerList() {

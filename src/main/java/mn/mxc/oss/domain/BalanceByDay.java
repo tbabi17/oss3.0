@@ -5,7 +5,7 @@ import javax.persistence.*;
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name = "balanceByDay",
-                query = "select floor(rand()*10000000) as id, date(createdDate) as date,count(DISTINCT userId) as userCount,count(DISTINCT customerId) as customerCount,count(DISTINCT productId) as productCount,count(DISTINCT orderId) as orderCount,abs(sum(qty)) as qty,sum(amount) as amount from stockbalance s where s.qty<0 group by date(createdDate) order by date(createdDate) desc",
+                query = "select floor(rand()*10000000) as id, date(createdDate) as date,count(DISTINCT userId) as userCount,count(DISTINCT customerId) as customerCount,count(DISTINCT productId) as productCount,count(DISTINCT orderId) as orderCount,abs(sum(qty)) as qty,sum(amount) as amount from stockbalance s where s.qty<0 and createdDate between :startDate and :endDate group by date(createdDate) order by date(createdDate) desc",
                 resultClass = BalanceByDay.class
         )
 })

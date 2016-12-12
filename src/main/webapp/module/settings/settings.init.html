@@ -41,19 +41,6 @@
                         </div>
                     </div>
                 </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div  style="float: left;">
-                            <span style="font-weight: bold;">Нийт: {{pricetagtotal || 0 |  number:0}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="pageable">
-                            <pagination  style="margin: 0" ng-change="findPriceTag()" page-label="0" items-per-page="size" boundary-links="true" total-items="pricetagtotal" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="col-sm-5">
@@ -91,19 +78,6 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div  style="float: left;">
-                                <span style="font-weight: bold;">Нийт: {{warehousetotal || 0 |  number:0}}</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="pageable">
-                                <pagination  style="margin: 0" ng-change="findWareHouse()" page-label="0" items-per-page="size" boundary-links="true" total-items="warehousetotal" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                             </div>
                         </div>
                     </div>

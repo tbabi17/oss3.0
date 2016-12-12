@@ -18,6 +18,7 @@ public class GenericDao<T>{
 	@Autowired
 	public SessionFactory sessionFactory;
 	public Criteria crit;
+	public long total = 0;
 
 	public Session getSession() {
 //		if (session == null)
@@ -25,7 +26,10 @@ public class GenericDao<T>{
 //		else
 //			session.clear();
 //		return session;
-		if (session != null) session.clear();
+		if (session != null && session.isOpen()) {
+			session.clear();
+			return sessionFactory.getCurrentSession();
+		}
 		return sessionFactory.openSession();
 	}
 
@@ -35,58 +39,75 @@ public class GenericDao<T>{
 	}
 
 	public void save(final T entity) {
-		Session session = sessionFactory.openSession();
+		session = getSession();
 		Transaction tx = session.beginTransaction();
 		session.save(entity);
 		tx.commit();
-		session.close();
 	}
 
 	public void update(final T entity) {
-		Session session = sessionFactory.openSession();
+		session = getSession();
 		Transaction tx = session.beginTransaction();
 		session.merge(entity);
 		tx.commit();
-		session.close();
 	}
 
 	protected T findOne(final Class<T> type, final int id) {
-		return (T) getSession().get(type, id);
+		session = getSession();
+		Transaction tx = session.beginTransaction();
+		T item = (T)session.get(type, id);
+		tx.commit();
+		return item;
 	}
 
 	public void delete(final T entity) {
-		Session session = sessionFactory.openSession();
+		session = getSession();
 		Transaction tx = session.beginTransaction();
 		session.delete(entity);
 		tx.commit();
-		session.close();
 	}
 
 	public long total(final Class<T> type) {
 		session = getSession();
+		Transaction tx = session.beginTransaction();
 		crit = session.createCriteria(type);
 		crit.setProjection(Projections.rowCount());
+		long total = (Long)crit.uniqueResult();
+		tx.commit();
+		return total;
+	}
+
+	public long totalUniq(Criteria crit) {
+		crit.setProjection(Projections.rowCount());
+		crit.setFirstResult(0);
+		crit.setMaxResults(1);
 		long total = (Long)crit.uniqueResult();
 		return total;
 	}
 
 	public long total() {
-		crit.setProjection(Projections.rowCount());
-		long total = (Long)crit.uniqueResult();
 		return total;
 	}
 
 	public <T> List<T> findAll(final Class<T> type) {
-		crit = getSession().createCriteria(type);
+		session = getSession();
+		Transaction tx = session.beginTransaction();
+		crit = session.createCriteria(type);
 		List<T> list = crit.list();
+		total = totalUniq(crit);
+		tx.commit();
 		return list;
 	}
 
 	public <T> List<T> findAll(final Class<T> type, int page, int size) {
-		crit = getSession().createCriteria(type);
+		session = getSession();
+		Transaction tx = session.beginTransaction();
+		crit = session.createCriteria(type);
 		crit.setFirstResult((page - 1) * size);
 		crit.setMaxResults(size);
 		List<T> list = crit.list();
+		total = totalUniq(crit);
+		tx.commit();
 		return list;
 	}
 

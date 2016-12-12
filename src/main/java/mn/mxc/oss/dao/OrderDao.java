@@ -3,7 +3,6 @@ package mn.mxc.oss.dao;
 import mn.mxc.oss.domain.Details;
 import mn.mxc.oss.domain.Orders;
 import mn.mxc.oss.domain.StockBalance;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -21,27 +20,34 @@ public class OrderDao extends GenericDao<Orders> {
     }
 
     public List<Orders> findByNonNewOrder(int page, int size) {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Orders.class);
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.ne("status", "info"));
         List<Orders> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
 
     public List<Orders> findByNewOrder(int page, int size) {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Orders.class);
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.eq("status", "info"));
         List<Orders> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
 
     public List<Orders> findBySearch(int userId, String start, String end, int page, int size) {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Orders.class);
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
@@ -49,11 +55,13 @@ public class OrderDao extends GenericDao<Orders> {
             crit.add(Restrictions.eq("userId", new Integer(userId)));
         crit.add(Restrictions.between("createdDate", start+" 00:00:00", end+" 23:59:59"));
         List<Orders> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
 
     public void update(final Orders entity) {
-        Session session = sessionFactory.openSession();
+        session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         session.saveOrUpdate(entity);
 
@@ -64,8 +72,6 @@ public class OrderDao extends GenericDao<Orders> {
             StockBalance stock = stocklist.get(i);
             session.delete(stock);
         }
-
-        //insert into stockend (productId,qty,price,amount,endDate) select productId,sum(orlogo)-sum(zarlaga) as first,avg(price),sum(amount),curdate() from stockbalance group by productId
 
         List<Details> list = entity.getDetailsList();
         if (list != null)
@@ -81,6 +87,8 @@ public class OrderDao extends GenericDao<Orders> {
             else
                 stockBalance.setQty(+detail.getQty());//orlogo
             stockBalance.setWareHouseId(entity.getWarehouseId());
+            stockBalance.setUserId(entity.getUserId());
+            stockBalance.setCustomerId(entity.getCustomerId());
             session.saveOrUpdate(stockBalance);
         }
 

@@ -3,7 +3,7 @@ package mn.mxc.oss.domain;
 import javax.persistence.*;
 
 @Entity
-public class Prices {
+public class Prices implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;

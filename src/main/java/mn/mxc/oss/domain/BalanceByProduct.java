@@ -5,7 +5,7 @@ import javax.persistence.*;
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name = "balanceByProduct",
-                query = "select floor(rand()*10000000) as id, productId, abs(sum(qty)) as qty,sum(amount) as amount from stockbalance s where s.qty<0 group by productId order by sum(amount) desc",
+                query = "select floor(rand()*10000000) as id, productId, abs(sum(qty)) as qty,sum(amount) as amount from stockbalance s where s.qty<0 and createdDate between :startDate and :endDate  group by productId order by sum(amount) desc",
                 resultClass = BalanceByProduct.class
         )
 })

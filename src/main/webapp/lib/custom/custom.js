@@ -39,6 +39,22 @@ function map_load(lat, lng) {
     window.open('https://www.google.mn/maps/@'+lat+','+lng+',14z');
 };
 
+function dateDayLast() {
+    var today = new Date();
+    var dateIn = new Date(today.getFullYear(), today.getMonth()+1, 0);
+    var yyyy = dateIn.getFullYear();
+    var mm = dateIn.getMonth()+1; // getMonth() is zero-based
+    var dd  = dateIn.getDate();
+    return yyyy+'/'+(mm<10?'0'+mm:mm)+'/'+(dd<10?'0'+dd:dd);
+}
+
+function dateDay(dateIn) {
+    var yyyy = dateIn.getFullYear();
+    var mm = dateIn.getMonth()+1; // getMonth() is zero-based
+    var dd  = dateIn.getDate();
+    return yyyy+'/'+(mm<10?'0'+mm:mm)+'/'+(dd<10?'0'+dd:dd);
+}
+
 function dateStr(dateIn) {
     var yyyy = dateIn.getFullYear();
     var mm = dateIn.getMonth()+1; // getMonth() is zero-based

@@ -1,8 +1,25 @@
-angular.module('warehouse_list', []).controller('warehouse_list', function($rootScope, $http, $scope, $location) {
+angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_list', function($rootScope, $http, $scope, $location) {
     $('input[name="daterange"]').daterangepicker({
+        locale: {
+            "format": "YYYY/MM/DD",
+            "separator": "-",
+        },
+        startDate: dateDay(new Date()),
+        endDate: dateDayLast()
     });
 
-    $scope.search = {warehouse: 1};
+    $scope.error = '';
+    $scope.success = '';
+    $scope.customer = {};
+
+    $scope.$watch(function(scope) { return scope.customer; },
+        function(newValue, oldValue) {
+            if (newValue && newValue.originalObject)
+                $scope.order.customerId = newValue.originalObject.id;
+        }
+    );
+
+    $scope.search = {warehouse: 1, range: ''};
     $scope.list = [];
     $scope.total = 0;
     $scope.page = 1;
@@ -23,18 +40,22 @@ angular.module('warehouse_list', []).controller('warehouse_list', function($root
         qty: 0,
         lat: 0,
         lng: 0,
-        mode: 'orlogo',
+        mode: 'zarlaga',
         amount:0,
         status: 'info',
         createdDate: dateStr(new Date()),
-        userId: 3,
+        userId: $rootScope.logged.id,
         warehouseId: $scope.search.warehouse,
-        customerId: 1,
+        customerId: 0,
         detailsList: []
     };
 
+    $rootScope.selectWareHouse($scope.search.warehouse);
     $scope.find = function() {
-        $http.get('stock/balance?warehouseId='+$scope.search.warehouse+'&page='+$scope.page+'&size='+$scope.size).then(function(response) {
+        var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var field = '&startDate='+start+'&endDate='+end;
+        $http.get('stock/balance?warehouseId='+$scope.search.warehouse+field+'&page='+$scope.page+'&size='+$scope.size).then(function(response) {
             $scope.productlist = response.data.data;
             $scope.total = response.data.total;
         }, function(response) {
@@ -52,13 +73,13 @@ angular.module('warehouse_list', []).controller('warehouse_list', function($root
 
     $scope.calc();
 
-    $scope.find();
-
     $scope.dialog = function() {
+        $scope.error = '';
         $('#modal').modal('show');
     };
 
     $scope.product_dialog = function() {
+        $scope.error = '';
         $('#product_modal').modal('show');
     };
 
@@ -71,35 +92,52 @@ angular.module('warehouse_list', []).controller('warehouse_list', function($root
     };
 
     $scope.addproduct = function() {
-        $rootScope.products.forEach(function (el, i, arr) {
-            if (el.id == $scope.detail.productId)
-                $scope.detail.product = el;
-        });
+        $scope.error = '';
+        var passed = ($scope.detail.productId > 0 && parseFloat($scope.detail.qty) > 0 && parseFloat($scope.detail.price) && parseFloat($scope.detail.amount));
+        if (passed) {
+            $rootScope.products_all.forEach(function (el, i, arr) {
+                if (el.id == $scope.detail.productId)
+                    $scope.detail.product = el;
+            });
 
-        $scope.order.detailsList.push($scope.detail);
-        $scope.detail = {
-            orderId : $scope.newOrderId,
-            id: 0,
-            productId: 0,
-            product: {
+            $scope.order.detailsList.push($scope.detail);
+            $scope.detail = {
+                orderId: $scope.newOrderId,
+                id: 0,
+                productId: 0,
+                product: {},
+                qty: 0,
+                price: 0,
+                amount: 0
+            };
 
-            },
-            qty: 0,
-            price: 0,
-            amount: 0
-        };
-
-        $scope.order.qty = 0;
-        $scope.order.amount = 0;
-        $scope.order.detailsList.forEach(function (el, i, arr) {
-            $scope.order.qty += el.qty;
-            $scope.order.amount += el.amount;
-        });
-        $('#product_modal').modal('hide');
+            $scope.order.qty = 0;
+            $scope.order.amount = 0;
+            $scope.order.detailsList.forEach(function (el, i, arr) {
+                $scope.order.qty += el.qty;
+                $scope.order.amount += el.amount;
+            });
+            $('#product_modal').modal('hide');
+        } else
+            $scope.error = 'Мэдээлэл буруу !';
     };
 
 
     $scope.ordersave = function() {
+        if ($scope.order.qty == 0) {
+            $scope.error = 'Захиалга хоосон байна. Бараа нэмнэ үү !';
+            return;
+        }
+
+        if ($scope.order.mode == 'orlogo')
+            $scope.customerId = 0;
+        else {
+            if ($scope.customerId == 0) {
+                $scope.error = 'Харилцагч сонгоно уу !';
+                return;
+            }
+        }
+
         $scope.order.detailsList.forEach(function(item) {
             delete item.priceList;
             delete item.product;
@@ -107,7 +145,7 @@ angular.module('warehouse_list', []).controller('warehouse_list', function($root
 
         $http.post('order/save', $scope.order).then(function(response) {
             $scope.order.id = response.data.id;
-
+            $scope.success = 'Амжилттай хадгаллаа !';
             $scope.find();
             $('#modal').modal('hide');
         }, function(response) {
@@ -115,7 +153,7 @@ angular.module('warehouse_list', []).controller('warehouse_list', function($root
     };
 
     $scope.log = function() {
-        $rootScope.products.forEach(function (el, i, arr) {
+        $rootScope.products_all.forEach(function (el, i, arr) {
             if (el.id == $scope.detail.productId) {
                 $scope.detail.product = el;
                 console.log($scope.detail.product);

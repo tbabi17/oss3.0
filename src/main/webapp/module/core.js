@@ -1,7 +1,7 @@
 var allControlller = ['ngRoute','ngAnimate', 'ngSanitize', 'ui.bootstrap'];
 var customController = [
     'user_list','product_list','customer_list', 'dashboard_init', 'order_list', 'warehouse_list','settings_init',
-    'plan_list','login_user'
+    'plan_list','login_user', 'promotion_list'
 ];
 
 allControlller = allControlller.concat(customController);
@@ -44,8 +44,14 @@ angular
                     if (!$rootScope.logged.owner)
                         $location.path('/login_user');
                     else {
-                        $location.path('/dashboard_init');
                         $rootScope.logshow = true;
+                        $rootScope.orderNotify();
+                        $rootScope.customerNotify();
+                        $rootScope.getPriceTags();
+                        $rootScope.getUserList();
+                        $rootScope.getRouteList();
+                        $rootScope.getWarehouseList();
+                        $rootScope.getProductList();
                     }
                 }, function (response) {
                     $rootScope.logged = {};
@@ -60,14 +66,21 @@ angular
             if ($location.path().length > 5)
                 $('li#'+$location.path().substring(1, $location.path().length)).addClass('active');
 
-            $rootScope.getProductList = function() {
-                $http.get('product/findAll?page=1&size=50').then(function (response) {
+            $rootScope.selectWareHouse = function(item) {
+                $http.get('product/findAvailable?warehouseId='+item).then(function (response) {
                     $rootScope.products = response == undefined ? {} : response.data.data;
                 }, function (response) {
                     $rootScope.products = {};
                 });
             };
-            $rootScope.getProductList();
+            $rootScope.getProductList = function() {
+                $http.get('product/findAll?page=1&size=50').then(function (response) {
+                    $rootScope.products_all = response == undefined ? {} : response.data.data;
+                }, function (response) {
+                    $rootScope.products_all = {};
+                });
+            };
+
 
             $rootScope.getWarehouseList = function() {
                 $http.get('warehouse/findAll?page=1&size=50').then(function (response) {
@@ -76,7 +89,6 @@ angular
                     $rootScope.warehouses = {};
                 });
             };
-            $rootScope.getWarehouseList();
 
             $rootScope.getRouteList = function() {
                 $http.get('route/findAll?page=1&size=50').then(function (response) {
@@ -85,7 +97,6 @@ angular
                     $rootScope.routes = {};
                 });
             };
-            $rootScope.getRouteList();
 
             $rootScope.getUserList = function() {
                 $http.get('user/findAll?page=1&size=50').then(function (response) {
@@ -94,7 +105,6 @@ angular
                     $rootScope.users = {};
                 });
             };
-            $rootScope.getUserList();
 
             $rootScope.getPriceTags = function() {
                 $http.get('pricetag/findAll?page=1&size=50').then(function (response) {
@@ -103,7 +113,6 @@ angular
                     $rootScope.pricetags = {};
                 });
             };
-            $rootScope.getPriceTags();
 
             $rootScope.customerNotify = function() {
                 $http.get('customer/findByNonRoute?page=1&size=10').then(function (response) {
@@ -112,7 +121,6 @@ angular
                     $rootScope.new_customer = 0;
                 });
             };
-            $rootScope.customerNotify();
 
             $rootScope.orderNotify = function() {
                 $http.get('order/findByNewOrder?page=1&size=10').then(function (response) {
@@ -121,7 +129,6 @@ angular
                     $rootScope.new_order = 0;
                 });
             };
-            $rootScope.orderNotify();
 
             $rootScope.logout = function() {
                 $http.get('user/logout').then(function (response) {
@@ -161,6 +168,9 @@ angular
                     }
 
                     switch (reason.status) {
+                        case 400: case 500: case 404:
+                            //alert('Серверт алдаа гарлаа !');
+                            break;
                         case 401:
                             window.location.href = window.location.origin + '/auth-logout';
                             break;

@@ -1,5 +1,8 @@
 package mn.mxc.oss.domain;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -39,14 +42,17 @@ public class Orders implements java.io.Serializable{
     private List<Details> detailsList;
 
     @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="warehouseId", insertable=false, updatable=false)
     private Warehouse warehouse;
 
     @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="customerId", insertable=false, updatable=false)
     private Customer customer;
 
     @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="userId", insertable=false, updatable=false)
     private User user;
 

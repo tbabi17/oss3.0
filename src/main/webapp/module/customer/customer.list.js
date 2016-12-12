@@ -6,6 +6,7 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
     $scope.routeTotal = 0;
     $scope.page = 1;
     $scope.size = 10;
+    $scope.error = '';
     $scope.find = function() {
         var fun = 'findByNonRoute';
         if ($scope.search.value) fun = 'findBySearch';
@@ -19,6 +20,8 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
     };
 
     $scope.update = function(item) {
+        if (item.name.length == 0) { $scope.error = 'Нэр оруулна уу !'; $('#name').focus(); return;}
+        if (item.phone.length == 0) { $scope.error = 'Утас оруулна уу !'; $('#phone').focus(); return;}
         $http.put('customer/update', item).then(function(response) {
             $scope.find();
             $scope.findRoute();
@@ -79,7 +82,10 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
             name: '',
             phone: '',
             address: '',
-            userId: 3
+            lat: 0,
+            lng: 0,
+            price: 1,
+            userId: $rootScope.logged.id
         };
         $('#modal').modal('show');
     };

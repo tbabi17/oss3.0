@@ -47,11 +47,17 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
 
     $('input[name="startDate"]').daterangepicker({
         singleDatePicker: true,
-        showDropdowns: true
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
     });
     $('input[name="endDate"]').daterangepicker({
         singleDatePicker: true,
-        showDropdowns: true
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
     });
 
     $scope.findNew = function() {
@@ -77,14 +83,15 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
         });
     };
 
+    $scope.findNew();
+
     $scope.plansave = function() {
         $scope.plan.detailsList.forEach(function(item) {
             delete item.priceList;
             delete item.product;
         });
         if ($scope.plan.id == 0) {
-            $scope.plan.startDate = $scope.fixDate($scope.plan.startDate);
-            $scope.plan.endDate = $scope.fixDate($scope.plan.endDate);
+       
         } else {
             delete $scope.plan.user;
         }
@@ -113,7 +120,7 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
 
     $scope.delete = function(item) {
         $http.delete('plan/delete?id='+item.id).then(function(response) {
-            $scope.find();
+            $scope.findNew();
         }, function(response) {
         });
     };
@@ -130,7 +137,7 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
             startDate: '',
             endDate: '',
             createdDate: dateStr(new Date()),
-            userId: 3,
+            userId: $rootScope.logged.id,
             detailsList: [],
             usersList:[]
         };
@@ -160,8 +167,6 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
         $('#modal').modal('show');
     };
 
-    $scope.findNew();
-
     $scope.product_dialog = function() {
         $scope.detail.planId = $scope.plan.planId;
         $('#product_modal').modal('show');
@@ -177,49 +182,56 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
     };
 
     $scope.addproduct = function() {
-        $rootScope.products.forEach(function (el, i, arr) {
-            if (el.id == $scope.detail.productId)
-                $scope.detail.product = el;
-        });
+        $scope.error = '';
+        var passed = ($scope.detail.productId > 0 && parseFloat($scope.detail.qty) > 0 && parseFloat($scope.detail.price) && parseFloat($scope.detail.amount));
+        if (passed) {
+            $rootScope.products.forEach(function (el, i, arr) {
+                if (el.id == $scope.detail.productId)
+                    $scope.detail.product = el;
+            });
+            $scope.plan.detailsList.push($scope.detail);
+            $scope.detail = {
+                planId : $scope.plan.planId,
+                id: 0,
+                productId: 0,
+                product: {
 
-        $scope.plan.detailsList.push($scope.detail);
-        $scope.detail = {
-            planId : $scope.plan.planId,
-            id: 0,
-            productId: 0,
-            product: {
+                },
+                qty: 0,
+                price: 0,
+                amount: 0
+            };
 
-            },
-            qty: 0,
-            price: 0,
-            amount: 0
-        };
-
-        $scope.plan.amount = 0;
-        $scope.plan.detailsList.forEach(function (el, i, arr) {
-            $scope.plan.amount += el.amount;
-        });
-        $('#product_modal').modal('hide');
+            $scope.plan.amount = 0;
+            $scope.plan.detailsList.forEach(function (el, i, arr) {
+                $scope.plan.amount += el.amount;
+            });
+            $('#product_modal').modal('hide');
+        } else
+            $scope.error = 'Мэдээлэл буруу !';
     };
 
 
     $scope.adduser = function() {
-        $rootScope.users.forEach(function (el, i, arr) {
-            if (el.id == $scope.user.userId)
-                $scope.user.user = el;
-        });
+        $scope.error = '';
+        var passed = ($scope.user.userId > 0);
+        if (passed) {
+            $rootScope.users.forEach(function (el, i, arr) {
+                if (el.id == $scope.user.userId)
+                    $scope.user.user = el;
+            });
 
-        $scope.plan.usersList.push($scope.user);
-        $scope.user = {
-            planId : $scope.plan.planId,
-            id: 0,
-            userId: 0,
-            user: {
+            $scope.plan.usersList.push($scope.user);
+            $scope.user = {
+                planId: $scope.plan.planId,
+                id: 0,
+                userId: 0,
+                user: {}
+            };
 
-            }
-        };
-
-        $('#user_modal').modal('hide');
+            $('#user_modal').modal('hide');
+        } else
+            $scope.error = 'Мэдээлэл буруу !';
     };
 
     $scope.delete_product = [];

@@ -43,7 +43,7 @@ public class PlanController {
 
 	@RequestMapping(value = "plan/findByNonActive", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findByNonNewOrder(@RequestParam int page, @RequestParam int size) {
-		List<Plan> list = service.findByNonActive(page, size);
+		List list = service.findByNonActive(page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);

@@ -32,8 +32,9 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "stock/balanceByUsers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable balanceByUsers(@RequestParam int page, @RequestParam int size) {
-		List list = service.balanceByUsers(page, size);
+	public Hashtable balanceByUsers(@RequestParam String startDate, @RequestParam String endDate,
+									@RequestParam int page, @RequestParam int size) {
+		List list = service.balanceByUsers(startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", list.size());
 		pageable.put("data", list);
@@ -41,8 +42,8 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "stock/balanceByProducts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable balanceByProducts(@RequestParam int page, @RequestParam int size) {
-		List list = service.balanceByProducts(page, size);
+	public Hashtable balanceByProducts(@RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size) {
+		List list = service.balanceByProducts(startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", list.size());
 		pageable.put("data", list);
@@ -50,8 +51,8 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "stock/balanceByDay", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable balanceByDay(@RequestParam int page, @RequestParam int size) {
-		List list = service.balanceByDay(page, size);
+	public Hashtable balanceByDay(@RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size) {
+		List list = service.balanceByDay(startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", list.size());
 		pageable.put("data", list);
@@ -64,8 +65,8 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "stock/balance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable balance(@RequestParam int warehouseId, @RequestParam int page, @RequestParam int size) {
-		List list = service.balance(warehouseId, page, size);
+	public Hashtable balance(@RequestParam int warehouseId, @RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size) {
+		List list = service.balance(warehouseId, startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);

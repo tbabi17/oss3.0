@@ -11,23 +11,6 @@
                         <div class="col-sm-6">
                             <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Ирсэн хүсэлтүүд
                         </div>
-                        <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <select class="form-control input-sm" data-ng-model="search.user">
-                                        <option data-ng-repeat="item in users" value="{{item.id}}">{{item.firstName}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control input input-sm" data-ng-model="search.range" name="daterange" value="01/01/2015 - 01/31/2015"/>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary" type="button" ng-click="findNew(true)"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                     <div class="row">
@@ -102,7 +85,7 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="input-group">
-                                            <input type="text" class="form-control input input-sm" name="daterange" value="01/01/2015 - 01/31/2015"/>
+                                            <input type="text" class="form-control input input-sm" name="daterange" id="range"/>
                                             <span class="input-group-btn">
                                                 <button class="btn btn-sm btn-primary" type="button" ng-click="findOld(true)"><span class="glyphicon glyphicon-search"></span></button>
                                             </span>
@@ -131,7 +114,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr data-ng-repeat="item in old" data-ng-click="dialog(item)">
+                                <tr data-ng-repeat="item in old">
                                     <td><span class="label label-default">{{item.orderId}}</span></td>
                                     <td>{{item.customer.name}}</td>
                                     <td>{{item.user.firstName}}</td>
@@ -186,10 +169,19 @@
                             <div class="form-group">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">ID</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control input input-sm" data-ng-model="plan.id" disabled>
+                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.orderId" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-4 col-md-4 col-lg-4 control-label">Төрөл</label>
+                                <div class="col-sm-8">
+                                    <select data-ng-model="selected.mode" class="form-control input input-sm" disabled>
+                                        <option value="orlogo">Орлого</option>
+                                        <option value="zarlaga">Зарлага</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="selected.mode=='zarlaga'?true:false">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">Харилцагч</label>
                                 <div class="col-sm-8">
                                    <input type="text" class="form-control input input-sm" data-ng-model="selected.customer.name" disabled>
@@ -218,7 +210,7 @@
                                 <div class="col-sm-8">
                                     <select data-ng-model="selected.status" class="form-control input input-sm">
                                         <option value="info">Шинэ хүсэлт</option>
-                                        <option value="success">Зөвшөөрсон</option>
+                                        <option value="success">Зөвшөөрсөн</option>
                                         <option value="alert">Буцаасан</option>
                                     </select>
                                 </div>

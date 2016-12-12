@@ -11,25 +11,25 @@ public class StockEndService {
 	@Autowired
 	StockDao dao;
 
-	public void save(StockEnd entity) {
+	public void save(StockCurrent entity) {
 		dao.save(entity);
 	}
 
-	public StockEnd findOne(int id) {
+	public StockCurrent findOne(int id) {
 		return dao.findOne(id);
 	}
 
-	public List<StockEnd> findAll(int page, int size) { return dao.findAll(page, size); }
-	public List<BalanceByUser> balanceByUsers(int page, int size) { return dao.balanceByUsers(); }
-	public List<BalanceByProduct> balanceByProducts(int page, int size) { return dao.balanceByProduct(); }
-	public List<BalanceByDay> balanceByDay(int page, int size) { return dao.balanceByDay(); }
+	public List<StockCurrent> findAll(int page, int size) { return dao.findAll(page, size); }
+	public List<BalanceByUser> balanceByUsers(String startDate, String endDate, int page, int size) { return dao.balanceByUsers(startDate, endDate); }
+	public List<BalanceByProduct> balanceByProducts(String startDate, String endDate, int page, int size) { return dao.balanceByProduct(startDate, endDate); }
+	public List<BalanceByDay> balanceByDay(String startDate, String endDate, int page, int size) { return dao.balanceByDay(startDate, endDate); }
 
 	public int calc(int warehouseId) {
 		return dao.calc(warehouseId);
 	}
 
-	public List<StockCurrent> balance(int warehouseId, int page, int size) {
-		return dao.balance(warehouseId, page, size);
+	public List<StockCurrent> balance(int warehouseId, String startDate, String endDate, int page, int size) {
+		return dao.balance(warehouseId, startDate, endDate, page, size);
 	}
 
 	public long total() { return dao.total(); }

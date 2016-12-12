@@ -1,8 +1,8 @@
 package mn.mxc.oss.dao;
 
 import mn.mxc.oss.domain.Product;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
+import org.hibernate.Query;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
@@ -21,7 +21,8 @@ public class ProductDao extends GenericDao<Product> {
     }
 
     public List<Product> findBySearch(String value) {
-        Session session = getSession();
+        session = getSession();
+        Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Product.class);
         crit.setFirstResult(0);
         crit.setMaxResults(10);
@@ -30,6 +31,19 @@ public class ProductDao extends GenericDao<Product> {
         LogicalExpression exp1 = Restrictions.or(name, brand);
         crit.add(exp1);
         List<Product> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
         return list;
     }
+
+    public List<Product> findByAvailable(int warehouseId) {
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        Query query = session.getNamedQuery("productsAvailable");
+        query.setParameter("warehouseId", new Integer(warehouseId));
+        List<Product> list = query.list();
+        tx.commit();
+        return list;
+    }
+
 }

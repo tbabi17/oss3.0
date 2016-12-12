@@ -1,5 +1,8 @@
 package mn.mxc.oss.domain;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,10 +18,12 @@ public class PlanUsers {
     private int userId;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="planId", referencedColumnName = "planId", insertable=false, updatable=false)
     private Plan users;
 
     @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="userId", insertable=false, updatable=false)
     private User user;
 

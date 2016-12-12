@@ -4,7 +4,7 @@ angular.module('user_list', []).controller('user_list', function($rootScope, $ht
     $scope.total = 0;
     $scope.page = 1;
     $scope.size = 10;
-
+    $scope.error = '';
     $scope.statusName = [];
     $scope.statusName['success'] = "Идэвхтэй";
     $scope.statusName['danger'] = "Идэвхгүй";
@@ -22,6 +22,10 @@ angular.module('user_list', []).controller('user_list', function($rootScope, $ht
     };
 
     $scope.update = function(item) {
+        if (item.firstName.length == 0) { $scope.error = 'Овог оруулна уу !'; $('#firstName').focus(); return;}
+        if (item.lastName.length == 0) { $scope.error = 'Нэр оруулна уу !'; $('#lastName').focus(); return;}
+        if (item.owner.length == 0) { $scope.error = 'Нэвтрэх код оруулна уу !'; $('#owner').focus(); return;}
+        if (item.phone.length == 0) { $scope.error = 'Утас оруулна уу !'; $('#phone').focus(); return;}
         $http.put('user/update', item).then(function(response) {
             $('#modal').modal('hide');
         }, function(response) {
@@ -33,6 +37,19 @@ angular.module('user_list', []).controller('user_list', function($rootScope, $ht
             $scope.find();
         }, function(response) {
         });
+    };
+
+    $scope.adduser = function(item) {
+        $scope.selected = {
+            id: 0,
+            firstName: '',
+            lastName: '',
+            owner: '',
+            password: '1234',
+            phone: '',
+            status: 'active'
+        };
+        $('#modal').modal('show');
     };
 
     $scope.dialog = function(item) {

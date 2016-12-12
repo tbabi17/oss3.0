@@ -50,14 +50,17 @@ public class Customer {
     }
 
     @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="price", insertable=false, updatable=false)
     private PriceTag priceTag;
 
     @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="userId", insertable=false, updatable=false)
     private User user;
 
     @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="route", insertable=false, updatable=false)
     private Route routeInfo;
 

@@ -2,6 +2,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8;">
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="lib/angucomplete-alt/angucomplete-alt.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
     <base href="/"/>
     <link rel="stylesheet" type="text/css" media="all" href="assets/css/daterangepicker.css" />
@@ -9,6 +10,7 @@
     <script src="lib/angular-bootstrap/angular-bootstrap.js" type="text/javascript"></script>
     <script src="lib/angular-animate/angular-animate.js" type="text/javascript"></script>
     <script src="lib/angular-sanitize/angular-sanitize.js" type="text/javascript"></script>
+    <script src="lib/angucomplete-alt/angucomplete-alt.js" type="text/javascript"></script>
     <script src="lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="lib/angular-bootstrap/ui-bootstrap-tpls-0.12.0.min.js"></script>
     <script src="lib/underscore/underscore-min.js" type="text/javascript"></script>
@@ -50,6 +52,13 @@
         Copyright &copy 2011-2016<br>
         Мэдээлэл Харилцааны Систем ХХК
     </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".alert-dismissable").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-dismissable").alert('close');
+            });
+        });
+    </script>
 </body>
 
 </html>
