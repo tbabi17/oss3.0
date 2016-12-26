@@ -13,55 +13,56 @@
                         <div class="col-sm-6">
                             <span class="glyphicon glyphicon-map-marker"></span>&nbsp;Газрын зураг
                         </div>
-                        <div class="col-sm-6" style="text-align: right;">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <select class="form-control input-sm" data-ng-model="search.value" style="height: 29px;">
-                                    <option data-ng-repeat="item in users" value="{{item.id}}">{{item.firstName}}</option>
-                                </select>
-                            </div>
-                            <div class="col-md-8 col-xs-12">
-                                <div class="input-group">
+                        <div class="col-md-6" style="text-align: right;">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <select class="form-control input-sm" data-ng-model="search.value" style="height: 29px;">
+                                        <option data-ng-repeat="item in users" value="{{item.id}}">{{item.firstName}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
                                     <div class="input-group">
                                         <input type="text" class="form-control input input-sm" ng-model="search.daterange" name="daterange" id="range"/>
                                         <span class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary" type="button" ng-click="find()"><span class="glyphicon glyphicon-search"></span></button>
-                                            </span>
+                                            <button class="btn btn-sm btn-primary" type="button" ng-click="find()"><span class="glyphicon glyphicon-search"></span></button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <br/>
-                            <table id="data">
-                                <thead>
-                                <tr>
-                                    <td style="width:5%">Хэрэглэгч</td>
-                                    <td style="width:85%">Орох цэгийн тоо</td>
-                                    <td style="width:10%">Орсон</td>
-                                    <td style="width:10%">Огноо</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr data-ng-repeat="item in list">
-                                    <td>{{item.userId}}</td>
-                                    <td>{{item.customerId}}</td>
-                                    <td>{{item.lat}} , {{item.lng}}</td>
-                                    <td style="text-align:center;">
-                                       {{item.date}}
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-                    <div class="col-sm-9">
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-round">
+                                    <table id="data">
+                                        <thead>
+                                        <tr>
+                                            <td style="width:5%">Хэрэглэгч</td>
+                                            <td style="width:85%">Орох цэгийн тоо</td>
+                                            <td style="width:10%">Орсон</td>
+                                            <td style="width:10%">Огноо</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="item in list">
+                                            <td>{{item.userId}}</td>
+                                            <td>{{item.customerId}}</td>
+                                            <td>{{item.lat}} , {{item.lng}}</td>
+                                            <td style="text-align:center;">
+                                                {{item.date}}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-8">
                         <div class="table-round">
                             <ui-gmap-google-map center="map.center" zoom='map.zoom'>
                                 <ui-gmap-polyline ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible'
