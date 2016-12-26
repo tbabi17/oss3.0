@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -57,7 +58,8 @@ public class UserController {
 		return entity;
 	}
 	@RequestMapping(value="user/login",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public User login(@RequestParam String username, @RequestParam String password, HttpServletRequest request) throws ServletException, IOException {
+	public User login(@RequestParam String username, @RequestParam String password, HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		User user = service.findLogin(username, password);
 		if (user != null) {
 			HttpSession session = request.getSession();

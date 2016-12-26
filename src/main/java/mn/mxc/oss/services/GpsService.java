@@ -29,4 +29,5 @@ public class GpsService {
         dao.delete(entity);
     }
     public long total() { return dao.total(); }
+    public List<Gps> findByUserDate(int userid){return dao.findByUserDate(userid);}
 }

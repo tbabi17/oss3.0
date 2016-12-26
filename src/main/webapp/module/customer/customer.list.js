@@ -110,5 +110,8 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
 
     $scope.map_load = function(item) {
         window.open('https://www.google.mn/maps/@'+item.lat+','+item.lng+',14z');
-    }
+    };
+    $rootScope.getPriceTags();
+    console.log('routes');
+    console.log($rootScope.routes);
 });

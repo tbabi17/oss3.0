@@ -47,4 +47,14 @@ public class CustomerDao extends GenericDao<Customer> {
         tx.commit();
         return list;
     }
+    public List<Customer> findUserCustomer(int uid){
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        crit = session.createCriteria(Customer.class);
+        crit.add(Restrictions.eq("userId", uid));
+        List<Customer> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
+        return list;
+    }
 }

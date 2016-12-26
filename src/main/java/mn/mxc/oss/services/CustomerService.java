@@ -24,6 +24,9 @@ public class CustomerService {
 	public List<Customer> findAll(int page, int size) {
 		return dao.findAll(page, size);
 	}
+	public List<Customer> findUserCustomer(int uid){
+		return dao.findUserCustomer(uid);
+	}
 
 	public void update(Customer entity) {
 		dao.update(entity);

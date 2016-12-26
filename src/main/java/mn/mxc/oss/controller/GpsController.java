@@ -43,4 +43,13 @@ public class GpsController {
         service.update(entity);
         return entity;
     }
+    @RequestMapping(value="gps/findByUserDate",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public Hashtable lastLocation(@RequestParam int userid){
+        List list = service.findByUserDate(userid);
+        Hashtable pageable = new Hashtable();
+        pageable.put("total", service.total());
+        pageable.put("data", list);
+        System.out.println(list.toString());
+        return pageable;
+    }
 }

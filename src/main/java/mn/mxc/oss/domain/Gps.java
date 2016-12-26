@@ -11,15 +11,17 @@ public class Gps {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     @Column(name="userId")
-    private String UserId;
+    private int UserId;
     @Column
     private Double lat;
     @Column
     private Double lng;
-    @Column(name="_date")
+    @Column(name="createdDate")
     private String Date;
     @Column(name="customer_id")
     private int CustomerId;
+    @Column
+    private float Battery;
 
     public int getId() {
         return id;
@@ -29,11 +31,11 @@ public class Gps {
         this.id = id;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return UserId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         UserId = userId;
     }
 

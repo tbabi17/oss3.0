@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -54,6 +55,17 @@ public class OrderController {
 	@RequestMapping(value = "order/findByNonNewOrder", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findByNonNewOrder(@RequestParam int page, @RequestParam int size) {
 		List<Orders> list = service.findByNonNewOrder(page, size);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", service.total());
+		pageable.put("data", list);
+		service.close();
+		return pageable;
+	}
+
+	@RequestMapping(value = "order/findByCustomerOrder", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findByCustomerOrder(@RequestParam int customer_id,@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		List<Orders> list = service.findByCustomerOrder(customer_id,page,size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);

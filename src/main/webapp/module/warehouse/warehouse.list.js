@@ -11,7 +11,6 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
     $scope.error = '';
     $scope.success = '';
     $scope.customer = {};
-
     $scope.$watch(function(scope) { return scope.customer; },
         function(newValue, oldValue) {
             if (newValue && newValue.originalObject)
@@ -50,6 +49,19 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
         detailsList: []
     };
 
+    $scope.warehouses = [];
+
+    $scope.findWarehouse = function(){
+        var fun = 'findAll';
+        $http.get('warehouse/'+fun+'?page='+$scope.page + '&size=' + $scope.size).then(function (response) {
+            $scope.warehouses = response.data.data;
+            $scope.total = response.data.total;
+        }, function (response) {
+            $scope.warehouses = [];
+            $scope.total = 0;
+        });
+    };
+    $scope.findWarehouse();
     $rootScope.selectWareHouse($scope.search.warehouse);
     $scope.find = function() {
         var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
@@ -149,6 +161,7 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
             $scope.find();
             $('#modal').modal('hide');
         }, function(response) {
+
         });
     };
 
@@ -160,4 +173,6 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
             }
         });
     };
+    $rootScope.getUserList();
+    $rootScope.getPriceTags();
 });

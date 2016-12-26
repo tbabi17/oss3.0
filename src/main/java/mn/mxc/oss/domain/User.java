@@ -37,6 +37,16 @@ public class User {
     private int sun;
     @Column
     private String createdDate;
+    @Column(name="user_image")
+    private String UserImage;
+
+    public String getUserImage() {
+        return UserImage;
+    }
+
+    public void setUserImage(String userImage) {
+        UserImage = userImage;
+    }
 
     public String getCreatedDate() {
         return createdDate;

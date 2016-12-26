@@ -26,6 +26,17 @@ public class Product implements java.io.Serializable{
     @Column
     private String createdDate;
     @Column String status;
+    @Column String img;
+    @Column String type;
+    @Column double size;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     @OneToMany(mappedBy="product", cascade = CascadeType.ALL)
     private List<Prices> priceList;
@@ -84,5 +95,21 @@ public class Product implements java.io.Serializable{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
     }
 }

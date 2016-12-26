@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -16,13 +17,15 @@ public class CustomerController {
 	CustomerService service;/*Room44net*/
 
 	@RequestMapping(value = "customer/save", method = RequestMethod.POST, consumes="application/json", produces=MediaType.APPLICATION_JSON_VALUE)
-	public Customer save(@RequestBody Customer entity) {
+	public Customer save(@RequestBody Customer entity,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		service.save(entity);
 		return entity;
 	}
 
 	@RequestMapping(value = "customer/findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable findAll(@RequestParam int page, @RequestParam int size) {
+	public Hashtable findAll(@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List list = service.findAll(page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
@@ -47,7 +50,15 @@ public class CustomerController {
 		pageable.put("data", list);
 		return pageable;
 	}
-
+	@RequestMapping(value = "customer/findUserCustomer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findUserCustomer(@RequestParam int uid,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		List list = service.findUserCustomer(uid);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", service.total());
+		pageable.put("data", list);
+		return pageable;
+	}
 	@RequestMapping(value = "customer/delete", method = RequestMethod.DELETE)
 	public Customer delete(@RequestParam int id) {
 		Customer item = service.findOne(id);
@@ -57,6 +68,8 @@ public class CustomerController {
 
 	@RequestMapping(value = "customer/update", method = RequestMethod.PUT, consumes="application/json", produces = "application/json; charset=utf-8", headers = "Accept=*/*")
 	public Customer update(@RequestBody Customer entity) {
+		//response.setHeader("Access-Control-Allow-Origin", "*");
+		//response.setHeader("Access-Control-Allow-Headers", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 		service.update(entity);
 		return entity;
 	}

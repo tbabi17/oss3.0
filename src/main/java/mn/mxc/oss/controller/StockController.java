@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class StockController {
 	StockEndService service;
 
 	@RequestMapping(value = "stock/findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable findAll(@RequestParam int page, @RequestParam int size) {
+	public Hashtable findAll(@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List list = service.findAll(page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
@@ -33,7 +35,8 @@ public class StockController {
 
 	@RequestMapping(value = "stock/balanceByUsers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable balanceByUsers(@RequestParam String startDate, @RequestParam String endDate,
-									@RequestParam int page, @RequestParam int size) {
+									@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List list = service.balanceByUsers(startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", list.size());
@@ -42,7 +45,8 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "stock/balanceByProducts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable balanceByProducts(@RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size) {
+	public Hashtable balanceByProducts(@RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List list = service.balanceByProducts(startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", list.size());
@@ -51,7 +55,8 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "stock/balanceByDay", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable balanceByDay(@RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size) {
+	public Hashtable balanceByDay(@RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List list = service.balanceByDay(startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", list.size());
@@ -65,7 +70,8 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "stock/balance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable balance(@RequestParam int warehouseId, @RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size) {
+	public Hashtable balance(@RequestParam int warehouseId, @RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List list = service.balance(warehouseId, startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());

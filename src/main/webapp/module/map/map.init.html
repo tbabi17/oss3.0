@@ -1,112 +1,76 @@
+<style>
+    .angular-google-map-container { height: 700px; }
+</style>
 <div class="container-full">
     <div class="row">
         <div class="col-sm-2">
             <div data-ng-include="'template/left.html'"></div>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-10">
             <div class="mod-white">
                 <div class="title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Үнийн төрлүүд
+                            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;Газрын зураг
                         </div>
                         <div class="col-sm-6" style="text-align: right;">
-                            <button class="btn btn-sm btn-primary" type="button" ng-click="add_pricetag()">Нэмэх</button>
+
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <div class="table-round">
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select class="form-control input-sm" data-ng-model="search.value" style="height: 29px;">
+                                    <option data-ng-repeat="item in users" value="{{item.id}}">{{item.firstName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8 col-xs-12">
+                                <div class="input-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input input-sm" ng-model="search.daterange" name="daterange" id="range"/>
+                                        <span class="input-group-btn">
+                                                <button class="btn btn-sm btn-primary" type="button" ng-click="find()"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br/>
                             <table id="data">
                                 <thead>
                                 <tr>
-                                    <td style="width:5%">Код</td>
-                                    <td style="width:85%">Үнийн төрөл</td>
-                                    <td style="width:10%">Үйлдэл</td>
+                                    <td style="width:5%">Хэрэглэгч</td>
+                                    <td style="width:85%">Орох цэгийн тоо</td>
+                                    <td style="width:10%">Орсон</td>
+                                    <td style="width:10%">Огноо</td>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr data-ng-repeat="item in pricetags">
-                                    <td>{{item.id}}</td>
-                                    <td>{{item.tagName}}</td>
+                                <tr data-ng-repeat="item in list">
+                                    <td>{{item.userId}}</td>
+                                    <td>{{item.customerId}}</td>
+                                    <td>{{item.lat}} , {{item.lng}}</td>
                                     <td style="text-align:center;">
-                                        <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
-                                        &nbsp;&nbsp;
-                                        <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
+                                       {{item.date}}
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div  style="float: left;">
-                            <span style="font-weight: bold;">Нийт: {{pricetagtotal || 0 |  number:0}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="pageable">
-                            <pagination  style="margin: 0" ng-change="findPriceTag()" page-label="0" items-per-page="size" boundary-links="true" total-items="pricetagtotal" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-5">
-            <div class="mod-white">
-                <div class="title">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Агуулахын жагсаалт
-                        </div>
-                        <div class="col-sm-6" style="text-align: right;">
-                            <button class="btn btn-sm btn-primary" type="button" ng-click="add_warehouse()">Нэмэх</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-9">
                         <div class="table-round">
-                            <table id="data">
-                                <thead>
-                                <tr>
-                                    <td style="width:5%">Код</td>
-                                    <td style="width:85%">Агуулахын нэр</td>
-                                    <td style="width:10%">Үйлдэл</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr data-ng-repeat="item in warehouses">
-                                    <td>{{item.id}}</td>
-                                    <td>{{item.name}}</td>
-                                    <td style="text-align:center;">
-                                        <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
-                                        &nbsp;&nbsp;
-                                        <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <ui-gmap-google-map center="map.center" zoom='map.zoom'>
+                                <ui-gmap-polyline ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible'
+                                                  geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+                            </ui-gmap-google-map>
                         </div>
                     </div>
                 </div>
                 <br>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div  style="float: left;">
-                            <span style="font-weight: bold;">Нийт: {{warehousetotal || 0 |  number:0}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="pageable">
-                            <pagination  style="margin: 0" ng-change="findWareHouse()" page-label="0" items-per-page="size" boundary-links="true" total-items="warehousetotal" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

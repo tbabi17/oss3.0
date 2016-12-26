@@ -38,6 +38,7 @@ angular.module('product_list', []).controller('product_list', function($rootScop
     };
 
     $scope.addprice = function() {
+        console.log($rootScope);
         $rootScope.pricetags.forEach(function(value) {
             var nvalue = {
                 price: 0,
@@ -71,4 +72,5 @@ angular.module('product_list', []).controller('product_list', function($rootScop
     };
 
     $scope.find();
+    $rootScope.getPriceTags();
 });

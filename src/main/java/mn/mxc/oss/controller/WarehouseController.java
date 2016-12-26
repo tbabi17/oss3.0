@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -22,7 +23,8 @@ public class WarehouseController {
 	}
 
 	@RequestMapping(value = "warehouse/findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable findAll(@RequestParam int page, @RequestParam int size) {
+	public Hashtable findAll(@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List list = service.findAll(page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());

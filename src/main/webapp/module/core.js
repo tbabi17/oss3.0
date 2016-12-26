@@ -1,7 +1,7 @@
 var allControlller = ['ngRoute','ngAnimate', 'ngSanitize', 'ui.bootstrap'];
 var customController = [
     'user_list','product_list','customer_list', 'dashboard_init', 'order_list', 'warehouse_list','settings_init',
-    'plan_list','login_user', 'promotion_list'
+    'plan_list','login_user', 'promotion_list','map_init'
 ];
 
 allControlller = allControlller.concat(customController);
@@ -42,16 +42,21 @@ angular
                 $http.get('user/checkSession').then(function (response) {
                     $rootScope.logged = response.data;
                     if (!$rootScope.logged.owner)
-                        $location.path('/login_user');
+                        //$location.path('/login_user');
+                        window.location.href = "/#/login_user";
                     else {
-                        $rootScope.logshow = true;
-                        $rootScope.orderNotify();
-                        $rootScope.customerNotify();
-                        $rootScope.getPriceTags();
-                        $rootScope.getUserList();
-                        $rootScope.getRouteList();
-                        $rootScope.getWarehouseList();
-                        $rootScope.getProductList();
+                        if($location.path()=='/login_user'){
+                            window.location.href = "/#/dashboard_init";
+                        }else {
+                            $rootScope.logshow = true;
+                            $rootScope.orderNotify();
+                            $rootScope.customerNotify();
+                            $rootScope.getPriceTags();
+                            $rootScope.getUserList();
+                            $rootScope.getRouteList();
+                            $rootScope.getWarehouseList();
+                            $rootScope.getProductList();
+                        }
                     }
                 }, function (response) {
                     $rootScope.logged = {};

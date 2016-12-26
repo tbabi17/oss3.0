@@ -59,6 +59,19 @@ public class OrderDao extends GenericDao<Orders> {
         tx.commit();
         return list;
     }
+    public List<Orders> findByCustomerOrder(int customer_id, int page, int size){
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        crit = session.createCriteria(Orders.class);
+        crit.setFirstResult((page - 1)*size);
+        crit.setMaxResults(size);
+        crit.add(Restrictions.eq("customerId", customer_id));
+        List<Orders> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
+        return list;
+
+    }
 
     public void update(final Orders entity) {
         session = sessionFactory.openSession();

@@ -61,6 +61,7 @@
 				<value>mn.mxc.oss.domain.PlanUsers</value>
 				<value>mn.mxc.oss.domain.Promotion</value>
 				<value>mn.mxc.oss.domain.PromotionDetails</value>
+				<value>mn.mxc.oss.domain.Gps</value>
 			</list>
         </property> 
 		<property name="hibernateProperties">
@@ -115,9 +116,14 @@
 	<bean id="stockDao" class="mn.mxc.oss.dao.StockDao"/>
 	<bean id="stockEndService" class="mn.mxc.oss.services.StockEndService"/>
 
+	<bean id="gpsDao" class="mn.mxc.oss.dao.GpsDao"/>
+	<bean id="gpsService" class="mn.mxc.oss.services.GpsService"/>
+
 	<bean id="planDao" class="mn.mxc.oss.dao.PlanDao"/>
 	<bean id="planService" class="mn.mxc.oss.services.PlanService"/>
 
 	<bean id="promotionDao" class="mn.mxc.oss.dao.PromotionDao"/>
 	<bean id="promotionService" class="mn.mxc.oss.services.PromotionService"/>
+
+
 </beans>
