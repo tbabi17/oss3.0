@@ -35,6 +35,20 @@ public class UserDao extends GenericDao<User> {
         tx.commit();
         return list;
     }
+
+    public List<User> findByRoute(String value) {
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        crit = session.createCriteria(User.class);
+        crit.setFirstResult(0);
+        crit.setMaxResults(10);
+        crit.add(Restrictions.eq("owner", value));
+        List<User> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
+        return list;
+    }
+
     public User findLogin(String user,String password){
         session = getSession();
         Transaction tx = session.beginTransaction();

@@ -20,6 +20,7 @@ public class UserService {
 	}
 
 	public List<User> findBySearch(String value) { return dao.findBySearch(value); }
+	public List<User> findByRoute(String value) { return dao.findByRoute(value); }
 	public User findLogin(String user,String pass){return dao.findLogin(user,pass);}
 	public List<User> findAll(int page, int size) { return dao.findAll(page, size); }
 

@@ -43,7 +43,16 @@ public class UserController {
 		pageable.put("data", list);
 		return pageable;
 	}
-	
+
+	@RequestMapping(value = "user/findByRoute", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findByRoute(@RequestParam String value) {
+		List list = service.findByRoute(value);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", list.size());
+		pageable.put("data", list);
+		return pageable;
+	}
+
 	@RequestMapping(value = "user/delete", method = RequestMethod.DELETE)
 	public User delete(@RequestParam int id) {
 		User item = service.findOne(id);
