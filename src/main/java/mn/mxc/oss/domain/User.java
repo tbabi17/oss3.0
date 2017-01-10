@@ -30,6 +30,31 @@ public class User {
     @JoinColumn(name="mon", insertable=false, updatable=false)
     private RouteOnly monRoute;
 
+    @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="tue", insertable=false, updatable=false)
+    private RouteOnly tueRoute;
+
+    @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="wed", insertable=false, updatable=false)
+    private RouteOnly wedRoute;
+
+    @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="thu", insertable=false, updatable=false)
+    private RouteOnly thuRoute;
+
+    @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="fri", insertable=false, updatable=false)
+    private RouteOnly friRoute;
+
+    @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="sat", insertable=false, updatable=false)
+    private RouteOnly satRoute;
+
     @Column
     private int mon;
     @Column
@@ -55,6 +80,46 @@ public class User {
 
     public RouteOnly getMonRoute() {
         return monRoute;
+    }
+
+    public RouteOnly getTueRoute() {
+        return tueRoute;
+    }
+
+    public void setTueRoute(RouteOnly tueRoute) {
+        this.tueRoute = tueRoute;
+    }
+
+    public RouteOnly getWedRoute() {
+        return wedRoute;
+    }
+
+    public void setWedRoute(RouteOnly wedRoute) {
+        this.wedRoute = wedRoute;
+    }
+
+    public RouteOnly getThuRoute() {
+        return thuRoute;
+    }
+
+    public void setThuRoute(RouteOnly thuRoute) {
+        this.thuRoute = thuRoute;
+    }
+
+    public RouteOnly getFriRoute() {
+        return friRoute;
+    }
+
+    public void setFriRoute(RouteOnly friRoute) {
+        this.friRoute = friRoute;
+    }
+
+    public RouteOnly getSatRoute() {
+        return satRoute;
+    }
+
+    public void setSatRoute(RouteOnly satRoute) {
+        this.satRoute = satRoute;
     }
 
     public void setMonRoute(RouteOnly monRoute) {
