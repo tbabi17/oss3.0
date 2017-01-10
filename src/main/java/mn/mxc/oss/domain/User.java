@@ -1,5 +1,8 @@
 package mn.mxc.oss.domain;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +24,12 @@ public class User {
     private String lastName;
     @Column
     private String status;
+
+    @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="mon", insertable=false, updatable=false)
+    private RouteOnly monRoute;
+
     @Column
     private int mon;
     @Column
@@ -37,15 +46,23 @@ public class User {
     private int sun;
     @Column
     private String createdDate;
-    @Column(name="user_image")
-    private String UserImage;
+    @Column
+    private String user_image;
 
-    public String getUserImage() {
-        return UserImage;
+    public String getUser_image() {
+        return user_image;
     }
 
-    public void setUserImage(String userImage) {
-        UserImage = userImage;
+    public RouteOnly getMonRoute() {
+        return monRoute;
+    }
+
+    public void setMonRoute(RouteOnly monRoute) {
+        this.monRoute = monRoute;
+    }
+
+    public void setUser_image(String user_image) {
+        this.user_image = user_image;
     }
 
     public String getCreatedDate() {

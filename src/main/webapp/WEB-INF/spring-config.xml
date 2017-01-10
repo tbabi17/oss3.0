@@ -45,6 +45,7 @@
 				<value>mn.mxc.oss.domain.Orders</value>
 				<value>mn.mxc.oss.domain.PriceTag</value>
 				<value>mn.mxc.oss.domain.Route</value>
+				<value>mn.mxc.oss.domain.RouteOnly</value>
 				<value>mn.mxc.oss.domain.Prices</value>
 				<value>mn.mxc.oss.domain.Warehouse</value>
 				<value>mn.mxc.oss.domain.Details</value>

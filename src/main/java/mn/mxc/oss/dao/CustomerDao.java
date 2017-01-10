@@ -47,6 +47,7 @@ public class CustomerDao extends GenericDao<Customer> {
         tx.commit();
         return list;
     }
+
     public List<Customer> findUserCustomer(int uid){
         session = getSession();
         Transaction tx = session.beginTransaction();
