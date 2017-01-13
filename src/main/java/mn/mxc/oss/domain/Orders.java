@@ -39,6 +39,7 @@ public class Orders implements java.io.Serializable{
     private String mode;
 
     @OneToMany(mappedBy="details", cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
     private List<Details> detailsList;
 
     @OneToOne
