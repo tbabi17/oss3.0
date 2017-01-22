@@ -1,4 +1,4 @@
-angular.module('settings_init', []).controller('settings_init', function($rootScope, $http, $scope, $location) {
+angular.module('report_init', []).controller('report_init', function($rootScope, $http, $scope, $location) {
     $scope.page = 1;
     $scope.size = 15;
     $scope.pricetagtotal = 0;
@@ -41,6 +41,4 @@ angular.module('settings_init', []).controller('settings_init', function($rootSc
         }, function(response) {
         });
     };
-
-//pr
 });

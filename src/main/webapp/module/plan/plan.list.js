@@ -4,7 +4,7 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
     $scope.total = 0;
     $scope.oldtotal = 0;
     $scope.page = 1;
-    $scope.size = 10;
+    $scope.size = 15;
     $scope.statusName = [];
     $scope.statusName['info'] = "Идэвхтэй";
     $scope.statusName['success'] = "Идэвхгүй";
@@ -250,6 +250,10 @@ angular.module('plan_list', []).controller('plan_list', function($rootScope, $ht
             findAndRemove($scope.plan.usersList, 'id', user.id);
         }, function(response) {
         });
+    };
+
+    $scope.dialogHide = function() {
+        $('#modal').modal('hide');
     };
 
     $scope.log = function() {

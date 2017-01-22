@@ -8,7 +8,7 @@ angular.module('map_init', ['uiGmapgoogle-maps']).controller('map_init', functio
         endDate: dateDayLast()
     });
     $scope.search = {'value': '','daterange':''};
-    $scope.size=10;
+    $scope.size=15;
     $scope.page = 1;
     $scope.search = {'value': ''};
     $scope.list = [];

@@ -3,7 +3,7 @@ angular.module('product_list', []).controller('product_list', function($rootScop
     $scope.list = [];
     $scope.total = 0;
     $scope.page = 1;
-    $scope.size = 10;
+    $scope.size = 15;
     $scope.error = '';
     $scope.success = '';
     $scope.find = function() {
@@ -69,6 +69,10 @@ angular.module('product_list', []).controller('product_list', function($rootScop
         $scope.selected = item;
         $scope.addprice();
         $('#modal').modal('show');
+    };
+
+    $scope.dialogHide = function() {
+        $('#modal').modal('hide');
     };
 
     $scope.find();

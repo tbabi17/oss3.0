@@ -22,7 +22,7 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
     $scope.list = [];
     $scope.total = 0;
     $scope.page = 1;
-    $scope.size = 10;
+    $scope.size = 15;
     $scope.newOrderId = 'ST-'+parseInt(new Date().getTime()/1000);
     $scope.detail = {
         orderId: $scope.newOrderId,
@@ -165,6 +165,10 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
         });
     };
 
+    $scope.dialogHide = function() {
+        $('#modal').modal('hide');
+    };
+    
     $scope.log = function() {
         $rootScope.products_all.forEach(function (el, i, arr) {
             if (el.id == $scope.detail.productId) {

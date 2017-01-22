@@ -1,0 +1,47 @@
+<div class="container-full">
+    <div class="row">
+        <div class="col-sm-2">
+            <div data-ng-include="'template/left.html'"></div>
+        </div>
+        <div class="col-sm-12">
+           <div class="mod-white">
+                <div class="title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Үнийн төрлүүд
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <button class="btn btn-sm btn-primary" type="button" ng-click="add_pricetag()">Нэмэх</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-round">
+                            <table id="data">
+                            <thead>
+                            <tr>
+                                <td style="width:5%">Код</td>
+                                <td style="width:85%">Үнийн төрөл</td>
+                                <td style="width:10%">Үйлдэл</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="item in pricetags">
+                                <td>{{item.id}}</td>
+                                <td>{{item.tagName}}</td>
+                                <td style="text-align:center;">
+                                    <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    &nbsp;&nbsp;
+                                    <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

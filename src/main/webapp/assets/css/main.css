@@ -40,14 +40,15 @@ h4 {
 }
 
 .mod {
-    width: 100%;
-    background: #4285f4 ;
-    border: 1px solid #e2e2e2;
+    margin-left: 10px;
+    width: 98%;
+    background: #4285f4;
+    border: 1px solid #5595FF;
     min-height: 250px;
 }
 
 .mod-white {
-    width: 100%;
+    width: 98%;
     background: #fff;
     padding: 20px;
     border: 1px solid #e2e2e2;
@@ -94,7 +95,7 @@ table#data tr:nth-child(odd) {background: #fefefe}
     border: 0px;
     font-size: 13px;
     color: #fff;
-    padding: 15px;
+    padding: 12px;
     display: block;
 }
 

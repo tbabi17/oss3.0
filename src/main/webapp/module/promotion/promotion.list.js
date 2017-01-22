@@ -4,7 +4,7 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
     $scope.total = 0;
     $scope.oldtotal = 0;
     $scope.page = 1;
-    $scope.size = 10;
+    $scope.size = 15;
     $scope.statusName = [];
     $scope.statusName['info'] = "Идэвхтэй";
     $scope.statusName['success'] = "Идэвхгүй";
@@ -187,6 +187,10 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
                 console.log($scope.detail.product);
             }
         });
+    };
+
+    $scope.dialogHide = function() {
+        $('#modal').modal('hide');
     };
 
     $scope.qtyChange = function() {

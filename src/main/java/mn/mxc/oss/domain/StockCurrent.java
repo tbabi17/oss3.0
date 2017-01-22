@@ -5,7 +5,7 @@ import javax.persistence.*;
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name = "balanceCheck",
-                query = "insert into stockcurrent (productId,startBalance,orlogo,zarlaga,lastBalance,wareHouseId) select p.id,ifnull((select sum(qty) from stockend where productId=p.id and endDate=(select endDate from stockend where endDate<:startDate limit 1) and warehouseId=:warehouseId),0) as a,ifnull((select sum(qty) from stockbalance where productId=p.id and qty>=0 and createdDate between :startDate and :endDate and warehouseId=:warehouseId),0) as b,ifnull((select sum(qty) from stockbalance where productId=p.id and qty<=0 and createdDate between :startDate and :endDate and warehouseId=:warehouseId),0) as c,0,:warehouseId from product as p"
+                query = "insert into stockcurrent (productId,startBalance,orlogo,zarlaga,lastBalance,price,wareHouseId) select p.id,ifnull((select sum(qty) from stockend where productId=p.id and endDate=(select endDate from stockend where endDate<:startDate limit 1) and warehouseId=:warehouseId),0) as a,ifnull((select sum(qty) from stockbalance where productId=p.id and qty>=0 and createdDate between :startDate and :endDate and warehouseId=:warehouseId),0) as b,ifnull((select sum(qty) from stockbalance where productId=p.id and qty<=0 and createdDate between :startDate and :endDate and warehouseId=:warehouseId),0) as c,0,ifnull((select min(price) from prices where productId=p.id and priceTagId=1),0) as price,:warehouseId from product as p"
         )
 })
 @Table(name="StockCurrent")
@@ -24,6 +24,8 @@ public class StockCurrent {
     private double zarlaga;
     @Column
     private double lastBalance;
+    @Column
+    private double price;
     @Column
     private int wareHouseId;
 
@@ -93,5 +95,13 @@ public class StockCurrent {
 
     public void setWareHouseId(int wareHouseId) {
         this.wareHouseId = wareHouseId;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

@@ -4,7 +4,7 @@ angular.module('dashboard_init', []).controller('dashboard_init', function($root
     $scope.balanceByProductList = [];
     $scope.balanceByDay = [];
     $scope.page = 1;
-    $scope.size = 10;
+    $scope.size = 15;
     $('input[name="daterange"]').daterangepicker({
         locale: {
             "format": "YYYY/MM/DD",

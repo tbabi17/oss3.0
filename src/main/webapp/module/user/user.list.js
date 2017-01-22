@@ -3,8 +3,12 @@ angular.module('user_list', []).controller('user_list', function($rootScope, $ht
     $scope.list = [];
     $scope.total = 0;
     $scope.page = 1;
-    $scope.size = 10;
+    $scope.size = 15;
     $scope.error = '';
+    $scope.userTypeName = [];
+    $scope.userTypeName['salesman'] = "Борлуулагч";
+    $scope.userTypeName['manager'] = "Менежер";
+
     $scope.statusName = [];
     $scope.statusName['success'] = "Идэвхтэй";
     $scope.statusName['danger'] = "Идэвхгүй";
@@ -56,6 +60,11 @@ angular.module('user_list', []).controller('user_list', function($rootScope, $ht
         $scope.selected = item;
         $('#modal').modal('show');
     };
+
+    $scope.dialogHide = function() {
+        $('#modal').modal('hide');
+    };
+
 
     $scope.find();
 });

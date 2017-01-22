@@ -5,7 +5,7 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
     $scope.total = 0;
     $scope.oldtotal = 0;
     $scope.page = 1;
-    $scope.size = 10;
+    $scope.size = 15;
     $scope.statusName = [];
     $scope.statusName['info'] = "Шинэ хүсэлт";
     $scope.statusName['success'] = "Зөвшөөрсөн";
@@ -68,5 +68,9 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
         $('#modal').modal('show');
     };
 
+    $scope.dialogHide = function() {
+        $('#modal').modal('hide');
+    };
+    
     $scope.findNew();
 });

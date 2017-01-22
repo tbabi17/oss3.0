@@ -24,6 +24,8 @@ public class User {
     private String lastName;
     @Column
     private String status;
+    @Column
+    private String userType;
 
     @OneToOne
     @NotFound(action = NotFoundAction.IGNORE)
@@ -248,5 +250,13 @@ public class User {
 
     public void setSun(int sun) {
         this.sun = sun;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

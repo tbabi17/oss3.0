@@ -5,7 +5,7 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
     $scope.total = 0;
     $scope.routeTotal = 0;
     $scope.page = 1;
-    $scope.size = 10;
+    $scope.size = 15;
     $scope.error = '';
     $scope.find = function() {
         var fun = 'findByNonRoute';
@@ -111,6 +111,11 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
     $scope.map_load = function(item) {
         window.open('https://www.google.mn/maps/@'+item.lat+','+item.lng+',14z');
     };
+
+    $scope.dialogHide = function() {
+        $('#modal').modal('hide');
+    };
+
     $rootScope.getPriceTags();
     console.log('routes');
     console.log($rootScope.routes);
