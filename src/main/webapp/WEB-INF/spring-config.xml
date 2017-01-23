@@ -63,6 +63,7 @@
 				<value>mn.mxc.oss.domain.Promotion</value>
 				<value>mn.mxc.oss.domain.PromotionDetails</value>
 				<value>mn.mxc.oss.domain.Gps</value>
+				<value>mn.mxc.oss.domain.ReportWeekDay</value>
 			</list>
         </property> 
 		<property name="hibernateProperties">
@@ -126,5 +127,6 @@
 	<bean id="promotionDao" class="mn.mxc.oss.dao.PromotionDao"/>
 	<bean id="promotionService" class="mn.mxc.oss.services.PromotionService"/>
 
-
+	<bean id="reportDao" class="mn.mxc.oss.dao.ReportDao"/>
+	<bean id="reportService" class="mn.mxc.oss.services.ReportService"/>
 </beans>

@@ -3,44 +3,122 @@
         <div class="col-sm-2">
             <div data-ng-include="'template/left.html'"></div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-10">
            <div class="mod-white">
                 <div class="title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Үнийн төрлүүд
+                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Борлуулагчийн идэвхи
                         </div>
-                        <div class="col-sm-6" style="text-align: right;">
-                            <button class="btn btn-sm btn-primary" type="button" ng-click="add_pricetag()">Нэмэх</button>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control input input-sm" name="daterange" id="range"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-sm btn-primary" type="button" ng-click="findOld(true)"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="table-round">
-                            <table id="data">
-                            <thead>
-                            <tr>
-                                <td style="width:5%">Код</td>
-                                <td style="width:85%">Үнийн төрөл</td>
-                                <td style="width:10%">Үйлдэл</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr data-ng-repeat="item in pricetags">
-                                <td>{{item.id}}</td>
-                                <td>{{item.tagName}}</td>
-                                <td style="text-align:center;">
-                                    <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
-                                    &nbsp;&nbsp;
-                                    <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                            <div style="overflow-x:scroll;">
+                                <table id="data" style="width: 1600px;">
+                                    <thead>
+                                    <tr>
+                                        <td rowspan="2" style="width:3%">Код</td>
+                                        <td rowspan="2" style="width:6%">Борлуулагч</td>
+                                        <td colspan="3" style="width:13%; text-align: center;">Даваа</td>
+                                        <td colspan="3" style="width:13%; text-align: center;">Мягмар</td>
+                                        <td colspan="3" style="width:13%; text-align: center;">Лхагва</td>
+                                        <td colspan="3" style="width:13%; text-align: center;">Пүрэв</td>
+                                        <td colspan="3" style="width:13%; text-align: center;">Баасан</td>
+                                        <td colspan="3" style="width:13%; text-align: center;">Бямба</td>
+                                        <td colspan="3" style="width:13%; text-align: center;">Ням</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center;">Цэг</td>
+                                        <td style="text-align: center;">Орсон</td>
+                                        <td style="text-align: center;">Дүн</td>
+
+                                        <td style="text-align: center;">Цэг</td>
+                                        <td style="text-align: center;">Орсон</td>
+                                        <td style="text-align: center;">Дүн</td>
+
+                                        <td style="text-align: center;">Цэг</td>
+                                        <td style="text-align: center;">Орсон</td>
+                                        <td style="text-align: center;">Дүн</td>
+
+                                        <td style="text-align: center;">Цэг</td>
+                                        <td style="text-align: center;">Орсон</td>
+                                        <td style="text-align: center;">Дүн</td>
+
+                                        <td style="text-align: center;">Цэг</td>
+                                        <td style="text-align: center;">Орсон</td>
+                                        <td style="text-align: center;">Дүн</td>
+
+                                        <td style="text-align: center;">Цэг</td>
+                                        <td style="text-align: center;">Орсон</td>
+                                        <td style="text-align: center;">Дүн</td>
+
+                                        <td style="text-align: center;">Цэг</td>
+                                        <td style="text-align: center;">Орсон</td>
+                                        <td style="text-align: center;">Дүн</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-ng-repeat="item in list">
+                                        <td>{{item.user.owner}}</td>
+                                        <td>{{item.user.firstName}}</td>
+
+                                        <td style="text-align: center;">{{item.monMCount}}</td>
+                                        <td style="text-align: center;">{{item.monECount}}</td>
+                                        <td style="text-align: center;">{{item.monAmt | currency: "₮ "}}</td>
+
+                                        <td style="text-align: center;">{{item.tueMCount}}</td>
+                                        <td style="text-align: center;">{{item.tueECount}}</td>
+                                        <td style="text-align: center;">{{item.tueAmt | currency: "₮ "}}</td>
+
+                                        <td style="text-align: center;">{{item.wedMCount}}</td>
+                                        <td style="text-align: center;">{{item.wedECount}}</td>
+                                        <td style="text-align: center;">{{item.wedAmt | currency: "₮ "}}</td>
+
+                                        <td style="text-align: center;">{{item.thuMCount}}</td>
+                                        <td style="text-align: center;">{{item.thuECount}}</td>
+                                        <td style="text-align: center;">{{item.thuAmt | currency: "₮ "}}</td>
+
+                                        <td style="text-align: center;">{{item.friMCount}}</td>
+                                        <td style="text-align: center;">{{item.friECount}}</td>
+                                        <td style="text-align: center;">{{item.friAmt | currency: "₮ "}}</td>
+
+                                        <td style="text-align: center;">{{item.satMCount}}</td>
+                                        <td style="text-align: center;">{{item.satECount}}</td>
+                                        <td style="text-align: center;">{{item.satAmt | currency: "₮ "}}</td>
+
+                                        <td style="text-align: center;">{{item.sunMCount}}</td>
+                                        <td style="text-align: center;">{{item.sunECount}}</td>
+                                        <td style="text-align: center;">{{item.sunAmt | currency: "₮ "}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
+               <br>
+               <div class="row">
+                   <div class="col-md-6">
+                       <div  style="float: left;">
+                           <span style="font-weight: bold;">Нийт: {{total || 0 |  number:0}}</span>
+                       </div>
+                   </div>
+                   <div class="col-sm-6">
+                       <div class="pageable">
+                           <pagination  style="margin: 0" ng-change="find()" page-label="0" items-per-page="size" boundary-links="true" total-items="total" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                       </div>
+                   </div>
+               </div>
             </div>
         </div>
     </div>

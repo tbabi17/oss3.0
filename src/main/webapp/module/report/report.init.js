@@ -1,44 +1,32 @@
 angular.module('report_init', []).controller('report_init', function($rootScope, $http, $scope, $location) {
     $scope.page = 1;
     $scope.size = 15;
-    $scope.pricetagtotal = 0;
-    $scope.pricetags = [];
+    $scope.total = 0;
+    $scope.list = [];
+
+    $('input[name="daterange"]').daterangepicker({
+        locale: {
+            "format": "YYYY/MM/DD",
+            "separator": "-",
+        },
+        startDate: dateDay(new Date()),
+        endDate: dateDayLast()
+    });
+
     $scope.find = function() {
-        var fun = 'findAll';
-        $http.get('pricetag/'+fun+'?page='+$scope.page+'&size='+$scope.size).then(function(response) {
-            $scope.pricetags = response.data.data;
-            $scope.pricetagtotal = response.data.total;
+        var fun = 'weekday';
+        var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var field = '&startDate='+start+'&endDate='+end;
+        $http.get('report/'+fun+'?page='+$scope.page+'&size='+$scope.size+field).then(function(response) {
+            $scope.list = response.data.data;
+            $scope.total = response.data.total;
         }, function(response) {
-            $scope.pricetags = [];
-            $scope.pricetagtotal = 0;
+            $scope.total = [];
+            $scope.list = 0;
         });
-    };
-    $scope.add_pricetag = function(item) {
-        $scope.selectedPricetag = {
-            id: 0,
-            tagName: '',
-        };
-        $('#pricetag_modal').modal('show');
     };
 
-    $scope.update_pricetag = function(item) {
-        $http.put('pricetag/update', item).then(function(response) {
-            $scope.find();
-            //$scope.findRoute();
-            $('#pricetag_modal').modal('hide');
-        }, function(response) {
-        });
-    };
     $scope.find();
 
-    $scope.dialog = function(item) {
-        $scope.selectedPricetag = item;
-        $('#pricetag_modal').modal('show');
-    };
-    $scope.delete = function(item) {
-        $http.delete('pricetag/delete?id='+item.id).then(function(response) {
-            $scope.find();
-        }, function(response) {
-        });
-    };
 });
