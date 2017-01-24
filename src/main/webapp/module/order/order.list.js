@@ -7,7 +7,7 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
     $scope.page = 1;
     $scope.size = 15;
     $scope.statusName = [];
-    $scope.statusName['info'] = "Шинэ хүсэлт";
+    $scope.statusName['info'] = "Шинэ захиалга";
     $scope.statusName['success'] = "Зөвшөөрсөн";
     $scope.statusName['alert'] = "Буцаасан";
 

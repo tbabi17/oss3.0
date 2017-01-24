@@ -89,23 +89,28 @@ public class OrderDao extends GenericDao<Orders> {
             session.delete(stock);
         }
 
-        List<Details> list = entity.getDetailsList();
-        if (list != null)
-        for (int i = 0; i < list.size(); i++) {
-            Details detail = list.get(i);
-            StockBalance stockBalance = new StockBalance();
-            stockBalance.setProductId(detail.getProductId());
-            stockBalance.setOrderId(entity.getId());
-            stockBalance.setAmount(detail.getAmount());
-            stockBalance.setPrice(detail.getPrice());
-            if (entity.getMode().equals("zarlaga"))
-                stockBalance.setQty(-detail.getQty());//zarlaga
-            else
-                stockBalance.setQty(+detail.getQty());//orlogo
-            stockBalance.setWareHouseId(entity.getWarehouseId());
-            stockBalance.setUserId(entity.getUserId());
-            stockBalance.setCustomerId(entity.getCustomerId());
-            session.saveOrUpdate(stockBalance);
+        if ("success".equals(entity.getStatus())) {
+            List<Details> list = entity.getDetailsList();
+            if (list != null)
+                for (int i = 0; i < list.size(); i++) {
+                    Details detail = list.get(i);
+                    StockBalance stockBalance = new StockBalance();
+                    stockBalance.setProductId(detail.getProductId());
+                    stockBalance.setOrderId(entity.getId());
+                    stockBalance.setAmount(detail.getAmount());
+                    stockBalance.setPrice(detail.getPrice());
+                    if (entity.getMode().equals("zarlaga"))
+                        stockBalance.setQty(-detail.getQty());//zarlaga
+                    else
+                        stockBalance.setQty(+detail.getQty());//orlogo
+                    stockBalance.setWareHouseId(entity.getWarehouseId());
+                    stockBalance.setUserId(entity.getUserId());
+                    stockBalance.setCustomerId(entity.getCustomerId());
+                    session.saveOrUpdate(stockBalance);
+                }
+        } else
+        if ("alert".equals(entity.getStatus())) {
+
         }
 
         tx.commit();
