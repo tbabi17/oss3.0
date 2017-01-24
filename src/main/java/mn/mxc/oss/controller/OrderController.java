@@ -18,6 +18,7 @@ public class OrderController {
 
 	@RequestMapping(value = "order/save", method = RequestMethod.POST, consumes="application/json", produces = "application/json; charset=utf-8", headers = "Accept=*/*")
 	public Orders save(@RequestBody Orders entity,HttpServletResponse response) {
+
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		service.save(entity);
 		return entity;
