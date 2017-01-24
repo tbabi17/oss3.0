@@ -13,11 +13,12 @@ input {
 }
 
 .navbar {
-    background: #fff;
-    padding: 10px;
+    background: #4285f4;
+    padding: 12px;
     padding-bottom: 5px;
+    margin-bottom: 0px;
     border-radius: 0px;
-    border-bottom: 3px solid #337ab7;
+    border-bottom: 0px solid #e1e1e1;
 }
 
 h1 {
@@ -42,8 +43,8 @@ h4 {
 .mod {
     margin-left: 10px;
     width: 98%;
-    background: #4285f4;
-    border: 1px solid #5595FF;
+    background: #fff;
+    border: 1px solid #e2e2e2;
     min-height: 250px;
 }
 
@@ -94,8 +95,9 @@ table#data tr:nth-child(odd) {background: #fefefe}
     cursor:hand;
     border: 0px;
     font-size: 13px;
-    color: #fff;
+    color: #333;
     padding: 12px;
+    border-bottom: 1px dotted #eee;
     display: block;
 }
 
@@ -105,13 +107,13 @@ table#data tr:nth-child(odd) {background: #fefefe}
 }
 
 #menu li:hover {
-    background: #337ab7;
+    background: #4285f4;
     color: #fff;
     border: 0px;
 }
 
 #menu li.active {
-    background: #337ab7;
+    background: #4285f4;
     color: #fff;
     border: 0px;
 }
@@ -124,13 +126,32 @@ table#data td {
     border-left: 0px;
 }
 
-table#data thead td {
+table.data thead td {
     font-size: 12px;
     padding: 8px;
     border: 1px solid #eee;
 }
 
-table#data tr:hover {
+table.data tr:hover {
+    background: #eee;
+    cursor: hand;
+}
+
+table.data td {
+    font-size: 12px;
+    padding: 8px;
+    border: 1px solid #eee;
+    border-right: 0px;
+    border-left: 0px;
+}
+
+table.data thead td {
+    font-size: 12px;
+    padding: 8px;
+    border: 1px solid #eee;
+}
+
+table.data tr:hover {
     background: #eee;
     cursor: hand;
 }
@@ -177,7 +198,7 @@ table#data tr:hover {
 }
 #user img {
     border-radius: 3px !important;
-    border: 1px solid #eee;
+    border: 0px solid #eee;
 }
 
 .table-round {

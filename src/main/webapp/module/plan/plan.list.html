@@ -239,6 +239,7 @@
                                     <tr>
                                         <td style="width:40px;">No</td>
                                         <td style="width:85%">Борлуулагч</td>
+                                        <td style="width:85%">Гүйцэтгэл</td>
                                         <td style="width:5%;text-align: right;">Үйлдэл</td>
                                     </tr>
                                     </thead>
@@ -246,6 +247,7 @@
                                     <tr data-ng-repeat="item in plan.usersList">
                                         <td>{{item.id}}</td>
                                         <td>{{item.user.firstName}}</td>
+                                        <td><span class="label label-{{item.percent<50?'danger':'success'}}">%&nbsp;{{item.percent | number: 2}}</span></td>
                                         <td style="text-align:center;">
                                             <a data-ng-click="deleteuser(item)"><span class="glyphicon glyphicon-trash"></span></a>
                                         </td>

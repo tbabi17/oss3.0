@@ -18,12 +18,12 @@ public class ReportController {
 	@Autowired
 	ReportService service;
 
-	@RequestMapping(value = "report/weekday", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable weekday(@RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+	@RequestMapping(value = "report/view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable report(@RequestParam String report, @RequestParam String startDate, @RequestParam String endDate, @RequestParam int page, @RequestParam int size,HttpServletResponse response) {
 		response.setHeader("Access-Control-Allow-Origin", "*");
-		List list = service.weekDay(startDate, endDate, page, size);
+		List list = service.report(report, startDate, endDate, page, size);
 		Hashtable pageable = new Hashtable();
-		pageable.put("total", service.total());
+		pageable.put("total", service.total(report));
 		pageable.put("data", list);
 
 		return pageable;

@@ -63,6 +63,13 @@ public class ReportWeekDay {
     @Column
     private double sunAmt;
 
+    @Column
+    private int totalMCount;
+    @Column
+    private int totalECount;
+    @Column
+    private double totalAmt;
+
     @OneToOne
     @JoinColumn(name="userId", insertable=false, updatable=false)
     private User user;
@@ -249,5 +256,29 @@ public class ReportWeekDay {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getTotalMCount() {
+        return totalMCount;
+    }
+
+    public void setTotalMCount(int totalMCount) {
+        this.totalMCount = totalMCount;
+    }
+
+    public int getTotalECount() {
+        return totalECount;
+    }
+
+    public void setTotalECount(int totalECount) {
+        this.totalECount = totalECount;
+    }
+
+    public double getTotalAmt() {
+        return totalAmt;
+    }
+
+    public void setTotalAmt(double totalAmt) {
+        this.totalAmt = totalAmt;
     }
 }

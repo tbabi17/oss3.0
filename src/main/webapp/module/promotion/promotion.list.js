@@ -147,12 +147,11 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
         $('#product_modal').modal('show');
     };
 
-
     $scope.addproduct = function() {
         $scope.error = '';
         var passed = ($scope.detail.productId > 0 && parseFloat($scope.detail.qty) > 0 && parseFloat($scope.detail.price) && parseFloat($scope.detail.amount));
         if (passed) {
-            $rootScope.products.forEach(function (el, i, arr) {
+            $rootScope.products_all.forEach(function (el, i, arr) {
                 if (el.id == $scope.detail.productId)
                     $scope.detail.product = el;
             });
@@ -181,7 +180,7 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
     };
 
     $scope.log = function() {
-        $rootScope.products.forEach(function (el, i, arr) {
+        $rootScope.products_all.forEach(function (el, i, arr) {
             if (el.id == $scope.detail.productId) {
                 $scope.detail.product = el;
                 console.log($scope.detail.product);

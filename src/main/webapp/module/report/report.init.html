@@ -4,18 +4,28 @@
             <div data-ng-include="'template/left.html'"></div>
         </div>
         <div class="col-sm-10">
-           <div class="mod-white">
+            <div class="row">
+                <div class="mod-white">
                 <div class="title">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Борлуулагчийн идэвхи
+                        <div class="col-sm-3">
+                            <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Тайлан
                         </div>
-                        <div class="col-sm-6">
-                            <div class="input-group">
-                                <input type="text" class="form-control input input-sm" name="daterange" id="range"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary" type="button" ng-click="findOld(true)"><span class="glyphicon glyphicon-search"></span></button>
-                                </span>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <select class="form-control input-sm" data-ng-click="find()" data-ng-model="report_name">
+                                        <option data-ng-repeat="item in reports" value="{{item.name}}">{{item.title}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input input-sm" name="daterange" id="range"/>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary" type="button" ng-click="find()"><span class="glyphicon glyphicon-search"></span></button>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -24,20 +34,25 @@
                     <div class="col-sm-12">
                         <div class="table-round">
                             <div style="overflow-x:scroll;">
-                                <table id="data" style="width: 1600px;">
+                                <table class="data" style="width: 2000px;" id="weekDay" style="display: none;">
                                     <thead>
                                     <tr>
                                         <td rowspan="2" style="width:3%">Код</td>
                                         <td rowspan="2" style="width:6%">Борлуулагч</td>
-                                        <td colspan="3" style="width:13%; text-align: center;">Даваа</td>
-                                        <td colspan="3" style="width:13%; text-align: center;">Мягмар</td>
-                                        <td colspan="3" style="width:13%; text-align: center;">Лхагва</td>
-                                        <td colspan="3" style="width:13%; text-align: center;">Пүрэв</td>
-                                        <td colspan="3" style="width:13%; text-align: center;">Баасан</td>
-                                        <td colspan="3" style="width:13%; text-align: center;">Бямба</td>
-                                        <td colspan="3" style="width:13%; text-align: center;">Ням</td>
+                                        <td colspan="3" style="width:11%; text-align: center;">Даваа</td>
+                                        <td colspan="3" style="width:11%; text-align: center;">Мягмар</td>
+                                        <td colspan="3" style="width:11%; text-align: center;">Лхагва</td>
+                                        <td colspan="3" style="width:11%; text-align: center;">Пүрэв</td>
+                                        <td colspan="3" style="width:11%; text-align: center;">Баасан</td>
+                                        <td colspan="3" style="width:11%; text-align: center;">Бямба</td>
+                                        <td colspan="3" style="width:11%; text-align: center;">Ням</td>
+                                        <td colspan="3" style="width:14%; text-align: center;">Нийт</td>
                                     </tr>
                                     <tr>
+                                        <td style="text-align: center;">Цэг</td>
+                                        <td style="text-align: center;">Орсон</td>
+                                        <td style="text-align: center;">Дүн</td>
+
                                         <td style="text-align: center;">Цэг</td>
                                         <td style="text-align: center;">Орсон</td>
                                         <td style="text-align: center;">Дүн</td>
@@ -99,6 +114,90 @@
                                         <td style="text-align: center;">{{item.sunMCount}}</td>
                                         <td style="text-align: center;">{{item.sunECount}}</td>
                                         <td style="text-align: center;">{{item.sunAmt | currency: "₮ "}}</td>
+
+                                        <td style="text-align: center;"><b>{{item.totalMCount}}</b></td>
+                                        <td style="text-align: center;"><b>{{item.totalECount}}</b></td>
+                                        <td style="text-align: center;"><b>{{item.totalAmt | currency: "₮ "}}</b></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="data" id="productReport" style="display: none;">
+                                    <thead>
+                                        <tr>
+                                            <td rowspan="2" style="width:5%;">Код</td>
+                                            <td rowspan="2" style="width:15%;">Нэр</td>
+                                            <td rowspan="2" style="width:10%;">Төрөл</td>
+                                            <td colspan="2" style="text-align:center;width:15%;">Эхний үлд</td>
+                                            <td colspan="2" style="text-align:center;width:15%;">Орлого</td>
+                                            <td colspan="2" style="text-align:center;width:15%;">Зарлага</td>
+                                            <td colspan="2" style="text-align:center;width:15%;">Эцсийн үлд</td>
+                                            <td rowspan="2" style="text-align:center;width:5%;">Цэг</td>
+                                            <td rowspan="2" style="text-align:center;width:5%;">Борлуулагч</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center;">Тоо</td>
+                                            <td style="text-align:center;">Дүн</td>
+
+                                            <td style="text-align:center;">Тоо</td>
+                                            <td style="text-align:center;">Дүн</td>
+
+                                            <td style="text-align:center;">Тоо</td>
+                                            <td style="text-align:center;">Дүн</td>
+
+                                            <td style="text-align:center;">Тоо</td>
+                                            <td style="text-align:center;">Дүн</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="item in list">
+                                            <td>{{item.product.code}}</td>
+                                            <td>{{item.product.name}}</td>
+                                            <td>{{item.product.brand}}</td>
+                                            <td style="text-align:center;">{{item.firstCount}}</td>
+                                            <td style="text-align:center;">{{item.firstAmt | currency: "₮ "}}</td>
+
+                                            <td style="text-align:center;">{{item.inCount}}</td>
+                                            <td style="text-align:center;">{{item.inAmt | currency: "₮ "}}</td>
+
+                                            <td style="text-align:center;">{{item.outCount}}</td>
+                                            <td style="text-align:center;">{{item.outAmt | currency: "₮ "}}</td>
+
+                                            <td style="text-align:center;"><b>{{item.lastCount}}</b></td>
+                                            <td style="text-align:center;"><b>{{item.lastAmt | currency: "₮ "}}</b></td>
+                                            <td style="text-align:center;">{{item.entry}}</td>
+                                            <td style="text-align:center;">{{item.owners}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="data" id="customerReport" style="display: none;">
+                                    <thead>
+                                    <tr>
+                                        <td style="width:5%">Код</td>
+                                        <td style="width:18%">Нэр</td>
+                                        <td style="width:10%">Чиглэл</td>
+                                        <td style="width:9%; text-align: center;">Орох</td>
+                                        <td style="width:9%; text-align: center;">Орсон</td>
+                                        <td style="width:9%; text-align: center;">Борлуулагч</td>
+                                        <td style="width:9%; text-align: center;">Бүтээгдэхүүн</td>
+                                        <td style="width:9%; text-align: center;">Тоо</td>
+                                        <td style="width:10%; text-align: center;">Дүн</td>
+                                        <td style="width:12%">Сүүлийн огноо</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-ng-repeat="item in list">
+                                        <td>{{item.customer.id}}</td>
+                                        <td>{{item.customer.name}}</td>
+                                        <td>{{item.customer.routeName.routeName}}</td>
+                                        <td style="text-align: center;">{{item.entryM}}</td>
+                                        <td style="text-align: center;">{{item.entryE}}</td>
+                                        <td style="text-align: center;">{{item.owners}}</td>
+                                        <td style="text-align: center;">{{item.products}}</td>
+                                        <td style="text-align: center;">{{item.qty}}</td>
+                                        <td style="text-align: center;">{{item.amount | currency:"₮ "}}</td>
+                                        <td>{{item.lastDate}}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -119,6 +218,7 @@
                        </div>
                    </div>
                </div>
+            </div>
             </div>
         </div>
     </div>

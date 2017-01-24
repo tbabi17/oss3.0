@@ -35,7 +35,7 @@ public class CustomerOnly {
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="route", nullable=false, insertable=false, updatable=false)
-    private Route routeName;
+    private RouteOnly routeName;
 
     public int getId() {
         return id;
@@ -115,5 +115,13 @@ public class CustomerOnly {
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public RouteOnly getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(RouteOnly routeName) {
+        this.routeName = routeName;
     }
 }

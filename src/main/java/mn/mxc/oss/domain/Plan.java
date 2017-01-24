@@ -11,6 +11,10 @@ import java.util.List;
                 name = "planExecute",
                 query = "update plan p set p.percent=floor((select sum(s.amount) from stockbalance s where s.qty<0 and s.createdDate between p.startDate and p.endDate)*100/p.amount) where p.status='active'",
                 resultClass = Plan.class
+        ),
+        @NamedNativeQuery(
+                name = "planExecuteByUser",
+                query = "update planusers p set p.percent=ifnull(floor((select sum(s.amount) from stockbalance s where s.qty<0 and s.createdDate between (select max(startDate) from plan where planId=p.planId) and (select max(endDate) from plan where planId=p.planId) and s.userId=p.userId)*100/( (select max(amount) from plan where planId=p.planId)) ),0)"
         )
 })
 @Entity

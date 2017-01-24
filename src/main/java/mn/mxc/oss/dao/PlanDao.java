@@ -25,6 +25,10 @@ public class PlanDao extends GenericDao<Plan> {
         Transaction tx = session.beginTransaction();
         Query query = session.getNamedQuery("planExecute");
         query.executeUpdate();
+
+        query = session.getNamedQuery("planExecuteByUser");
+        query.executeUpdate();
+
         crit = session.createCriteria(Plan.class);
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);

@@ -15,6 +15,8 @@ public class PlanUsers {
     @Column
     private String planId;
     @Column
+    private double percent;
+    @Column
     private int userId;
 
     @ManyToOne
@@ -57,5 +59,13 @@ public class PlanUsers {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 }

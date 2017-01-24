@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ReportDao extends GenericDao<ReportWeekDay> {
+public class ReportWeekDao extends GenericDao<ReportWeekDay> {
 
-    public List<ReportWeekDay> weekDay(String startDate, String endDate, int page, int size) {
+    public List<ReportWeekDay> report(String startDate, String endDate, int page, int size) {
         session = getSession();
         Transaction tx = session.beginTransaction();
         String sql = "delete from ReportWeekDay";
@@ -22,7 +22,9 @@ public class ReportDao extends GenericDao<ReportWeekDay> {
         query.setParameter("userType", "salesman");
         query.executeUpdate();
 
-        sql = "update ReportWeekDay set totalMCount=monMCount+tueMCount+wedMCount+thuMCount+friMCount+satMCount+sunMCount";
+        sql = "update ReportWeekDay set totalMCount=monMCount+tueMCount+wedMCount+thuMCount+friMCount+satMCount+sunMCount," +
+                "totalECount=monECount+tueECount+wedECount+thuECount+friECount+satECount+sunECount," +
+                "totalAmt=monAmt+tueAmt+wedAmt+thuAmt+friAmt+satMCount+sunAmt";
         sqlQuery = session.createSQLQuery(sql);
         sqlQuery.executeUpdate();
 
