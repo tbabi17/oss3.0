@@ -19,13 +19,14 @@
                             <table id="data">
                             <thead>
                             <tr>
-                                <td style="width:11%;">No</td>
-                                <td style="width:13%">Харилцагч</td>
-                                <td style="width:9%">Борлуулагч</td>
+                                <td style="width:10%;">No</td>
+                                <td style="width:15%">Харилцагч</td>
+                                <td style="width:8%">Борлуулагч</td>
                                 <td style="width:5%;text-align: right;">Тоо</td>
                                 <td style="width:9%;text-align: right;">Дүн</td>
+                                <td style="width:7%;text-align: center;">Байршил</td>
                                 <td style="width:9%;">Төлөв</td>
-                                <td style="width:10%;">Агуулах</td>
+                                <td style="width:8%;">Агуулах</td>
                                 <td style="width:12%">Үүссэн</td>
                                 <td style="width:12%">Өөрчилсөн</td>
                                 <td style="width:5%;text-align:center;">Үйлдэл</td>
@@ -38,6 +39,7 @@
                                 <td>{{item.user.firstName}}</td>
                                 <td style="text-align: right;">{{item.qty |  number: 0}}</td>
                                 <td style="text-align: right;">{{item.amount |  currency: "₮ "}}</td>
+                                <td style="text-align: center;">{{item.lat}}&nbsp;{{item.lng}}</td>
                                 <td><span class="label label-{{item.status}}">{{statusName[item.status]}}</span></td>
                                 <td>{{item.warehouse.name}}</td>
                                 <td>{{item.createdDate}}</td>
@@ -101,13 +103,14 @@
                                 <table id="data">
                                 <thead>
                                 <tr>
-                                    <td style="width:11%;">No</td>
-                                    <td style="width:13%">Харилцагч</td>
-                                    <td style="width:9%">Борлуулагч</td>
+                                    <td style="width:10%;">No</td>
+                                    <td style="width:15%">Харилцагч</td>
+                                    <td style="width:8%">Борлуулагч</td>
                                     <td style="width:5%;text-align: right;">Тоо</td>
                                     <td style="width:9%;text-align: right;">Дүн</td>
+                                    <td style="width:7%;text-align: center;">Байршил</td>
                                     <td style="width:9%;">Төлөв</td>
-                                    <td style="width:10%;">Агуулах</td>
+                                    <td style="width:8%;">Агуулах</td>
                                     <td style="width:12%">Үүссэн</td>
                                     <td style="width:12%">Өөрчилсөн</td>
                                     <td style="width:5%;text-align:center;">Үйлдэл</td>
@@ -120,6 +123,7 @@
                                     <td>{{item.user.firstName}}</td>
                                     <td style="text-align: right;">{{item.qty |  number: 0}}</td>
                                     <td style="text-align: right;">{{item.amount |  currency: "₮ "}}</td>
+                                    <td style="text-align: center;">{{item.lat}}&nbsp;{{item.lng}}</td>
                                     <td><span class="label label-{{item.status}}">{{statusName[item.status]}}</span></td>
                                     <td>{{item.warehouse.name}}</td>
                                     <td>{{item.createdDate}}</td>
