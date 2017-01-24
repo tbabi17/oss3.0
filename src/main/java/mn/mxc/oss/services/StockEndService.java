@@ -20,6 +20,7 @@ public class StockEndService {
 	}
 
 	public List<StockCurrent> findAll(int page, int size) { return dao.findAll(page, size); }
+	public List<StockCurrent> findAvailable(int page, int size) { return dao.findAvailable(page, size); }
 	public List<BalanceByUser> balanceByUsers(String startDate, String endDate, int page, int size) { return dao.balanceByUsers(startDate, endDate); }
 	public List<BalanceByProduct> balanceByProducts(String startDate, String endDate, int page, int size) { return dao.balanceByProduct(startDate, endDate); }
 	public List<BalanceByDay> balanceByDay(String startDate, String endDate, int page, int size) { return dao.balanceByDay(startDate, endDate); }
