@@ -28,6 +28,16 @@ public class StockController {
 		return pageable;
 	}
 
+	@RequestMapping(value = "stock/findAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findAvailable(@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		List list = service.findAvailable(page, size);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", service.total());
+		pageable.put("data", list);
+		return pageable;
+	}
+
 	@RequestMapping(value = "stock/clear", method = RequestMethod.DELETE)
 	public void delete(@RequestParam int warehouseId) {
 

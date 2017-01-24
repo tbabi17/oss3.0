@@ -4,6 +4,7 @@ import mn.mxc.oss.domain.*;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -89,6 +90,7 @@ public class StockDao extends GenericDao<StockCurrent> {
         crit.setFirstResult((page-1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.eq("wareHouseId", new Integer(warehouseId)));
+        crit.addOrder(Order.desc("lastBalance"));
         List<StockCurrent> list = crit.list();
         total = totalUniq(crit);
         tx.commit();
@@ -97,5 +99,19 @@ public class StockDao extends GenericDao<StockCurrent> {
 
     public List<StockCurrent> findAll(int page, int size) {
         return findAll(StockCurrent.class, page, size);
+    }
+
+    public List<StockCurrent> findAvailable(int page, int size) {
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        crit = session.createCriteria(StockCurrent.class);
+        crit.setFirstResult((page-1)*size);
+        crit.setMaxResults(size);
+        crit.add(Restrictions.gt("lastBalance", (double)0.0f));
+        crit.addOrder(Order.desc("lastBalance"));
+        List<StockCurrent> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
+        return list;
     }
 }

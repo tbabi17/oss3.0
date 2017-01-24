@@ -4,6 +4,7 @@ import mn.mxc.oss.domain.Details;
 import mn.mxc.oss.domain.Orders;
 import mn.mxc.oss.domain.StockBalance;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,7 @@ public class OrderDao extends GenericDao<Orders> {
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.ne("status", "info"));
+        crit.addOrder(Order.desc("createdDate"));
         List<Orders> list = crit.list();
         total = totalUniq(crit);
         tx.commit();
@@ -39,6 +41,7 @@ public class OrderDao extends GenericDao<Orders> {
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.eq("status", "info"));
+        crit.addOrder(Order.desc("createdDate"));
         List<Orders> list = crit.list();
         total = totalUniq(crit);
         tx.commit();
