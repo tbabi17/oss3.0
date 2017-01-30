@@ -74,6 +74,7 @@ public class OrderDao extends GenericDao<Orders> {
         crit.add(Restrictions.between("createdDate", start+" 00:00:00", end+" 23:59:59"));
         crit.add(Restrictions.eq("mode", "zarlaga"));
         crit.add(Restrictions.gt("lat", 0.0f));
+        crit.addOrder(Order.asc("createdDate"));
         List<Orders> list = crit.list();
         total = totalUniq(crit);
         tx.commit();
