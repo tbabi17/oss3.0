@@ -71,6 +71,13 @@ angular
             if ($location.path().length > 5)
                 $('li#'+$location.path().substring(1, $location.path().length)).addClass('active');
 
+            $rootScope.setupCheck = function() {
+                if ($rootScope.products_all.length > 0) {
+                    $rootScope.warning_text = 'Бараа, бүтээгдэхүүн бүртгэгдээгүй байна !';
+                    //$('#alert_modal').modal('show');
+                }
+            };
+
             $rootScope.selectWareHouse = function(item) {
                 $http.get('product/findAvailable?warehouseId='+item).then(function (response) {
                     $rootScope.products = response == undefined ? {} : response.data.data;
@@ -81,6 +88,7 @@ angular
             $rootScope.getProductList = function() {
                 $http.get('product/findAll?page=1&size=50').then(function (response) {
                     $rootScope.products_all = response == undefined ? {} : response.data.data;
+                    $rootScope.setupCheck();
                 }, function (response) {
                     $rootScope.products_all = {};
                 });

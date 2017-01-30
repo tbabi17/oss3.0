@@ -11,11 +11,11 @@
                         <div class="col-sm-6">
                             <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Шинэ болон чиглэл тодорхойгүй
                         </div>
-                        <div class="col-sm-3" style="text-align: right;">
-                            <button class="btn btn-sm btn-primary" type="button" ng-click="add()">Шинэ харилцагч</button>
-                        </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-6">
                             <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-sm btn-success" type="button" ng-click="add()">Шинэ харилцагч бүртгэх</button>
+                                </span>
                                 <input type="text" class="form-control input input-sm col-sm-6" placeholder="Хайх утгаа оруулна уу" data-ng-model="search.value">
                                 <span class="input-group-btn">
                                     <button class="btn btn-sm btn-primary" type="button" ng-click="find()"><span class="glyphicon glyphicon-search"></span></button>
@@ -142,7 +142,7 @@
 </div>
 
 <div id="modal" class="modal fade">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="text-align: center;">
                 <div class="pull-right white-color pointer" data-dismiss="modal" aria-hidden="true"
@@ -151,8 +151,8 @@
             </div>
             <div class="modal-body">
                 <div style="font-size:13px;text-align: justify">
-                    <form class="form-horizontal" role="form" name="userForm">
-                        <div class="col-sm-12">
+                    <form class="form-horizontal" role="form" name="customerForm">
+                        <div class="col-sm-5">
                             <div class="form-group">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">Нэр</label>
                                 <div class="col-sm-8">
@@ -173,14 +173,11 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">Байршил</label>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <input type="text" class="form-control input input-sm" data-ng-model="selected.lat">
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <input type="text" class="form-control input input-sm" data-ng-model="selected.lng">
-                                </div>
-                                <div class="col-sm-2">
-                                    <a target="_blank" ng-href="https://www.google.com/maps/preview/@{{selected.lat}},{{selected.lng}},14(Info+Window">Байршил харах</a>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -205,6 +202,46 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <div class="table-round">
+                                    <table id="data">
+                                        <thead>
+                                        <tr>
+                                            <td style="width:40%">Хэзээ</td>
+                                            <td style="width:20%">Борлуулагч</td>
+                                            <td style="width:20%;text-align: right;">Дүн</td>
+                                            <td style="width:20%;">Төлөв</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="item in orders">
+                                            <td>{{item.createdDate}}</td>
+                                            <td>{{item.user.firstName}}</td>
+                                            <td style="text-align: right;">{{item.amount |  currency: "₮ "}}</td>
+                                            <td><span class="label label-{{item.status}}">{{statusName[item.status]}}</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div  style="float: left;">
+                                            <span style="font-weight: bold;">Нийт: {{total_orders || 0 |  number:0}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="pageable">
+                                            <pagination  style="margin: 0" ng-change="findOrder()" page-label="0" items-per-page="size" boundary-links="true" total-items="total_orders" max-size="size" ng-model="order_page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
                         </div>
                         <div class="form-group">

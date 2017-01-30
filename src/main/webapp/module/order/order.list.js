@@ -9,7 +9,7 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
     $scope.statusName = [];
     $scope.statusName['info'] = "Шинэ захиалга";
     $scope.statusName['success'] = "Зөвшөөрсөн";
-    $scope.statusName['alert'] = "Буцаасан";
+    $scope.statusName['danger'] = "Буцаасан";
 
     $('input[name="daterange"]').daterangepicker({
         locale: {
@@ -38,7 +38,8 @@ angular.module('order_list', []).controller('order_list', function($rootScope, $
         var fun = 'findByNonNewOrder';
         var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
         var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
-        var field = '&startDate='+start+'&endDate='+end;
+        var field = '&start='+start+'&end='+end;
+        if (find) fun = 'findBySearch';
         $http.get('order/'+fun+'?userId='+$scope.search.user+field+'&page='+$scope.page + '&size=' + $scope.size).then(function (response) {
             $scope.old = response.data.data;
             $scope.oldtotal = response.data.total;

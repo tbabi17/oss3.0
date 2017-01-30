@@ -26,7 +26,7 @@ public class OrderDao extends GenericDao<Orders> {
         crit = session.createCriteria(Orders.class);
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
-        crit.add(Restrictions.ne("status", "info"));
+        crit.add(Restrictions.eq("status", "success"));
         crit.addOrder(Order.desc("createdDate"));
         List<Orders> list = crit.list();
         total = totalUniq(crit);
@@ -40,7 +40,7 @@ public class OrderDao extends GenericDao<Orders> {
         crit = session.createCriteria(Orders.class);
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
-        crit.add(Restrictions.eq("status", "info"));
+        crit.add(Restrictions.ne("status", "success"));
         crit.addOrder(Order.desc("createdDate"));
         List<Orders> list = crit.list();
         total = totalUniq(crit);
@@ -69,6 +69,7 @@ public class OrderDao extends GenericDao<Orders> {
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.eq("customerId", customer_id));
+        crit.addOrder(Order.desc("createdDate"));
         List<Orders> list = crit.list();
         total = totalUniq(crit);
         tx.commit();

@@ -117,7 +117,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr data-ng-repeat="item in old">
+                                <tr data-ng-repeat="item in old" data-ng-click="dialog(item)">
                                     <td><span class="label label-default">{{item.orderId}}</span></td>
                                     <td>{{item.customer.name}}</td>
                                     <td>{{item.user.firstName}}</td>
@@ -212,10 +212,10 @@
                             <div class="form-group">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">Төлөв</label>
                                 <div class="col-sm-8">
-                                    <select data-ng-model="selected.status" class="form-control input input-sm">
-                                        <option value="info">Шинэ хүсэлт</option>
+                                    <select data-ng-model="selected.status" class="form-control input input-sm btn-primary">
+                                        <option value="info">Шинэ захиалга</option>
                                         <option value="success">Зөвшөөрсөн</option>
-                                        <option value="alert">Буцаасан</option>
+                                        <option value="danger">Буцаасан</option>
                                     </select>
                                 </div>
                             </div>

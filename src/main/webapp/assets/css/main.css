@@ -76,10 +76,19 @@ table {
     border-collapse: collapse;
 }
 
+table tr {
+    cursor: pointer;
+}
+
+table tr:hover {
+    background: #f1f1f1 !important;
+}
+
 table tr td {
     padding: 10px;
     border: 1px solid #e7e7e7;
     font-size: 13px;
+    cursor: pointer;
 }
 
 thead td {
@@ -364,4 +373,9 @@ label {
 .label {
     font-size: 100% !important;
     font-weight: normal;
+}
+
+select option {
+    font-size: 12pt;
+    border: 1px solid #aaa;
 }

@@ -7,6 +7,15 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
     $scope.page = 1;
     $scope.size = 15;
     $scope.error = '';
+
+    $scope.orders = [];
+    $scope.order_page = 1;
+    $scope.total_orders = [];
+
+    $scope.statusName = [];
+    $scope.statusName['info'] = "Шинэ захиалга";
+    $scope.statusName['success'] = "Зөвшөөрсөн";
+    $scope.statusName['danger'] = "Буцаасан";
     $scope.find = function() {
         var fun = 'findByNonRoute';
         if ($scope.search.value) fun = 'findBySearch';
@@ -16,6 +25,17 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
         }, function(response) {
             $scope.list = [];
             $scope.total = 0;
+        });
+    };
+
+    $scope.findOrder = function(id) {
+        var fun = 'findByCustomerOrder';
+        $http.get('order/'+fun+'?customer_id='+id+'&page='+$scope.order_page+'&size='+$scope.size).then(function(response) {
+            $scope.orders = response.data.data;
+            $scope.total_orders = response.data.total;
+        }, function(response) {
+            $scope.orders = [];
+            $scope.total_orders = 0;
         });
     };
 
@@ -93,6 +113,7 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
     $scope.dialog = function(item) {
         $scope.selected = item;
         $('#modal').modal('show');
+        $scope.findOrder(item.id);
     };
 
     $scope.route_dialog = function(item) {

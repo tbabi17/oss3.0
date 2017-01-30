@@ -20,6 +20,8 @@ public class ReportWeekDao extends GenericDao<ReportWeekDay> {
 
         Query query = session.getNamedQuery("weekDay");
         query.setParameter("userType", "salesman");
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
         query.executeUpdate();
 
         sql = "update ReportWeekDay set totalMCount=monMCount+tueMCount+wedMCount+thuMCount+friMCount+satMCount+sunMCount," +
