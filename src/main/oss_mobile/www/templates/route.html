@@ -1,0 +1,17 @@
+<ion-modal-view>
+	<ion-header-bar class="bar bar-header bar-positive">
+	  <h1 class="title">Чиглэлүүд</h1>
+	  <button class="button button-clear button-primary" ng-click="route.hide()">Буцах</button>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<ion-list>
+			<ion-radio ng-model="searchQuery.route" ng-value="'{{user_routes[0].monRoute.id}}'" ng-show="user_routes[0].monRoute!=null" ng-click="route.hide()">{{user_routes[0].monRoute.routeName}}</ion-radio>
+			<ion-radio ng-model="searchQuery.route" ng-value="'{{user_routes[0].tueRoute.id}}'" ng-show="user_routes[0].tueRoute!=null" ng-click="route.hide()">{{user_routes[0].tueRoute.routeName}}</ion-radio>
+			<ion-radio ng-model="searchQuery.route" ng-value="'{{user_routes[0].wedRoute.id}}'" ng-show="user_routes[0].wedRoute!=null" ng-click="route.hide()">{{user_routes[0].wedRoute.routeName}}</ion-radio>
+			<ion-radio ng-model="searchQuery.route" ng-value="'{{user_routes[0].thuRoute.id}}'" ng-show="user_routes[0].thuRoute!=null" ng-click="route.hide()">{{user_routes[0].thuRoute.routeName}}</ion-radio>
+			<ion-radio ng-model="searchQuery.route" ng-value="'{{user_routes[0].friRoute.id}}'" ng-show="user_routes[0].friRoute!=null" ng-click="route.hide()">{{user_routes[0].friRoute.routeName}}</ion-radio>
+			<ion-radio ng-model="searchQuery.route" ng-value="'{{user_routes[0].satRoute.id}}'" ng-show="user_routes[0].satRoute!=null" ng-click="route.hide()">{{user_routes[0].satRoute.routeName}}</ion-radio>
+			<ion-radio ng-model="searchQuery.route" ng-value="'{{user_routes[0].sunRoute.id}}'" ng-show="user_routes[0].sunRoute!=null" ng-click="route.hide()">{{user_routes[0].sunRoute.routeName}}</ion-radio>
+		</ion-list> 
+	</ion-content>
+</ion-modal-view>

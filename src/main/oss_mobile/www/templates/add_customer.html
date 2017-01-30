@@ -1,0 +1,36 @@
+<ion-view view-title="Харилцагч нэмэх">
+<div class="content has-header">
+<form name="customerForm">
+  <div class="list list-inset">
+	<label class="item item-input">
+	  <input type="text" ng-model="customer.name" placeholder="Нэр" required>
+	</label>
+	<label class="item item-input">
+	  <input type="text" ng-model="customer.address" placeholder="Хаяг" required>
+	</label>
+	<label class="item item-input">
+	  <input type="text" ng-model="customer.phone" placeholder="Утас" required>
+	</label>
+	<label class="item item-input item-select">
+		<div class="input-label">
+		 Чиглэл
+		</div>
+		<select ng-model="customer.route" required>
+		  <option value="{{item.id}}" ng-repeat="item in routes">{{item.routeName}}</option>
+		</select>
+	</label>
+	<label class="item item-input item-select">
+		<div class="input-label">
+		Үнийн төрөл
+		</div>
+		<select ng-model="customer.price"  required>
+		  <option ng-repeat="item in pricetags" value="{{item.id}}">{{item.tagName}}</option>
+		</select>
+	</label>
+  </div>
+  <div class="padding">
+	<button class="button button-block button-positive" ng-click="saveCustomer(customer)"><i class="icon ion-ios-plus-outline"></i> Нэмэх</button>
+  </div>
+  </form>
+</div>
+</ion>
