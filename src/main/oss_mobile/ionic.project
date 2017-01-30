@@ -1,0 +1,10 @@
+{
+  "name": "tomcat",
+  "app_id": "",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://10.220.113.78:8080"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+<ion-view view-title="Optimal SFA">
+<ion-content has-header="true">
+	<ion-refresher
+    pulling-text="Доошоо чирж мэдээллээ шинэчлэх..."
+    on-refresh="refreshHistory()">
+  </ion-refresher>
+  <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+	<ion-item class="pd0">
+		<div class="row pd0">
+			<div class="col col-75">
+				<h2 class="cname">{{cname}}</h2>
+				<span class="caddress">{{caddress}}</span>
+			</div>
+			<div class="col col-25" style="text-align: right;">
+				<button class="button button-assertive icon ion-ios-location-outline" ng-click="getPosTest()"></button>
+			</div>
+		</div>
+	</ion-item>
+	<ion-item class="text-center" ng-show="!orders.length">
+		<h2 class="no_orders_title"> <i class="ion-ios-information-outline"></i> Борлуулалтын түүх олдсонгүй</h2>
+	</ion-item>
+	<ion-item ng-repeat="item in orders" 
+			  item="item"
+			   class="item-remove-animate item-custom" ng-click="orderHistory(item)">
+			  <div class="row" style="height: 80px; line-height: 30px;">
+				<div class="col col-70">
+				  № {{item.orderId}}
+				  <p><span class="status colored">{{item.qty | number:2}}</span>&nbsp;<span class="status colored">{{item.amount | currency: "₮ "}}</span>					
+				  </p>
+				</div>				
+				<div class="col text-right"> 				  
+				  <p>{{item.createdDate.split(' ')[0]}}</p>
+				  <label class="label label-{{item.status}}"> {{statusName[item.status]}}</label>
+				</div>
+			  </div>
+	</ion-item>
+  </ion-list>
+  </ion-content>
+  
+  <ion-floating-button click="add_sale()" has-footer="false" button-color="#2AC9AA" icon="ion-plus" icon-color="#fff"></ion-floating-button>
+</ion-view>

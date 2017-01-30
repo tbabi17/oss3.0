@@ -1,0 +1,21 @@
+<ion-view view-title="Нэвтрэх" name="login-view" hide-nav-bar="true">
+  <ion-content class="padding login">
+		<div style="text-align:center; padding: 30px;">
+			<h3 style="color:#333;">Optimal SFA</h3>
+		</div>
+	    <div class="list list-inset">
+			<label class="item item-input">
+				<input type="text" placeholder="Хэрэглэгчийн код" ng-model="inputData.user">
+			</label>
+			<label class="item item-input">
+				<input type="password" placeholder="Нууц үг" ng-model="inputData.pass">
+			</label>
+		</div>
+		<button class="button button-block button-calm" ng-click="loginRequest()">Нэвтрэх</button>
+		
+		<div id="map" data-tap-disabled="true" style="height:200px; width:100%;"></div>
+  </ion-content>
+	<div class="bar bar-footer">
+		<p>OSS v4.1 Мэдээлэл харилцааны систем @2017</p>
+	</div>
+</ion-view>

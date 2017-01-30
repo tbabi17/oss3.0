@@ -1,0 +1,401 @@
+/* Empty. Add your own CSS if you like */
+.mui-textfield {
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+}
+.mui-textfield>input, .mui-textfield>textarea {
+    display: block;
+    background-color: transparent;
+    color: rgba(0,0,0,.87);
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,.26);
+    outline: 0;
+    width: 100%;
+    font-size: 16px;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+    background-image: none;
+}
+.mui-textfield>input:focus {
+    height: 33px;
+    margin-bottom: -1px;
+}
+.mui-textfield>input:focus~label,
+.mui-textfield>textarea:focus~label {
+    color: #2196F3
+}
+.mui-textfield--float-label>label {
+    position: absolute;
+    transform: translate(0, 15px);
+    font-size: 16px;
+    line-height: 32px;
+    color: rgba(0, 0, 0, .26);
+    text-overflow: clip;
+    cursor: text;
+    pointer-events: none
+}
+.mui-textfield--float-label>input:focus~label,
+.mui-textfield--float-label>textarea:focus~label {
+    transform: translate(0, 0);
+    font-size: 12px;
+    line-height: 15px;
+    text-overflow: ellipsis
+}
+body {
+  cursor: url('http://ionicframework.com/img/finger.png'), auto;
+}
+#profile-bg {
+	position: fixed;
+	left: 0;
+	top: 44px;
+	width: 100%;
+	height: 150px;
+
+/*     background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/94311/bg.jpg') no-repeat transparent;*/
+	background-size: 100%;
+	background-position: 50% 20%;
+
+	text-align: center;
+  }
+
+  #content {
+	position: relative;
+	margin-top: 75px;
+	background-color: white;
+	padding-top: 181px;
+  }
+
+  #profile-info {
+	position: absolute;
+	top: -95px;
+	width: 100%;
+	z-index: 2;
+	text-align: center;
+  }
+  #profile-name {
+	color: #444;
+	font-size: 26px;
+  }
+  #profile-description {
+	font-size: 15px;
+	color: #888;
+  }
+  #profile-description a {
+	color: #888;
+  }
+
+  #profile-image {
+	display: block;
+	border: 1px solid #fff;
+	width: 64px;
+    height: 64px;
+	margin: 5px 5px;
+	box-shadow: 0px 0px 4px rgba(80,80,80,0.7);
+  }
+
+  .list-item-content {
+	padding: 5px;
+  }
+
+  .list-item {
+	color: #666666;
+  }
+
+  .post {
+	color: #444;
+  }
+
+  .post-time {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	font-size: 11px;
+	color: #888;
+  }
+
+  .post-profile-image {
+	display: inline-block;
+	vertical-align: top;
+	width: 48px;
+	height: 48px;
+	margin-right: 10px;
+  }
+  .post-options {
+	position: absolute;
+	font-size: 16px;
+	right: 5px;
+	bottom: 5px;
+	color: #888;
+  }
+.searchBar {
+color: #fff;
+margin: 0 !important;
+padding: 0;
+}
+.searchBar .icon {
+	font-size: 27px;
+	line-height: 1.2;
+	padding-right: 6px;
+	padding-left: 6px;
+}
+.searchBar .searchTxt {
+	border-bottom: 1px solid #fff;
+	left: 55px;
+	width: calc(100% - 100px);
+	position: fixed;
+	height: calc(100% - 10px);
+}
+.searchBar.numicons2 .searchTxt {
+	width: calc(100% - 135px);
+}
+.searchBar .searchTxt > .bgdiv {
+	background-color: #aaa;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	opacity: 0.3;
+}
+.searchBar .searchTxt > .bgtxt {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.searchBar .searchTxt input {
+	background-color: inherit;
+	color: #fff;
+	padding-left: 5px;
+	padding-right:5px;
+}
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+a.label:hover,
+a.label:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.label:empty {
+  display: none;
+}
+.btn .label {
+  position: relative;
+  top: -1px;
+}
+.label-default {
+  background-color: #777;
+}
+.label-default[href]:hover,
+.label-default[href]:focus {
+  background-color: #5e5e5e;
+}
+.label-primary {
+  background-color: #337ab7;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+  background-color: #286090;
+}
+.label-success {
+  background-color: #5cb85c;
+}
+.label-success[href]:hover,
+.label-success[href]:focus {
+  background-color: #449d44;
+}
+.label-info {
+  background-color: #5bc0de;
+}
+.label-info[href]:hover,
+.label-info[href]:focus {
+  background-color: #31b0d5;
+}
+.label-warning {
+  background-color: #f0ad4e;
+}
+.label-warning[href]:hover,
+.label-warning[href]:focus {
+  background-color: #ec971f;
+}
+.label-danger {
+  background-color: #d9534f;
+}
+.label-danger[href]:hover,
+.label-danger[href]:focus {
+  background-color: #c9302c;
+}
+.text-right{
+	text-align:right;
+}
+.product_img{
+	height: 50px !important;
+    width: 40px !important;
+	margin: 8px;
+}
+.item-thumbnail-left, .item-thumbnail-left .item-content {
+    padding-left: 0px !important;
+    min-height: 68px;
+}
+.prop{
+	margin-bottom: 20px
+}
+.item-input-wrapper {
+	background: #fff !important;
+}
+.item-input-wrapper ~ .button {
+    margin-left: 0px !important; 
+}
+.pd0{
+	padding:0px !important;	
+}
+.mtb0{
+	margin:0px !important;
+}
+.item-input-inset .item-input-wrapper input {
+    height: 47px;
+}
+.button{
+	border-radius:0px !important;
+}
+.calculator{
+	display:none;
+}
+.product_list{
+    padding-bottom: 50px;
+    margin-top: -5px;
+}
+.product_title{
+	color: #3944c8;
+    font-weight: bold !important;
+}
+.customer_title{
+	padding:5px;
+	color: #3944c8;
+    font-weight: bold !important;
+}
+.customer_address{
+	padding:5px;
+	color: grey;
+	font-size:12px;
+}
+.button-small {
+    padding: 5px 10px !important;
+}
+.item-custom{
+	padding: 0px;
+}
+.no_orders_title{
+	padding:20px;
+	color: grey;
+	font-weight:bold !important;
+}
+.f12{
+	font-size: 12px !important;
+    padding: 0px;
+}
+.nb{
+	border: none;
+}
+hr{
+	width: 100%;
+    border-style: dashed;
+}
+.login{
+	background: #f2f2f2;
+	background-size: 100%;;
+}
+.bar-bottom{
+	position:absolute;
+	bottom:0px !important;
+	text-align:center !important;
+	color:#fff;
+}
+.logo-wrap{
+	width:100%;
+}
+.logo{
+	margin:15px auto;
+    display: block;
+	height:120px;
+	width:120px;
+}
+.fixed-header{
+  margin-top:43px;
+  /* 
+   The ionic header bar is 43px in height,
+   put your content below the header bar.
+  */
+}
+
+.platform-webview.platform-ios.platform-cordova .fixed-header{
+  margin-top:63px;
+  /* On iOS, moving a div out of ion-content,
+  I think you need to compensation for the 20px system status bar.
+  so it's 43px+20px=63px. but I'm not so sure, it hasn't been tested.
+  Test it yourself and make modifications if needed.
+  */
+}
+.ion-content-below{
+  margin-top:115px!important;
+}
+.cname{
+	font-weight:normal;
+	color: #333;
+	text-transform:uppercase;
+}
+.caddress{
+	color:#aaa;
+	font-weight: normal;
+	font-size:14px !important;
+}
+.ready_btn{
+	margin-top:0px !important;
+	padding:5px;
+}
+
+.list a {
+	min-height: 60px;
+	line-height: 40px;
+}
+
+.status {
+	background: #fff;
+	color: #333;
+	border-radius: 3px;
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: auto;
+	display: inline-block;
+}
+
+.status.green {
+	background: #5cb85c;
+	color: #fff;
+	padding: 2px;
+	line-height: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.status.colored {
+	background: #ddd;
+	color: #444;
+	padding: 2px;
+	line-height: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
