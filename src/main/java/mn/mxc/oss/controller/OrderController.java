@@ -43,6 +43,16 @@ public class OrderController {
 		return pageable;
 	}
 
+	@RequestMapping(value = "order/findByCoordinate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findByCoordinate(@RequestParam int userId, @RequestParam String start, @RequestParam String end, @RequestParam int page, @RequestParam int size) {
+		List list = service.findByCoordinate(userId, start, end, page, size);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", service.total());
+		pageable.put("data", list);
+		service.close();
+		return pageable;
+	}
+
 	@RequestMapping(value = "order/findByNewOrder", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findByNewOrder(@RequestParam int page, @RequestParam int size) {
 		List list = service.findByNewOrder(page, size);

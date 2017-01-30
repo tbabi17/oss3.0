@@ -6,9 +6,7 @@ import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
-/**
- * Created by i7 on 12/09/2016.
- */
+
 public class GpsDao extends GenericDao<Gps> {
     public Gps findOne(final int id) {
         return findOne(Gps.class, id);
@@ -21,7 +19,6 @@ public class GpsDao extends GenericDao<Gps> {
         Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Gps.class);
         crit.add(Restrictions.eq("UserId",userid));
-        //crit.add(Restrictions.between("createdDate",password));
         List<Gps> list = crit.list();
         if (list.size() > 0) {
             tx.commit();
@@ -30,5 +27,4 @@ public class GpsDao extends GenericDao<Gps> {
         tx.commit();
         return null;
     }
-
 }

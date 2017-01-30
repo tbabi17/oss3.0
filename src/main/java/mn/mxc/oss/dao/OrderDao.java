@@ -62,6 +62,24 @@ public class OrderDao extends GenericDao<Orders> {
         tx.commit();
         return list;
     }
+
+    public List<Orders> findByCoordinate(int userId, String start, String end, int page, int size) {
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        crit = session.createCriteria(Orders.class);
+        crit.setFirstResult((page - 1)*size);
+        crit.setMaxResults(size);
+        if (userId != 0)
+            crit.add(Restrictions.eq("userId", new Integer(userId)));
+        crit.add(Restrictions.between("createdDate", start+" 00:00:00", end+" 23:59:59"));
+        crit.add(Restrictions.eq("mode", "zarlaga"));
+        crit.add(Restrictions.gt("lat", 0.0f));
+        List<Orders> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
+        return list;
+    }
+
     public List<Orders> findByCustomerOrder(int customer_id, int page, int size){
         session = getSession();
         Transaction tx = session.beginTransaction();

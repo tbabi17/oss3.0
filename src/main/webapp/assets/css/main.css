@@ -379,3 +379,13 @@ select option {
     font-size: 12pt;
     border: 1px solid #aaa;
 }
+
+.marker_labels {
+    font-weight: bold;
+    background: #4285f4;
+    color: #fff;
+    border-radius: 4px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

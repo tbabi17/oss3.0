@@ -14,21 +14,17 @@
                         <div class="col-sm-6">
                             <span class="glyphicon glyphicon-map-marker"></span>&nbsp;Газрын зураг
                         </div>
-                        <div class="col-md-6" style="text-align: right;">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <select class="form-control input-sm" data-ng-model="search.value" style="height: 29px;">
-                                        <option data-ng-repeat="item in users" value="{{item.id}}">{{item.firstName}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control input input-sm" ng-model="search.daterange" name="daterange" id="range"/>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary" type="button" ng-click="find()"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                </div>
+                        <div class="col-sm-2">
+                            <select class="form-control input-sm" data-ng-model="search.value" style="height: 29px;">
+                                <option data-ng-repeat="item in users" value="{{item.id}}">{{item.firstName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4" style="text-align: right;">
+                            <div class="input-group">
+                                <input type="text" class="form-control input input-sm" name="daterange" value="" id="range"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-sm btn-primary" type="button" ng-click="find(true)"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -40,24 +36,31 @@
                                 <div class="table-round">
                                     <table id="data">
                                         <thead>
-                                        <tr>
-                                            <td style="width:5%">Хэрэглэгч</td>
-                                            <td style="width:85%">Орох цэгийн тоо</td>
-                                            <td style="width:10%">Орсон</td>
-                                            <td style="width:10%">Огноо</td>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr data-ng-repeat="item in list">
-                                            <td>{{item.userId}}</td>
-                                            <td>{{item.customerId}}</td>
-                                            <td>{{item.lat}} , {{item.lng}}</td>
-                                            <td style="text-align:center;">
-                                                {{item.date}}
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td style="width:50%">Харилцагч</td>
+                                                <td style="width:50%">Огноо</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr data-ng-repeat="item in list" data-ng-click="center(item)">
+                                                <td>{{item.customer.name}}</td>
+                                                <td>{{item.createdDate}}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div  style="float: left;">
+                                    <span style="font-weight: bold;">Нийт: {{total || 0 |  number:0}}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="pageable">
+                                    <pagination  style="margin: 0" ng-change="find()" page-label="0" items-per-page="size" boundary-links="true" total-items="total" max-size="size" ng-model="page" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                                 </div>
                             </div>
                         </div>
@@ -65,9 +68,9 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="table-round">
-                            <ui-gmap-google-map center="map.center" zoom='map.zoom'>
-                                <ui-gmap-polyline ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible'
-                                                  geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+                            <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" events="map.events">
+                                <ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id"
+                                                options="{labelClass:'marker_labels',labelAnchor:'55 70',labelContent:m.title}"></ui-gmap-marker>
                             </ui-gmap-google-map>
                         </div>
                     </div>
