@@ -77,34 +77,10 @@ angular.module('starter.config', []).config(function($stateProvider, $urlRouterP
                 {name: 'password', type: 'text'}
             ]
         },
-		{
-			//"orderId,userId,customerId,qty,amount,createdDate,status,wareHouseId,lat,lng,mode,userId,is_sent"
+		{			
 			name:"orders",
 			columns:[
-				{name: 'id', type: 'integer primary key autoincrement'},
-                {name: 'orderId', type: 'integer'},
-				{name:'customerId',type:'integer'},
-				{name:'qty',type:'double'},
-                {name: 'amount', type: 'double'},
-                {name: 'createdDate', type: 'date'},
-				{name: 'status', type: 'text'},
-                {name: 'wareHouseId', type: 'integer'},
-				{name: 'lat', type: 'double'},
-                {name: 'lng', type: 'double'},
-				{name: 'mode', type: 'text'},
-				{name: 'userId', type: 'integer'},
-				{name: 'is_sent',type:'integer default 0'}
-			]
-		},
-		{
-			name:"details",
-			columns:[
-				{name: 'id', type: 'integer primary key autoincrement'},
-                {name: 'orderId', type: 'integer'},
-                {name: 'productId', type: 'double'},
-                {name: 'qty', type: 'double'},
-                {name: 'amount', type: 'double'},
-				{name: 'price', type:'double'}
+				{name: 'json', type: 'text'}                
 			]
 		}
     ]

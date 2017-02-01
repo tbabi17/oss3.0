@@ -1,31 +1,6 @@
-/*var app = angular.module('DemoApp', []);*/
-/*
-var app = angular.module('DemoApp', ['ionic']);
-app.config(function($stateProvider) {
-  $stateProvider
-  .state('index', {
-    url: '/',
-    template: '#home',
-    controller: 'mainCtrl'
-  })
-  .state('music', {
-    url: '/music',
-    //templateUrl: 'music.html',
-      template: '#home',
-    controller: 'mainCtrl'
-  });
-});
-
-app.controller('mainCtrl', ['$scope', function($scope) {
-    $scope.selectedTheme = {
-        theme: 'main'
-    };
-    $scope.hello = "Hello world";
-}]);*/
-
 angular.module('starter', ['ionic','starter.controllers','starter.config','starter.factory','ion-floating-menu','ngCookies','ionic-toast','ngStorage','ngCordova'])
 
-.run(function($rootScope,$cookies,$state, $stateParams,$http,$cookies,$ionicPopup,$ionicPlatform,$timeout,$cordovaNetwork,$cordovaGeolocation,$cordovaSQLite,DB,DB_CONFIG){
+.run(function($rootScope,$cookies,$state, $stateParams,$http,$cookies,$ionicPopup,$ionicPlatform,$timeout,$cordovaNetwork,$cordovaGeolocation,$cordovaSQLite,$localStorage,DB,DB_CONFIG){
 	$rootScope.online = "background:rgba(92, 184, 92, 1);";
 	$rootScope.host = "http://192.168.1.129:8080/";
 	$rootScope.company = "Voltam LLC";
@@ -38,6 +13,12 @@ angular.module('starter', ['ionic','starter.controllers','starter.config','start
 	$rootScope.lng = 0;
 	$rootScope.gps_usage  = true;
 	$rootScope.gps = false;
+	$rootScope.routes = [];
+	if(!$localStorage.uorders){
+		$localStorage.uorders = [];
+	}
+	$rootScope.unsent_orders = $localStorage.uorders;
+	
 	window.addEventListener('native.keyboardshow', function(){
 		$('body').addClass('keyboard-open');
 	});
@@ -56,6 +37,7 @@ angular.module('starter', ['ionic','starter.controllers','starter.config','start
             $rootScope.network = $cordovaNetwork.getNetwork();
 			$rootScope.online = "background:rgba(92, 184, 92, 1);";
             $rootScope.$apply();
+			$rootScope.send_offline_orders();
         })
 
         // listen for Offline event
@@ -68,19 +50,40 @@ angular.module('starter', ['ionic','starter.controllers','starter.config','start
             $rootScope.$apply();
         });
 
-  }, false);
-    
+	}, false);
+    $rootScope.send_offline_orders = function(){
+		console.log('fucking unsent orders...'); 
+		if($localStorage.uorders.length>0){
+			$localStorage.uorders.forEach(function(order){
+				console.log('fucking unsent orders 1...');
+				$http.post($rootScope.host+'order/save', order).then(function(response) {
+					$timeout(function() {
+						window.location.href = "#/oss/sales/"+$cookies.get('cid');
+					}, 100);
+					console.log(order.orderId+" amjilttai hadgalagdlaa");		
+				}, function(response) {
+					//$localStorage.uorders.push($scope.order);
+				});
+			});
+			$localStorage.uorders = [];
+		}
+	};
 	$ionicPlatform.ready(function() {
-		//var db = $rootScope.db = $cordovaSQLite.openDB({ name: "oss.db", location: "default" });
-		//$cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS ORDERS (id INTEGER PRIMARY KEY AUTOINCREMENT,orderId,userId,customerId,qty,amount,createdDate,confirmDate,status,wareHouseId,lat,lng,mode)");
-		//DB.init();
-		//console.log(DB_CONFIG);
-		DB.init();
-		DB.query('SELECT * FROM users').then(function(result){
-			console.log(DB.fetchAll(result));
-		}, function(error){
-			console.log(error);
-		});
+		console.log($localStorage.uorders);
+		$rootScope.send_offline_orders();
+		
+		if(window.cordova){
+			DB.init();
+			//var db = $rootScope.db = $cordovaSQLite.openDB({ name: "oss.db", location: "default" });
+			//$cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS ORDERS (id INTEGER PRIMARY KEY AUTOINCREMENT,orderId,userId,customerId,qty,amount,createdDate,confirmDate,status,wareHouseId,lat,lng,mode)");
+			//DB.init();
+			//console.log(DB_CONFIG);
+			DB.query('SELECT * FROM users').then(function(result){
+				console.log(DB.fetchAll(result));
+			}, function(error){
+				console.log(error);
+			});
+		}
 	}); 
    $ionicPlatform.registerBackButtonAction(function (event) {
 		if($state.current.name=="oss.home"){
@@ -107,23 +110,28 @@ angular.module('starter', ['ionic','starter.controllers','starter.config','start
 		$state.go($rootScope.previousState_name,$rootScope.previousState_params);
 	};
 	$rootScope.getPriceTags = function() {
-		$http.get($rootScope.host+'pricetag/findAll?page=1&size=50').then(function (response) {
-			$rootScope.pricetags = response == undefined ? {} : response.data.data;
-		}, function (response) {
-			$rootScope.pricetags = {};
-		});
+		if($rootScope.isOnline==true){
+			$http.get($rootScope.host+'pricetag/findAll?page=1&size=50').then(function (response) {
+				$localStorage.pricetags = response == undefined ? {} : response.data.data;
+				$rootScope.pricetags = $localStorage.pricetags;
+			}, function (response) {
+				$rootScope.pricetags = {};
+			});
+		}
 	};
 	$rootScope.checkGps = function(){
-		cordova.plugins.diagnostic.isLocationEnabled(function(enabled){
-			if(enabled){
-				$rootScope.gps = true;
-			}else if(!enabled){
+		if(window.cordova){
+			cordova.plugins.diagnostic.isLocationEnabled(function(enabled){
+				if(enabled){
+					$rootScope.gps = true;
+				}else if(!enabled){
+					$rootScope.gps = false;
+				}
+				
+			}, function(error){
 				$rootScope.gps = false;
-			}
-			
-		}, function(error){
-			$rootScope.gps = false;
-		});
+			});
+		}
 
 	};
 	$rootScope.getPos = function(){
@@ -166,29 +174,16 @@ angular.module('starter', ['ionic','starter.controllers','starter.config','start
 			$rootScope.gps = false;
 		});
 	};
-	$rootScope.select_orders = function(lastname) {
-        var query = "SELECT * from ORDERS";
-        $cordovaSQLite.execute($scope.db, query, [lastname]).then(function(res) {
-            if(res.rows.length > 0) {
-                var message = "SELECTED -> " + res.rows.item(0).firstname + " " + res.rows.item(0).lastname;
-                alert(message);
-                console.log(message);
-            } else {
-                alert("No results found");
-                console.log("No results found");
-            }
-        }, function (err) {
-            alert(err);
-            console.error(err);
-        });
-    };
 	//$rootScope.select_orders();
 	$rootScope.getRouteList = function() {
-		$http.get($rootScope.host+'route/findAll?page=1&size=50').then(function (response) {
-			$rootScope.routes = response == undefined ? {} : response.data.data;
-		}, function (response) {
-			$rootScope.routes = {};
-		});
+		if($rootScope.isOnline==true){
+			$http.get($rootScope.host+'route/findAll?page=1&size=50').then(function (response) {
+				$localStorage.routes = response == undefined ? {} : response.data.data;
+				$rootScope.routes = $localStorage.routes;
+			}, function (response) {
+				$rootScope.routes = {};
+			});
+		}
 	};
 	$rootScope.logout = function() {
 	   var confirmPopup = $ionicPopup.confirm({
@@ -210,7 +205,11 @@ angular.module('starter', ['ionic','starter.controllers','starter.config','start
 	   });
 	 };
 	if($rootScope.isOnline==true){
-		$rootScope.getPriceTags();
-		$rootScope.getRouteList();
+		if(!$localStorage.pricetags){
+			$rootScope.getPriceTags();
+		}
+		if(!$localStorage.routes){
+			$rootScope.getRouteList();
+		}
 	}
 });

@@ -38,21 +38,21 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 					$localStorage.fname = response.data.firstName;
 					$localStorage.lname = response.data.lastName;
 					$localStorage.phone = response.data.phone;
-					DB.query('SELECT * FROM users WHERE  owner = ? and password = ?', [$scope.inputData.user,$scope.inputData.pass]).then(function(result){
-					var user = DB.fetch(result);
-					if(user){
-							DB.query('INSERT INTO users VALUES (?,?,?,?,?,?,?)',[null,response.data.owner,response.data.id,response.data.firstName,response.data.lastName,response.data.phone,response.data.password]).then(function(result){
-								
-							}, function(error){
-								console.log(error);
-							});
-						}else{
-							ionicToast.show('Хэрэглэгчийн нэр эсвэл нууц үг буруу эсвэл дотоод баазад хэрэглэгч бүртгэгдээгүй байна.', 'bottom', true, 2500);
-						}
-					},function(error){
-						console.log(error);
-					});
-					
+						DB.query('SELECT * FROM users WHERE  owner = ? and password = ?', [$scope.inputData.user,$scope.inputData.pass]).then(function(result){
+						var user = DB.fetch(result);
+						console.log('fuck '+user);
+						if(!user){
+								DB.query('INSERT INTO users VALUES (?,?,?,?,?,?,?)',[null,response.data.owner,response.data.id,response.data.firstName,response.data.lastName,response.data.phone,response.data.password]).then(function(result){
+									console.log('insert new user');
+								}, function(error){
+									console.log(error);
+								});
+							}else{
+								ionicToast.show('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна.', 'bottom', true, 2500);
+							}
+						},function(error){
+							console.log(error);
+						});
 					//window.location.href = "#/oss/home";
 					$timeout(function() {
 						$state.go('oss.home');
@@ -78,41 +78,43 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 				});
 			});
 		}else{
-			DB.query('SELECT * FROM users').then(function(result){
-				var users = DB.fetchAll(result);
-				if(users){
-					console.log('users:');
-					console.log(users);	
-				}else{
-					console.log("have no unsent orders");
-				}
-			},function(error){
-				console.log(error);
-			});
-			DB.query('SELECT * FROM users WHERE  owner = ? and password = ?', [$scope.inputData.user,$scope.inputData.pass]).then(function(result){
-				var user = DB.fetch(result);
-				if(user){
-					$localStorage.logged = true;
-					$cookies.put('uid',user.uid);
-					$localStorage.owner = user.owner;
-					$localStorage.fname = user.firstName;
-					$localStorage.lname = user.lastName;
-					$localStorage.phone = user.phone;
-					setTimeout(function(){
-						window.location.href = "#/oss/home";
-					},500);
-				}else{
-					ionicToast.show('Хэрэглэгчийн нэр эсвэл нууц үг буруу эсвэл дотоод баазад хэрэглэгч бүртгэгдээгүй байна.', 'bottom', true, 2500);
-				}
-			},function(error){
-				console.log(error);
-			});
+			if(window.cordova){
+				DB.query('SELECT * FROM users').then(function(result){
+					var users = DB.fetchAll(result);
+					if(users){
+						console.log('users:');
+						console.log(users);	
+					}else{
+						console.log("have no unsent orders");
+					}
+				},function(error){
+					console.log(error);
+				});
+					DB.query('SELECT * FROM users WHERE  owner = ? and password = ?', [$scope.inputData.user,$scope.inputData.pass]).then(function(result){
+					var user = DB.fetch(result);
+					if(user){
+						$localStorage.logged = true;
+						$cookies.put('uid',user.uid);
+						$localStorage.owner = user.owner;
+						$localStorage.fname = user.firstName;
+						$localStorage.lname = user.lastName;
+						$localStorage.phone = user.phone;
+						setTimeout(function(){
+							window.location.href = "#/oss/home";
+						},500);
+					}else{
+						ionicToast.show('Хэрэглэгчийн нэр эсвэл нууц үг буруу эсвэл дотоод баазад хэрэглэгч бүртгэгдээгүй байна.', 'bottom', true, 2500);
+					}
+				},function(error){
+					console.log(error);
+				});
+			}
 			
 		}
         
     };
 })
-.controller('mainCtrl', function($scope,$ionicLoading,$ionicListDelegate,$http,$ionicPopup,$cookies,$rootScope,$cookies,$localStorage,$ionicModal,$cordovaSQLite,DB,DB_CONFIG,$localStorage) {
+.controller('mainCtrl', function($scope,$ionicLoading,$ionicListDelegate,$http,$ionicPopup,$cookies,$rootScope,$cookies,$localStorage,$ionicModal,ionicToast,$cordovaSQLite,DB,DB_CONFIG,$localStorage) {
 	/* DB.init();
 	DB.query('SELECT * FROM users').then(function(result){
 		console.log(DB.fetchAll(result));
@@ -156,8 +158,6 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 	 console.log('toggle');
   };
   $scope.customers = $localStorage.customer;
-  console.log($localStorage.test);
-  //$scope.customers = [];
   var logged = $localStorage.lname+' '+$localStorage.fname;
   var uid = $cookies.get('uid');
   var owner = $localStorage.owner;
@@ -194,8 +194,6 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 				template: 'Please check your credentials!'
 			});
 		});
-	  }else{
-		  ionicToast.show('Интернэт холболтоо шалгана уу?', 'bottom', true, 2500);
 	  }
   };
   if(!$localStorage.routes){
@@ -245,7 +243,6 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 			$http.post($rootScope.host+'order/save', $scope.order).then(function(response) {
 				$scope.order.id = response.data.id;
 				ionicToast.show('Амжилттай хадгаллаа !', 'bottom', true, 2500);
-				$scope.productList();
 				$scope.padaan.hide();
 				$timeout(function() {
 					window.location.href = "#/oss/sales/"+$cookies.get('cid');
@@ -314,7 +311,7 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 		   $scope.$broadcast('scroll.refreshComplete');
 		 });
 	}else{
-		ionicToast.show('Интернэт холболтоо шалгана уу?', 'bottom', true, 2500);
+		//ionicToast.show('Интернэт холболтоо шалгана уу?', 'bottom', true, 2500);
 	}
   };
   $ionicModal.fromTemplateUrl('templates/route.html', {
@@ -384,7 +381,7 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 					var alertPopup = $ionicPopup.alert({
 					title: 'Анхааруулга!',
 					template: 'Алдаа гарлаа'
-				});
+					});
 				}
 				if ($rootScope.logged) {
 					$scope.errorMsg = "Амжилттай";
@@ -405,7 +402,7 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 				});
 			});
 		}else{
-			ionicToast.show('Интернэт холболтоо шалгана уу?', 'bottom', true, 2500);
+			//ionicToast.show('Интернэт холболтоо шалгана уу?', 'bottom', true, 2500);
 		}
 	};
 	$scope.findOrders();
@@ -459,8 +456,11 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 		window.location.href="#/oss/add_sale/"+$scope.activeid;
 	};
 })
-.controller('addSalesCtrl', function($rootScope,$scope,$stateParams,$ionicLoading,$ionicPopup,$http,$cookies,ionicToast,$cookies,$ionicModal,$localStorage,$timeout,$localStorage) {
+.controller('addSalesCtrl', function($rootScope,$scope,$stateParams,$ionicLoading,$ionicPopup,$http,$cookies,ionicToast,$cookies,$ionicModal,$localStorage,$timeout,$localStorage,DB,DB_CONFIG) {
 	$scope.warehouses = [];
+	if($localStorage.warehouses){
+		$scope.warehouses = $localStorage.warehouses;
+	}		
 	$scope.page= 1;
 	$scope.size = 50;
 	$scope.cname = $cookies.get('cname');
@@ -627,59 +627,70 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
         });
     };
 	if(!$localStorage.products){
-		$scope.productList();
+		if($rootScope.isOnline==true){
+			$scope.productList();
+		}
 	}
 	$scope.refreshProduct= function() {
-		$scope.product = [];
-		var products = [];
-		$http.get($rootScope.host+'stock/findAvailable?page=1&size=100').then(function (response) {
-			response.data.data.forEach(function(value) {
-				var price = 0;
-					value.product.priceList.forEach(function(v){
-						if(v.priceTag.id==$cookies.get('priceTag')){
-							price = v.price;
-						}
-					});
-				var item = {
-					id: value.product.id,
-					name: value.product.name,
-					brand: value.product.brand,
-					img: value.product.img,
-					available:value.lastBalance,
-					type:value.product.type,
-					size:value.product.size,
-					price:price,
-					qty:0,
-					pty:0,
-					total:0,
-					total_qty:0,
-					stype:"sale"
-				};
-				products.push(item);
+		if($rootScope.isOnline==true){
+			$scope.product = [];
+			var products = [];
+			$http.get($rootScope.host+'stock/findAvailable?page=1&size=100').then(function (response) {
+				response.data.data.forEach(function(value) {
+					var price = 0;
+						value.product.priceList.forEach(function(v){
+							if(v.priceTag.id==$cookies.get('priceTag')){
+								price = v.price;
+							}
+						});
+					var item = {
+						id: value.product.id,
+						name: value.product.name,
+						brand: value.product.brand,
+						img: value.product.img,
+						available:value.lastBalance,
+						type:value.product.type,
+						size:value.product.size,
+						price:price,
+						qty:0,
+						pty:0,
+						total:0,
+						total_qty:0,
+						stype:"sale"
+					};
+					products.push(item);
+				});
+				//$cookies.putObject("products",products);
+				$localStorage.products = products;
+				$scope.product = products;
+			}, function (response) {
+				ionicToast.show('Барааны мэдээллийг татаж авахад алдаа гарлаа.', 'bottom', true, 2500);
+			}).finally(function(){
+				ionicToast.show('Барааны мэдээллийг амжилттай шинэчиллээ.', 'bottom', true, 2500);
+				$scope.$broadcast('scroll.refreshComplete');
 			});
-			//$cookies.putObject("products",products);
-			$localStorage.products = products;
-			$scope.product = products;
-        }, function (response) {
-		    ionicToast.show('Барааны мэдээллийг татаж авахад алдаа гарлаа.', 'bottom', true, 2500);
-        }).finally(function(){
-			ionicToast.show('Барааны мэдээллийг амжилттай шинэчиллээ.', 'bottom', true, 2500);
-		    $scope.$broadcast('scroll.refreshComplete');
-		});
+		}else{
+			//ionicToast.show('Интернэт холболтоо шалгана уу?', 'bottom', true, 2500);
+		}
+		
 	};
 	$scope.warehouseList = function(){
 		$http.get($rootScope.host+'warehouse/findAll?page='+$scope.page+'&size='+$scope.size).then(function (response) {
-			$scope.warehouses = response.data.data;
+			$localStorage.warehouses = response.data.data;
+			$scope.warehouses = $localStorage.warehouses;
 		}, function (response) {
 		    ionicToast.show('Агуулахын мэдээллийг татаж авахад алдаа гарлаа.', 'bottom', true, 2500);
         })
 	};
-	$scope.warehouseList();
+	if(!$localStorage.warehouses){
+		$scope.warehouseList();
+	}
 	$scope.prepareSale = function(products){
 		$scope.tmp_details = [];
 		$scope.PadaanList = [];
 		$scope.plist = [];
 		$scope.newOrderId = 'ST-'+parseInt(new Date().getTime()/1000);
+		$rootScope.getPos();
 		console.log('lat:'+$scope.lat+' lng:'+$scope.lng);
 		$scope.order = {
 			orderId : $scope.newOrderId,
@@ -730,6 +741,8 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 		console.log($scope.order);
 		$scope.padaan.show();
 	};
+	
+	
 	$scope.ordersave = function() {
 		$rootScope.checkGps();
         if ($scope.order.qty == 0) {
@@ -737,8 +750,38 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 			 title: 'Анхааруулга',
 			 template: 'Захиалга хоосон байна. Бараа нэмнэ үү !'
 		   });
-        }else{
-			if($rootScope.isOnline===true){
+        }else{							
+			if($rootScope.isOnline===false){
+			   //төхөөрөмж онлайн байгаа үед ажиллах
+				var confirmPopup = $ionicPopup.confirm({
+					title: 'Анхааруулга',
+					template: 'Та захиалгын мэдээллийг илгээхдээ итгэлтэй байна уу? '
+				});
+				confirmPopup.then(function(res) {
+					 if(res) {
+						$ionicPopup.alert({
+							title: 'Анхааруулга',
+							template: 'Сүлжээгүй байна !'
+						});
+					   console.log("device is offline. order is saving to localStorage...");
+					   var order = $scope.order;
+					   $localStorage.uorders.push(order);
+					   $scope.order.qty = 0;
+					   $scope.order.amount = 0;
+					   $scope.detailsList = [];
+						$scope.product.forEach(function(item) {
+							if(item.total_qty>0){
+								item.total_qty = 0;
+								item.qty = 0;
+								item.pty = 0;
+								item.total = 0;						
+							}
+						});
+						$scope.padaan.hide();
+						return;
+					 }
+				});
+			}else{
 				//төхөөрөмж онлайн байгаа үед ажиллах
 				var confirmPopup = $ionicPopup.confirm({
 				 title: 'Анхааруулга',
@@ -752,82 +795,67 @@ angular.module('starter.controllers', ['ionic','ngCookies','starter.config','sta
 						$rootScope.getPos();
 						$scope.order.lat = $rootScope.lat;
 						$scope.order.lng = $rootScope.lng;
-						$http.post($rootScope.host+'order/save', $scope.order).then(function(response) {
-							$scope.order.id = response.data.id;
-							ionicToast.show('Амжилттай хадгаллаа !', 'bottom', true, 2500);
-							$scope.productList();
-							$scope.padaan.hide();
-							$timeout(function() {
-								$scope.product.forEach(function(item) {
-									if(item.total_qty>0){
-										item.total_qty = 0;
-										item.qty = 0;
-										item.pty = 0;
-									}
-								});
-								window.location.href = "#/oss/sales/"+$cookies.get('cid');
-							}, 100);
-							
-						}, function(response) {
-
-						});
-					}else if($scope.gps==false && $rootScope.gps_usage==true){
-						//Gps ашиглах тохиргоотой бөгөөд GPS унтраалттай байгаа үед ажиллах
-						 var confirmPopup = $ionicPopup.alert({
-							title: 'Анхааруулга',
-							template: 'Gps ээ асаана уу?'
-						});
-					}else{
-						//Gps ашиглах тохиргоогүй үед
-						$http.post($rootScope.host+'order/save', $scope.order).then(function(response) {
-							$scope.order.id = response.data.id;
-							ionicToast.show('Амжилттай хадгаллаа !', 'bottom', true, 2500);
-							$scope.productList();
-							$scope.padaan.hide();
-							$timeout(function() {
-								$scope.product.forEach(function(item) {
-									if(item.total_qty>0){
-										item.total_qty = 0;
-										item.qty = 0;
-										item.pty = 0;
-									}
-								});
-								window.location.href = "#/oss/sales/"+$cookies.get('cid');
-							}, 100);
-							
-						}, function(response) {
-
-						});
+					} else {
+						$scope.order.lat = 0;
+						$scope.order.lng = 0;
 					}
-				   
+					$http.post($rootScope.host+'order/save', $scope.order).then(function(response) {
+						$scope.order.id = response.data.id;
+						ionicToast.show('Амжилттай хадгаллаа !', 'bottom', true, 2500);
+						$scope.productList();
+						$scope.padaan.hide();
+						$timeout(function() {
+							$scope.product.forEach(function(item) {
+								if(item.total_qty>0){
+									item.total_qty = 0;
+									item.qty = 0;
+									item.pty = 0;	
+									item.total = 0;								
+								}
+							});
+							window.location.href = "#/oss/sales/"+$cookies.get('cid');
+						}, 100);
+						
+													
+					}, function(response) {
+						console.log("device is online but order save process failed saving to localStorage...");
+						var order = $scope.order;
+						$localStorage.uorders.push(order);
+						$scope.order.qty = 0;
+						$scope.order.amount = 0;
+						$scope.detailsList = [];
+						$scope.product.forEach(function(item) {
+							if(item.total_qty>0){
+								item.total_qty = 0;
+								item.qty = 0;
+								item.pty = 0;								
+							}
+						});
+						//$rootScope.unsent_orders = $localStorage.uorders;
+						//$rootScope.apply();
+					});	
+					/*
+					if(window.cordova){
+						DB.query("select json from orders").then(function(result) {
+							DB.fetchAll(result).forEach(function(o){
+								var selJson = o.json;
+								$http.post($rootScope.host+'order/save', selJson).then(function(response) {
+									DB.query("delete from orders where json=?", [selJson]);
+								}, function(response) {
+									
+								});
+							}); 
+						});	
+					}
+					*/				
 				 } else {
 				   $scope.padaan.hide();
 				 }
 			   });
-				
-			}else{
-				//төхөөрөмж оффлайн байгаа үед ажиллах
-				delete $scope.order.detailsList;
-				//"orderId,userId,customerId,qty,amount,createdDate,status,wareHouseId,lat,lng,mode,userId,is_sent"
-				DB.query('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',[null,$scope.order.orderId,$cookies.get('cid'),$scope.order.qty,$scope.order.amount,$scope.order.createdDate,$scope.order.status,$scope.order.wareHouseId,$scope.order.lat,$scope.order.lng,'status',$cookies.get('uid'),0]).then(function(res){
-					res.insertId;
-					$scope.tmp_details.forEach(function(detail){
-						DB.query('INSERT INTO details VALUES (?,?,?,?,?,?)',[null,$scope.order.orderId,detail.productId,detail.qty,detail.amount,detail.price]).then(function(res){
-							
-						}, function(error){
-							console.log(error);
-						});
-					});
-				}, function(error){
-					console.log(error);
-				});
-				ionicToast.show('Та оффлайн горимд байна. Таны захиалгын мэдээлэл хадгалагдлаа.', 'bottom', true, 2500);
 			}
+									
+								
 		}
-
-        $scope.order.detailsList.forEach(function(item) {
-            
-        });
 
         
     };
