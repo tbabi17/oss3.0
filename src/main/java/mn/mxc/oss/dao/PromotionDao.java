@@ -6,6 +6,9 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -19,12 +22,18 @@ public class PromotionDao extends GenericDao<Promotion> {
     }
 
     public List<Promotion> findByActive(int page, int size) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        Date date = new Date();
+        String today = dateFormat.format(date);
         session = getSession();
         Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Promotion.class);
         crit.setFirstResult((page - 1)*size);
         crit.setMaxResults(size);
         crit.add(Restrictions.eq("status", "active"));
+        /*
+        crit.add(Restrictions.gt("startDate", today));
+        crit.add(Restrictions.lt("endDate", today));*/
         List<Promotion> list = crit.list();
         total = totalUniq(crit);
         tx.commit();

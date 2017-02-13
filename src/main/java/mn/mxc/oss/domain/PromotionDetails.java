@@ -25,6 +25,7 @@ public class PromotionDetails {
 
     @ManyToOne
     @JoinColumn(name="promotionId", referencedColumnName = "promotionId", insertable=false, updatable=false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Promotion details;
 
     @OneToOne

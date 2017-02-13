@@ -27,7 +27,6 @@ public class StockController {
 		pageable.put("data", list);
 		return pageable;
 	}
-
 	@RequestMapping(value = "stock/findAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findAvailable(@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
 		response.setHeader("Access-Control-Allow-Origin", "*");

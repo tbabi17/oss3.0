@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class GpsController {
     GpsService service;
 
     @RequestMapping(value = "gps/save", method = RequestMethod.POST, consumes="application/json", produces= MediaType.APPLICATION_JSON_VALUE)
-    public Gps save(@RequestBody Gps entity) {
+    public Gps save(@RequestBody Gps entity,HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         service.save(entity);
         return entity;
     }

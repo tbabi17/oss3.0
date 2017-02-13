@@ -20,6 +20,15 @@ public class ProductOnly {
     private String img;
     @Column String type;
     @Column int size;
+    @Column double discount;
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
 
     @OneToMany(mappedBy="product", cascade = CascadeType.ALL)
     private List<Prices> priceList;

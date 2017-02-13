@@ -20,9 +20,19 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
         price: 0,
         amount: 0
     };
+    $scope.promoType = [];
+    $scope.promoType['brand'] = "Брэндээр";
+    $scope.promoType['amount'] = "Үнийн дүнгээр";
+    $scope.promoType['dif_price'] = "Өөр үнэтэй бараа";
+    $scope.promoType['many'] = "Олон нэр төрөлтэй бараа";
     $scope.promotion = {
         promotionId : $scope.newPromotionId,
         name: '',
+        promoType:'',
+        promoBrand:'',
+        totalQty:0,
+        totalAmount:0,
+        promoDiscount:0,
         status: 'active',
         createdDate: dateStr(new Date()),
         userId: 3,
@@ -113,6 +123,11 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
             id: 0,
             promotionId : $scope.newPromotionId,
             name: '',
+            promoType:'',
+            promoBrand:'',
+            totalQty:0,
+            totalAmount:0,
+            promoDiscount:0,
             status: 'active',
             startDate: '',
             endDate: '',
@@ -143,6 +158,9 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
     $scope.findNew();
 
     $scope.product_dialog = function() {
+
+        console.log('baraanii jagsaalt');
+        //console.log($rootScope.products_all);
         $scope.detail.promotionId = $scope.promotion.promotionId;
         $('#product_modal').modal('show');
     };
@@ -187,7 +205,6 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
             }
         });
     };
-
     $scope.dialogHide = function() {
         $('#modal').modal('hide');
     };

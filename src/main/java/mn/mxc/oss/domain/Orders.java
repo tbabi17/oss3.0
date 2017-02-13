@@ -4,6 +4,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,7 +41,7 @@ public class Orders implements java.io.Serializable{
 
     @OneToMany(mappedBy="details", cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
-    private List<Details> detailsList;
+    private List<Details> detailsList = new ArrayList<Details>();
 
     @OneToOne
     @NotFound(action = NotFoundAction.IGNORE)

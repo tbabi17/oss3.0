@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class PromotionController {
 	}
 
 	@RequestMapping(value = "promotion/findByActive", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable findByActive(@RequestParam int page, @RequestParam int size) {
+	public Hashtable findByActive(@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List list = service.findByActive(page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
@@ -41,7 +43,8 @@ public class PromotionController {
 	}
 
 	@RequestMapping(value = "promotion/findByNonActive", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hashtable findByNonNewOrder(@RequestParam int page, @RequestParam int size) {
+	public Hashtable findByNonNewOrder(@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List<Promotion> list = service.findByNonActive(page, size);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());

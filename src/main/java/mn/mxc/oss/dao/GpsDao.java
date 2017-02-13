@@ -8,6 +8,7 @@ import java.util.List;
 
 
 public class GpsDao extends GenericDao<Gps> {
+
     public Gps findOne(final int id) {
         return findOne(Gps.class, id);
     }

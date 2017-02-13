@@ -25,6 +25,7 @@ public class Details {
 
     @ManyToOne
     @JoinColumn(name="orderId", referencedColumnName = "orderId", insertable=false, updatable=false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Orders details;
 
     @OneToOne
