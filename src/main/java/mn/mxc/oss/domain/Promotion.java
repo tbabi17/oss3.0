@@ -1,8 +1,5 @@
 package mn.mxc.oss.domain;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -32,53 +29,17 @@ public class Promotion implements java.io.Serializable{
     @Column
     private String name;
     @Column(name="promo_type")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String promoType;
     @Column(name="promo_brand")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String promoBrand;
     @Column(name="promo_discount")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private String promoDiscount;
+    private double promoDiscount;
     @Column(name="total_qty")
-    @NotFound(action = NotFoundAction.IGNORE)
     private double totalQty;
-
-    public String getPromoDiscount() {
-        return promoDiscount;
-    }
-
-    public void setPromoDiscount(String promoDiscount) {
-        this.promoDiscount = promoDiscount;
-    }
-
     @Column(name="total_amount")
-    @NotFound(action = NotFoundAction.IGNORE)
     private double totalAmount;
     @Column(name="max_amount")
-    @NotFound(action = NotFoundAction.IGNORE)
     private double maxAmount;
-    @Column
-    private String startDate;
-    @Column
-    private String endDate;
-    @Column
-    private String createdDate;
-
-    public double getMaxAmount() {
-        return maxAmount;
-    }
-
-    public void setMaxAmount(double maxAmount) {
-        this.maxAmount = maxAmount;
-    }
-
-    @Column
-    private int userId;
-    @Column
-    private String status;
-    @Column
-    private int used;
 
     public String getPromoType() {
         return promoType;
@@ -94,6 +55,14 @@ public class Promotion implements java.io.Serializable{
 
     public void setPromoBrand(String promoBrand) {
         this.promoBrand = promoBrand;
+    }
+
+    public double getPromoDiscount() {
+        return promoDiscount;
+    }
+
+    public void setPromoDiscount(double promoDiscount) {
+        this.promoDiscount = promoDiscount;
     }
 
     public double getTotalQty() {
@@ -112,8 +81,28 @@ public class Promotion implements java.io.Serializable{
         this.totalAmount = totalAmount;
     }
 
-    @OneToMany(mappedBy="details", cascade = CascadeType.ALL)
+    public double getMaxAmount() {
+        return maxAmount;
+    }
 
+    public void setMaxAmount(double maxAmount) {
+        this.maxAmount = maxAmount;
+    }
+
+    @Column
+
+    private String startDate;
+    @Column
+    private String endDate;
+    @Column
+    private String createdDate;
+    @Column
+    private int userId;
+    @Column
+    private String status;
+    @Column
+    private int used;
+    @OneToMany(mappedBy="details", cascade = CascadeType.ALL)
     private List<PromotionDetails> detailsList;
 
     public String getPromotionId() {

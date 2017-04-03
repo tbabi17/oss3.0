@@ -73,6 +73,7 @@ public class UserController {
 		if (user != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("logged", user);
+			session.setAttribute("owner",username);
 		}
 		return user;
 	}

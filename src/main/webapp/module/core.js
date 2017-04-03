@@ -8,6 +8,7 @@ allControlller = allControlller.concat(customController);
 customController.forEach(function(value) {
     $('head').append("<script type='text/javascript' src='module/"+value.split('_')[0]+"/"+value.replace('_','.')+".js'></script>");
 });
+$('head').append("<script type='text/javascript' src='lib/jquery/jquery.form.js'></script>");
 
 
 angular
@@ -209,5 +210,46 @@ angular
                     }
                 });
             };
-        })
+        }).directive('fileModel', ['$parse', function ($parse) {
+            return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.bind('change', function(){
+                        scope.$apply(function(){
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+        }]).service('fileUpload', ['$http', function ($http) {
+            this.uploadFileToUrl = function(){
+                console.log("why not working...");
+                /*
+                var fd = new FormData();
+                fd.append('file', file);
+                $http.post(uploadUrl, fd, {
+                    transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}
+                })
+                .success(function(){
+                })
+                .error(function(){
+                });
+                */
+                $('#result').html('');
+                $("#form2").ajaxForm({
+                    success:function(data) {
+                        $('#result').html(data);
+                    },
+                    dataType:"text",
+                    error:function(){
+                        console.log("error ocurred!!!");
+                    }
+                });
+                $("#form2").submit();
+            }
+        }])
         .constant();

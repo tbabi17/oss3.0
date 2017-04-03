@@ -1,4 +1,4 @@
-angular.module('product_list', []).controller('product_list', function($rootScope, $http, $scope, $location) {
+angular.module('product_list', ['ngFileUpload']).controller('product_list', function($rootScope, $http, $scope, $location,fileUpload,Upload,$timeout) {
     $scope.search = {'value': ''};
     $scope.list = [];
     $scope.total = 0;
@@ -77,4 +77,47 @@ angular.module('product_list', []).controller('product_list', function($rootScop
 
     $scope.find();
     $rootScope.getPriceTags();
+    $scope.openImportWindow = function(){
+        $('#importModal').modal('show');
+    };
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.log('file is ' );
+        console.dir(file);
+        fileUpload.uploadFileToUrl();
+    };
+
+    $scope.importProducts = function(file, errFiles) {
+        console.log("upload progress...");
+        $scope.f = file;
+        $scope.errFile = errFiles && errFiles[0];
+        if (file) {
+            file.upload = Upload.upload({
+                url: 'http://localhost:8080/import/xls_upload',
+                data: {file: file}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    var res = response.data;
+                    if(res.status==true){
+                            bootbox.alert(res.msg+" ("+res.total+")",function(){
+                                $scope.find();
+                            });
+                    }else{
+                        bootbox.alert(res.msg,function(){
+
+                        });
+                    }
+                    console.log(response.data);
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 *
+                    evt.loaded / evt.total));
+            });
+        }
+    }
 });

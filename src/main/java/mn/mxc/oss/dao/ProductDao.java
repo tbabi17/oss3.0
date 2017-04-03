@@ -2,10 +2,13 @@ package mn.mxc.oss.dao;
 
 import mn.mxc.oss.domain.Product;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,4 +49,7 @@ public class ProductDao extends GenericDao<Product> {
         return list;
     }
 
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 }

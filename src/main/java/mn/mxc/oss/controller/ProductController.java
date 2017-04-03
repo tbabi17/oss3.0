@@ -1,20 +1,35 @@
 package mn.mxc.oss.controller;
-
+import mn.mxc.oss.dao.ProductDao;
 import mn.mxc.oss.domain.Product;
 import mn.mxc.oss.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
-
 @RestController
 public class ProductController {
-	
-	@Autowired
-	ProductService service;
 
+	@Autowired(required=true)
+	private ProductService service;
+	@Qualifier(value="service")
+	public void setProductService(ProductService ps){
+		this.service = ps;
+	}
 	@RequestMapping(value = "product/save", method = RequestMethod.POST, consumes="application/json", produces=MediaType.APPLICATION_JSON_VALUE)
 	public Product save(@RequestBody Product entity) {
 		service.save(entity);
@@ -47,7 +62,7 @@ public class ProductController {
 		pageable.put("data", list);
 		return pageable;
 	}
-	
+
 	@RequestMapping(value = "product/delete", method = RequestMethod.DELETE)
 	public Product delete(@RequestParam int id) {
 		Product item = service.findOne(id);

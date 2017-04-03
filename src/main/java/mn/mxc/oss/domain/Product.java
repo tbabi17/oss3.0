@@ -31,6 +31,14 @@ public class Product implements java.io.Serializable{
     @Column double size;
     @Column double discount;
 
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
     public String getImg() {
         return img;
     }
@@ -112,13 +120,5 @@ public class Product implements java.io.Serializable{
 
     public void setSize(double size) {
         this.size = size;
-    }
-
-    public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
     }
 }

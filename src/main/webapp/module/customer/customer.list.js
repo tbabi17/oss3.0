@@ -1,4 +1,4 @@
-angular.module('customer_list', []).controller('customer_list', function($rootScope, $http, $scope, $location) {
+angular.module('customer_list', ['ngFileUpload']).controller('customer_list', function($rootScope, $http, $scope,fileUpload,Upload) {
     $scope.search = {'value': '', value1: ''};
     $scope.list = [];
     $scope.routeList = [];
@@ -140,4 +140,42 @@ angular.module('customer_list', []).controller('customer_list', function($rootSc
     $rootScope.getPriceTags();
     console.log('routes');
     console.log($rootScope.routes);
+
+    $scope.openCustomerImportWindow = function(){
+        $('#importCustomerModal').modal('show');
+    };
+
+    $scope.importCustomer = function(file, errFiles) {
+        console.log("upload progress...");
+        $scope.f = file;
+        $scope.errFile = errFiles && errFiles[0];
+        if (file) {
+            file.upload = Upload.upload({
+                url: 'http://localhost:8080/import/xls_upload',
+                data: {file: file}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    var res = response.data;
+                    if(res.status==true){
+                        bootbox.alert(res.msg+" ("+res.total+")",function(){
+                            $scope.find();
+                        });
+                    }else{
+                        bootbox.alert(res.msg,function(){
+
+                        });
+                    }
+                    console.log(response.data);
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 *
+                    evt.loaded / evt.total));
+            });
+        }
+    }
 });
