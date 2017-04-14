@@ -136,5 +136,48 @@ public class OrderDao extends GenericDao<Orders> {
         tx.commit();
         session.close();
     }
+    public void updateMany(final List<Orders> orders) {
+        session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        int l = 0;
+        while (l < orders.size()) {
+            Orders entity = orders.get(l);
+            session.saveOrUpdate(entity);
+            crit = session.createCriteria(StockBalance.class);
+
+            crit.add(Restrictions.eq("orderId", new Integer(entity.getId())));
+            List<StockBalance> stocklist = crit.list();
+            for (int i = 0; i < stocklist.size(); i++) {
+                StockBalance stock = stocklist.get(i);
+                session.delete(stock);
+            }
+
+            if ("success".equals(entity.getStatus())) {
+                List<Details> list = entity.getDetailsList();
+                if (list != null)
+                    for (int i = 0; i < list.size(); i++) {
+                        Details detail = list.get(i);
+                        StockBalance stockBalance = new StockBalance();
+                        stockBalance.setProductId(detail.getProductId());
+                        stockBalance.setOrderId(entity.getId());
+                        stockBalance.setAmount(detail.getAmount());
+                        stockBalance.setPrice(detail.getPrice());
+                        if (entity.getMode().equals("zarlaga"))
+                            stockBalance.setQty(-detail.getQty());//zarlaga
+                        else
+                            stockBalance.setQty(+detail.getQty());//orlogo
+                        stockBalance.setWareHouseId(entity.getWarehouseId());
+                        stockBalance.setUserId(entity.getUserId());
+                        stockBalance.setCustomerId(entity.getCustomerId());
+                        session.saveOrUpdate(stockBalance);
+                    }
+            } else if ("alert".equals(entity.getStatus())) {
+
+            }
+            l++;
+        }
+        tx.commit();
+        session.close();
+    }
 
 }

@@ -230,9 +230,41 @@
                             <div class="form-group">
                                 <label class="col-sm-4 col-md-4 col-lg-4 control-label">Бараа</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" data-ng-model="detail.productId" ng-change="log()">
-                                        <option data-ng-repeat="item in order.mode=='zarlaga'?products:products_all" value="{{item.id}}">{{item.name}}</option>
-                                    </select>
+                                    <!-- <select class="form-control input-sm" data-ng-model="detail.productId" ng-change="log()">
+                                         <option data-ng-repeat="item in order.mode=='zarlaga'?products:products_all" value="{{item.id}}">{{item.name}}</option>
+                                     </select> -->
+                                     <!--<angucomplete-alt data-ng-model="detail.productId" id="products"
+                                                       placeholder="Бараа хайх ..."
+                                                       pause="400"
+                                                       selected-object="product"
+                                                       remote-url="product/findBySearch?value="
+                                                       remote-url-data-field="data"
+                                                       search-field="id"
+                                                       title-field="name"
+                                                       override-suggestions="true"
+                                                       description-field="address"
+                                                       input-class="form-control input input-sm" /> -->
+                                    <ui-select data-ng-model="productId" theme="bootstrap" title="Бараа сонгох" on-select="log($select.selected.id)" style="width:100%;">
+                                        <ui-select-match placeholder="Бараа сонгох...">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices repeat="pr in products_all | propsFilter: {name: $select.search}">
+                                            <div ng-bind-html="pr.name | highlight: $select.search"></div>
+                                            <small>
+                                               {{pr.name}}
+                                            </small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <!--<ui-select data-ng-model="detail.productId"
+                                               theme="bootstrap"
+                                               ng-disabled="ctrl.disabled"
+                                               reset-search-input="false"
+                                               title="Бараа хайх">
+                                        <ui-select-match placeholder="Барааны нэр хайх...">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices repeat="item in products_all track by $index"
+                                                           refresh="ctrl.refreshAddresses($select.search)"
+                                                           refresh-delay="0">
+                                            <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select> -->
                                 </div>
                             </div>
                             <div class="form-group">

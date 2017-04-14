@@ -14,7 +14,20 @@ public class PricesService {
 	public void save(Prices entity) {
 		dao.save(entity);
 	}
-
+	public void save_or_update(Prices entity){
+		Prices price = this.findByProductId(entity.getProductId());
+		if(price!=null){
+			this.save(entity);
+		}else{
+			Prices pr = new Prices();
+			pr.setId(entity.getId());
+			pr.setProductId(entity.getProductId());
+			pr.setPriceTagId(entity.getPriceTagId());
+			pr.setPrice(entity.getPrice());
+			this.save(pr);
+		}
+	}
+	public Prices findByProductId(int pid){ return dao.findByProductId(pid);}
 	public Prices findOne(int id) {
 		return dao.findOne(id);
 	}

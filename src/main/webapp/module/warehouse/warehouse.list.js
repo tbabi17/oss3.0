@@ -1,4 +1,4 @@
-angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_list', function($rootScope, $http, $scope, $location) {
+angular.module('warehouse_list', ['angucomplete-alt','ui.select']).controller('warehouse_list', function($rootScope, $http, $scope, $location) {
     $('input[name="daterange"]').daterangepicker({
         locale: {
             "format": "YYYY/MM/DD",
@@ -169,14 +169,57 @@ angular.module('warehouse_list', ['angucomplete-alt']).controller('warehouse_lis
         $('#modal').modal('hide');
     };
     
-    $scope.log = function() {
+    $scope.log = function(id) {
+        console.log("log function is working...");
         $rootScope.products_all.forEach(function (el, i, arr) {
-            if (el.id == $scope.detail.productId) {
+            if (el.id == id) {
+                $scope.detail.productId = id;
                 $scope.detail.product = el;
                 console.log($scope.detail.product);
             }
         });
     };
+    $scope.productSearch = function(str) {
+        var matches = [];
+        $rootScope.products_all.forEach(function(pr) {
+            var name = pr.name;
+            if ((pr.name.toLowerCase().indexOf(str.toString().toLowerCase()) >= 0)) {
+                matches.push(pr);
+            }
+        });
+        return matches;
+    };
     $rootScope.getUserList();
     $rootScope.getPriceTags();
+    $rootScope.getProductList();
+}).filter('propsFilter', function() {
+    return function(items, props) {
+        var out = [];
+
+        if (angular.isArray(items)) {
+            var keys = Object.keys(props);
+
+            items.forEach(function(item) {
+                var itemMatches = false;
+
+                for (var i = 0; i < keys.length; i++) {
+                    var prop = keys[i];
+                    var text = props[prop].toLowerCase();
+                    if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                        itemMatches = true;
+                        break;
+                    }
+                }
+
+                if (itemMatches) {
+                    out.push(item);
+                }
+            });
+        } else {
+            // Let the output be the input untouched
+            out = items;
+        }
+
+        return out;
+    };
 });

@@ -11,6 +11,7 @@ angular.module('customer_list', ['ngFileUpload']).controller('customer_list', fu
     $scope.orders = [];
     $scope.order_page = 1;
     $scope.total_orders = [];
+    $scope.tmp_route = [];
 
     $scope.statusName = [];
     $scope.statusName['info'] = "Шинэ захиалга";
@@ -42,10 +43,13 @@ angular.module('customer_list', ['ngFileUpload']).controller('customer_list', fu
     $scope.update = function(item) {
         if (item.name.length == 0) { $scope.error = 'Нэр оруулна уу !'; $('#name').focus(); return;}
         if (item.phone.length == 0) { $scope.error = 'Утас оруулна уу !'; $('#phone').focus(); return;}
+        $scope.tmp_route = item["routeName"];
+        delete item["routeName"];
         $http.put('customer/update', item).then(function(response) {
             $scope.find();
             $scope.findRoute();
             $('#modal').modal('hide');
+            item["routeName"] = $scope.tmp_route;
         }, function(response) {
         });
     };
@@ -109,7 +113,6 @@ angular.module('customer_list', ['ngFileUpload']).controller('customer_list', fu
         };
         $('#modal').modal('show');
     };
-
     $scope.dialog = function(item) {
         $scope.selected = item;
         $('#modal').modal('show');
@@ -151,7 +154,7 @@ angular.module('customer_list', ['ngFileUpload']).controller('customer_list', fu
         $scope.errFile = errFiles && errFiles[0];
         if (file) {
             file.upload = Upload.upload({
-                url: 'http://localhost:8080/import/xls_upload',
+                url: $rootScope.base_url+'/import/xls_upload',
                 data: {file: file}
             });
 

@@ -29,11 +29,10 @@
                                 <td style="width:8%;">Агуулах</td>
                                 <td style="width:12%">Үүссэн</td>
                                 <td style="width:12%">Өөрчилсөн</td>
-                                <td style="width:5%;text-align:center;">Үйлдэл</td>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-ng-repeat="item in list">
+                            <tr data-ng-repeat="item in list" context-menu="menuOptions" ng-click="select_row($event,item)" id="row{{item.id}}">
                                 <td><span class="label label-{{item.mode=='orlogo'?'success':'primary'}}">{{item.orderId}}</span></td>
                                 <td>{{item.customer.name}}</td>
                                 <td>{{item.user.firstName}}</td>
@@ -44,11 +43,6 @@
                                 <td>{{item.warehouse.name}}</td>
                                 <td>{{item.createdDate}}</td>
                                 <td>{{item.confirmDate}}</td>
-                                <td style="text-align:center;">
-                                    <a data-ng-click="dialog(item)"><span class="glyphicon glyphicon-pencil"></span></a>
-                                    &nbsp;&nbsp;
-                                    <a data-ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a>
-                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -164,7 +158,7 @@
             <div class="modal-header" style="text-align: center;">
                 <div class="pull-right white-color pointer" data-dismiss="modal" aria-hidden="true"
                      style="margin-top: 4px;"><span class="glyphicon glyphicon-remove"></span></div>
-                <h4 class="modal-title">Захилагын дэлгэрэнгүй</h4>
+                <h4 class="modal-title">Захиалгын дэлгэрэнгүй</h4>
             </div>
             <div class="modal-body">
                 <div style="font-size:13px;text-align: justify">
@@ -265,6 +259,19 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="approveModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <div class="pull-right white-color pointer" data-dismiss="modal" aria-hidden="true" style="margin-top: 4px;"><span class="glyphicon glyphicon-remove"></span></div>
+                <h4 class="modal-title">Захиалгууд зөвшөөрөх</h4>
+            </div>
+            <div class="modal-body">
+
             </div>
         </div>
     </div>

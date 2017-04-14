@@ -76,7 +76,7 @@ angular.module('user_list', ['ngFileUpload']).controller('user_list', function($
         $scope.errFile = errFiles && errFiles[0];
         if (file) {
             file.upload = Upload.upload({
-                url: 'http://localhost:8080/import/xls_upload',
+                url: $rootScope.base_url+'/import/xls_upload',
                 data: {file: file}
             });
 

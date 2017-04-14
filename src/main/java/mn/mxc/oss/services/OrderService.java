@@ -14,7 +14,7 @@ public class OrderService {
 	public void save(Orders entity) {
 		dao.save(entity);
 	}
-
+	public void updateMany(List<Orders> orders){dao.updateMany(orders);};
 	public Orders findOne(int id) {
 		return dao.findOne(id);
 	}

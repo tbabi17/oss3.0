@@ -31,6 +31,15 @@ public class RouteController {
 		pageable.put("data", list);
 		return pageable;
 	}
+	@RequestMapping(value = "route/findRoutes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findRoutes(@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		List list = service.findRoutes(page, size);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", service.total());
+		pageable.put("data", list);
+		return pageable;
+	}
 
 	@RequestMapping(value = "route/findByActive", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findByActive(@RequestParam int page, @RequestParam int size) {

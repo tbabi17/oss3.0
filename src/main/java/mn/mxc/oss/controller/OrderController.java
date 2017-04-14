@@ -96,4 +96,10 @@ public class OrderController {
 		service.update(entity);
 		return entity;
 	}
+	@RequestMapping(value = "order/approveSelected", method = RequestMethod.POST, consumes="application/json", produces = "application/json; charset=utf-8", headers = "Accept=*/*")
+	public Hashtable approveSelected(@RequestBody List<Orders> orders) {
+		Hashtable pageable = new Hashtable();
+		service.updateMany(orders);
+		return pageable;
+	}
 }

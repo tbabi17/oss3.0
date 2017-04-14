@@ -2,6 +2,7 @@ package mn.mxc.oss.services;
 
 import mn.mxc.oss.dao.RouteDao;
 import mn.mxc.oss.domain.Route;
+import mn.mxc.oss.domain.RouteOnly;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class RouteService {
 	}
 
 	public List<Route> findAll(int page, int size) { return dao.findAll(page, size); }
+	public List<RouteOnly> findRoutes(int page, int size) { return dao.findRoutes(page, size); }
 	public List<Route> findByActive(int page, int size) { return dao.findByActive(page, size); }
 
 	public void update(Route entity) {

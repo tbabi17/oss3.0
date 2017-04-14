@@ -93,7 +93,7 @@ angular.module('product_list', ['ngFileUpload']).controller('product_list', func
         $scope.errFile = errFiles && errFiles[0];
         if (file) {
             file.upload = Upload.upload({
-                url: 'http://localhost:8080/import/xls_upload',
+                url: $rootScope.base_url+'/import/xls_upload',
                 data: {file: file}
             });
 

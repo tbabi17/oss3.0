@@ -38,7 +38,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 public class ApiController {
-    private static String UPLOADED_FOLDER = "C://tmp//";
+    private static String UPLOADED_FOLDER = "e://tmp//";
     @Autowired(required=true)
     private ProductService service;
     @Qualifier(value="service")
@@ -257,7 +257,7 @@ public class ApiController {
                         prices.setProductId((int)pid);
                         prices.setPriceTagId((int)pricetagid);
                         prices.setPrice(price);
-                        prservice.save(prices);
+                        prservice.save_or_update(prices);
                     }else
                     if(name.equals("Customers")) {
                         String cname = "undefined";
@@ -565,9 +565,9 @@ public class ApiController {
                 }
                 break;
             }
-            try (FileOutputStream outputStream = new FileOutputStream("e://" + name + ".xlsx")) {
+            try (FileOutputStream outputStream = new FileOutputStream("e://tmp/" + name + ".xlsx")) {
                 workbook.write(outputStream);
-                File file = new File("e://" + name + ".xlsx");
+                File file = new File("e://tmp/" + name + ".xlsx");
                 FileInputStream fileIn = new FileInputStream(file);
                 ServletOutputStream out = response.getOutputStream();
 

@@ -1,12 +1,16 @@
 package mn.mxc.oss.controller;
 
 import mn.mxc.oss.domain.Customer;
+import mn.mxc.oss.domain.User;
 import mn.mxc.oss.services.CustomerService;
+import mn.mxc.oss.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -15,6 +19,8 @@ public class CustomerController {
 	
 	@Autowired
 	CustomerService service;/*Room44net*/
+	@Autowired
+	UserService uservice;
 
 	@RequestMapping(value = "customer/save", method = RequestMethod.POST, consumes="application/json", produces=MediaType.APPLICATION_JSON_VALUE)
 	public Customer save(@RequestBody Customer entity,HttpServletResponse response) {
@@ -53,7 +59,38 @@ public class CustomerController {
 	@RequestMapping(value = "customer/findUserCustomer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findUserCustomer(@RequestParam int uid,HttpServletResponse response) {
 		response.setHeader("Access-Control-Allow-Origin", "*");
-		List list = service.findUserCustomer(uid);
+		User user = uservice.findOne(uid);
+		List<Integer> directions = new ArrayList<Integer>(7);
+		int mon = user.getMon();
+		int tue = user.getTue();
+		int wed = user.getWed();
+		int thu = user.getThu();
+		int fri = user.getFri();
+		int sat = user.getSat();
+		int sun = user.getSun();
+		if(mon!=0){
+			directions.add(mon);
+		}
+		if(tue!=0){
+			directions.add(tue);
+		}
+		if(wed!=0){
+			directions.add(wed);
+		}
+		if(thu!=0){
+			directions.add(thu);
+		}
+		if(fri!=0){
+			directions.add(fri);
+		}
+		if(sat!=0){
+			directions.add(sat);
+		}
+		if(sun!=0){
+			directions.add(sun);
+		}
+		List list = service.findUserCustomer(directions);
+		System.out.println();
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);

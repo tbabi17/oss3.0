@@ -1,6 +1,7 @@
 package mn.mxc.oss.dao;
 
 import mn.mxc.oss.domain.Route;
+import mn.mxc.oss.domain.RouteOnly;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,9 @@ public class RouteDao extends GenericDao<Route> {
     public List<Route> findAll(int page, int size) {
         return findAll(Route.class, page, size);
     }
-
+    public List<RouteOnly> findRoutes(int page, int size) {
+        return findAll(RouteOnly.class, page, size);
+    }
     public List<Route> findByActive(int page, int size) {
         session = getSession();
         Transaction tx = session.beginTransaction();

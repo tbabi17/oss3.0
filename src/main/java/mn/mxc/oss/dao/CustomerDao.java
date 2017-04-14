@@ -7,6 +7,7 @@ import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -48,11 +49,11 @@ public class CustomerDao extends GenericDao<Customer> {
         return list;
     }
 
-    public List<Customer> findUserCustomer(int uid){
+    public List<Customer> findUserCustomer(List<Integer> directions){
         session = getSession();
         Transaction tx = session.beginTransaction();
         crit = session.createCriteria(Customer.class);
-        crit.add(Restrictions.eq("userId", uid));
+        crit.add(Restrictions.in("route", directions));
         List<Customer> list = crit.list();
         total = totalUniq(crit);
         tx.commit();

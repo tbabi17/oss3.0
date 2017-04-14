@@ -54,7 +54,8 @@ angular
                             $rootScope.customerNotify();
                             $rootScope.getPriceTags();
                             $rootScope.getUserList();
-                            $rootScope.getRouteList();
+                            //$rootScope.getRouteList();
+                            $rootScope.getRoutes();
                             $rootScope.getWarehouseList();
                             $rootScope.getProductList();
                         }
@@ -87,7 +88,7 @@ angular
                 });
             };
             $rootScope.getProductList = function() {
-                $http.get('product/findAll?page=1&size=50').then(function (response) {
+                $http.get('product/findAll?page=1&size=2500').then(function (response) {
                     $rootScope.products_all = response == undefined ? {} : response.data.data;
                     $rootScope.setupCheck();
                 }, function (response) {
@@ -103,9 +104,16 @@ angular
                     $rootScope.warehouses = {};
                 });
             };
-
+            /*
             $rootScope.getRouteList = function() {
                 $http.get('route/findAll?page=1&size=50').then(function (response) {
+                    $rootScope.routes = response == undefined ? {} : response.data.data;
+                }, function (response) {
+                    $rootScope.routes = {};
+                });
+            }; */
+            $rootScope.getRoutes = function() {
+                $http.get('route/findRoutes?page=1&size=50').then(function (response) {
                     $rootScope.routes = response == undefined ? {} : response.data.data;
                 }, function (response) {
                     $rootScope.routes = {};
