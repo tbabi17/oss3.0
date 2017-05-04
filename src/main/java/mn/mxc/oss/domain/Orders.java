@@ -4,6 +4,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,25 @@ public class Orders implements java.io.Serializable{
     private double amount;
     @Column
     private String createdDate;
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getConfirmDate() {
+        return confirmDate;
+    }
+
+    public void setConfirmDate(String confirmDate) {
+        this.confirmDate = confirmDate;
+    }
+
     @Column
+
     private String confirmDate;
     @Column
     private String status;
@@ -112,22 +131,6 @@ public class Orders implements java.io.Serializable{
 
     public void setAmount(double amount) {
         this.amount = amount;
-    }
-
-    public String getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getConfirmDate() {
-        return confirmDate;
-    }
-
-    public void setConfirmDate(String confirmDate) {
-        this.confirmDate = confirmDate;
     }
 
     public String getStatus() {

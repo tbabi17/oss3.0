@@ -23,6 +23,14 @@ public class Gps {
     @Column
     private float Battery;
 
+    public float getBattery() {
+        return Battery;
+    }
+
+    public void setBattery(float battery) {
+        Battery = battery;
+    }
+
     public int getId() {
         return id;
     }

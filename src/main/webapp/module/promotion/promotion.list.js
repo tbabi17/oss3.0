@@ -1,4 +1,4 @@
-angular.module('promotion_list', []).controller('promotion_list', function($rootScope, $http, $scope, $location) {
+angular.module('promotion_list', ['ui.select']).controller('promotion_list', function($rootScope, $http, $scope, $location) {
     $scope.list = [];
     $scope.old = [];
     $scope.total = 0;
@@ -167,6 +167,10 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
 
     $scope.addproduct = function() {
         $scope.error = '';
+        console.log("product id: "+$scope.detail.productId);
+        console.log("float qty: "+parseFloat($scope.detail.qty));
+        console.log("price: "+parseFloat($scope.detail.price));
+        console.log("amount: "+parseFloat($scope.detail.amount));
         var passed = ($scope.detail.productId > 0 && parseFloat($scope.detail.qty) > 0 && parseFloat($scope.detail.price) && parseFloat($scope.detail.amount));
         if (passed) {
             $rootScope.products_all.forEach(function (el, i, arr) {
@@ -186,8 +190,10 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
             };
 
             $('#product_modal').modal('hide');
-        } else
+        } else {
             $scope.error = 'Мэдээлэл буруу !';
+            console.log("not passed !!!");
+        }
     };
 
     $scope.delete_product = [];
@@ -196,15 +202,16 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
         $scope.delete_product.push(product);
         findAndRemove($scope.promotion.detailsList, 'id', product.id);
     };
-
+    /*
     $scope.log = function() {
+     $scope.detail.productId
         $rootScope.products_all.forEach(function (el, i, arr) {
             if (el.id == $scope.detail.productId) {
                 $scope.detail.product = el;
                 console.log($scope.detail.product);
             }
         });
-    };
+    }; */
     $scope.dialogHide = function() {
         $('#modal').modal('hide');
     };
@@ -212,5 +219,45 @@ angular.module('promotion_list', []).controller('promotion_list', function($root
     $scope.qtyChange = function() {
         $scope.detail.amount = $scope.detail.price*$scope.detail.qty;
     };
+    $scope.log = function(id) {
+        //$scope.detail.productId = id;
+        console.log("log function is working...");
+        $rootScope.products_all.forEach(function (el, i, arr) {
+            if (el.id == id) {
+                $scope.detail.productId = id;
+                $scope.detail.product = el;
+                console.log($scope.detail.product);
+            }
+        });
+    };
+}).filter('propsFilter', function() {
+    return function(items, props) {
+        var out = [];
 
+        if (angular.isArray(items)) {
+            var keys = Object.keys(props);
+
+            items.forEach(function(item) {
+                var itemMatches = false;
+
+                for (var i = 0; i < keys.length; i++) {
+                    var prop = keys[i];
+                    var text = props[prop].toLowerCase();
+                    if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                        itemMatches = true;
+                        break;
+                    }
+                }
+
+                if (itemMatches) {
+                    out.push(item);
+                }
+            });
+        } else {
+            // Let the output be the input untouched
+            out = items;
+        }
+
+        return out;
+    };
 });

@@ -18,6 +18,9 @@ public class WarehouseService {
 	public Warehouse findOne(int id) {
 		return dao.findOne(id);
 	}
+	public List<Warehouse> findByOwner(String owner) {
+		return dao.findByOwner(owner);
+	}
 
 	public List<Warehouse> findAll(int page, int size) { return dao.findAll(page, size); }
 

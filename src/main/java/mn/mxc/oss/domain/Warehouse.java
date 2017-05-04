@@ -20,6 +20,15 @@ public class Warehouse {
     private String name;
     @Column
     private String type;
+    @Column String owner;
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     public String getName() {
         return name;

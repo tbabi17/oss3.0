@@ -38,9 +38,18 @@ public class WarehouseController {
 		service.delete(item);
 		return item;
 	}
-
+	@RequestMapping(value = "warehouse/findByOwner", method = RequestMethod.GET)
+	public Hashtable findByOwner(@RequestParam String owner, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		List<Warehouse> list = service.findByOwner(owner);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", service.total());
+		pageable.put("data", list);
+		return pageable;
+	}
 	@RequestMapping(value = "warehouse/update", method = RequestMethod.PUT, consumes="application/json", produces = "application/json; charset=utf-8", headers = "Accept=*/*")
-	public Warehouse update(@RequestBody Warehouse entity) {
+	public Warehouse update(@RequestBody Warehouse entity,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		service.update(entity);
 		return entity;
 	}

@@ -3,11 +3,18 @@ package mn.mxc.oss.dao;
 import mn.mxc.oss.domain.Details;
 import mn.mxc.oss.domain.Orders;
 import mn.mxc.oss.domain.StockBalance;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -47,7 +54,62 @@ public class OrderDao extends GenericDao<Orders> {
         tx.commit();
         return list;
     }
+    public List<Orders> findByStatus(int uid,String status,String date){
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        String SQL_QUERY = "";
+        if(status.equals("all")){
+            SQL_QUERY = "SELECT o FROM Orders o WHERE o.userId='"+uid+"' AND DATE(o.createdDate)='"+date+"'";
+        }else{
+            SQL_QUERY = "SELECT o FROM Orders o WHERE o.status='"+status+"' AND o.userId='"+uid+"' AND DATE(o.createdDate)='"+date+"'";
+        }
+         Query query = session.createQuery(SQL_QUERY);
+        List<Orders> list = query.list();
+        tx.commit();
+        return list;
+    }
+    public List<Orders> recentOrders(int customer_id){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String current_date = sdf.format(cal.getTime());
+        cal.add(Calendar.MONTH, -3);
+        String past = sdf.format(cal.getTime());
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        String SQL_QUERY = "SELECT o FROM Orders o WHERE o.customerId='"+customer_id+"' AND DATE(o.createdDate) BETWEEN '"+past+"' AND '"+current_date+"'";
+        System.out.println("current date: "+current_date);
+        System.out.println("3 months ago: "+past);
+        Query query = session.createQuery(SQL_QUERY);
+        List<Orders> list = query.list();
+        tx.commit();
+        return list;
+    }
+    /*
+    public List<Orders> findBs(int uid,String status,String date){
 
+        DateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+        Date dt = null;
+        try {
+            SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd-yyyy");
+            dt = sdf1.parse(date);
+            System.out.println(dt.toString());
+        }catch(ParseException ex){
+            System.out.println(ex);
+        }
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        crit = session.createCriteria(Orders.class);
+        crit.add(Restrictions.eq("status", status));
+        crit.add(Restrictions.eq("userId",uid));
+        crit.add(Restrictions.ge("createdDate",dt));
+        crit.addOrder(Order.desc("createdDate"));
+        List<Orders> list = crit.list();
+        total = totalUniq(crit);
+        tx.commit();
+        return list;
+
+    }
+     */
     public List<Orders> findBySearch(int userId, String start, String end, int page, int size) {
         session = getSession();
         Transaction tx = session.beginTransaction();
@@ -177,7 +239,6 @@ public class OrderDao extends GenericDao<Orders> {
             l++;
         }
         tx.commit();
-        session.close();
     }
 
 }

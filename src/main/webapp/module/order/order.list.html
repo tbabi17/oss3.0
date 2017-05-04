@@ -111,7 +111,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr data-ng-repeat="item in old" data-ng-click="dialog(item)">
+                                <tr data-ng-repeat="item in old" context-menu="menuOptions2" ng-click="select_row1($event,item)" data-ng-click="dialog(item)" id="rowo{{item.id}}">
                                     <td><span class="label label-default">{{item.orderId}}</span></td>
                                     <td>{{item.customer.name}}</td>
                                     <td>{{item.user.firstName}}</td>

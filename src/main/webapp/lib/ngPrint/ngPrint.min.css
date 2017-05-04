@@ -1,0 +1,14 @@
+@media print{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+    table{
+        width:100%;
+        border-collapse:collapse;
+    }
+    td{
+        text-align: center;
+        vertical-align: middle;
+    }
+}

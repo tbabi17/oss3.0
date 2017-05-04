@@ -26,7 +26,20 @@ angular.module('dashboard_init', []).controller('dashboard_init', function($root
             $scope.balanceByUserList = [];
         });
     };
-
+    $scope.exportBalanceByUser = function(){
+        var fun = 'balanceByUsersExport';
+        var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var field = '&startDate='+start+'&endDate='+end;
+        window.location.href = "stock/"+fun+'?page='+$scope.page + '&size=' + $scope.size+field;
+    };
+    $scope.exportBalanceByProducts = function(){
+        var fun = 'balanceByProductsExport';
+        var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var field = '&startDate='+start+'&endDate='+end;
+        window.location.href = "stock/"+fun+'?page='+$scope.page + '&size=' + $scope.size+field;
+    };
     $scope.balanceByUsers();
 
     $scope.balanceByProducts = function() {
@@ -52,6 +65,14 @@ angular.module('dashboard_init', []).controller('dashboard_init', function($root
         }, function (response) {
             $scope.balanceByDayList = [];
         });
+    };
+
+    $scope.exportBalanceByDay = function(){
+        var fun = 'balanceByDayExport';
+        var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var field = '&startDate='+start+'&endDate='+end;
+        window.location.href = "stock/"+fun+'?page='+$scope.page + '&size=' + $scope.size+field;
     };
 
 });

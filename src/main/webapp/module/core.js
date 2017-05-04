@@ -1,7 +1,7 @@
 var allControlller = ['ngRoute','ngAnimate', 'ngSanitize', 'ui.bootstrap','ngBootbox'];
 var customController = [
     'user_list','product_list','customer_list', 'dashboard_init', 'order_list', 'warehouse_list','settings_init',
-    'plan_list','login_user', 'promotion_list','map_init', 'report_init'
+    'plan_list','login_user', 'promotion_list','map_init', 'invoice_list','report_init'
 ];
 
 allControlller = allControlller.concat(customController);
@@ -27,7 +27,6 @@ angular
                     controllerAs : 'controller'
                 });
             });
-
             $routeProvider.when('/#/', {
                 templateUrl : 'module/user/login.user.html',
                 controller : 'login_user',
@@ -38,7 +37,11 @@ angular
             $httpProvider.interceptors.push('myHttpInterceptor');
         }).run(function($rootScope, $http, $location) {
             $rootScope.logged = {};
+            $rootScope.company = "Баттрейд CИ ХХК";
+            $rootScope.base_url = "http://localhost:8080";
+            $rootScope.imgPath = "http://192.168.1.129/products/";
             $rootScope.logshow = false;
+            $rootScope.activeOrder = 0;
             $rootScope.checkSession = function() {
                 $http.get('user/checkSession').then(function (response) {
                     $rootScope.logged = response.data;

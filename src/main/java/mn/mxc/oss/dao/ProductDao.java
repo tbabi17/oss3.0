@@ -8,9 +8,9 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -38,6 +38,24 @@ public class ProductDao extends GenericDao<Product> {
         tx.commit();
         return list;
     }
+    public List<Product> findBrands() {
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        String SQL_QUERY = "SELECT product FROM Product product GROUP BY product.brand";
+        Query query = session.createQuery(SQL_QUERY);
+        List<Product> list = query.list();
+        tx.commit();
+        return list;
+    }
+    public List<Product> findNyaravs() {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        String SQL_QUERY = "SELECT product FROM Product product GROUP BY product.descr";
+        Query query = session.createQuery(SQL_QUERY);
+        List<Product> list = query.list();
+        tx.commit();
+        return list;
+    }
 
     public List<Product> findByAvailable(int warehouseId) {
         session = getSession();
@@ -48,7 +66,15 @@ public class ProductDao extends GenericDao<Product> {
         tx.commit();
         return list;
     }
-
+    public List<Product> findHistoryProducts(int customer_id) {
+        session = getSession();
+        Transaction tx = session.beginTransaction();
+        String SQL_QUERY = "SELECT product FROM Product product";
+        Query query = session.createQuery(SQL_QUERY);
+        List<Product> list = query.list();
+        tx.commit();
+        return list;
+    }
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

@@ -1,0 +1,98 @@
+<div class="container-full">
+    <div class="row">
+        <div class="col-sm-6 col-md-offset-3">
+            <div id="print">
+
+                <div class="table-round">
+                    <table class="print_borderless" border="0">
+                        <tr>
+                            <td><h4>{{company}}</h4></td>
+                            <td>{{order.customer.name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Борлуулагчийн нэр: {{order.user.firstName}}</td>
+                            <td>Борлуулагчийн утас {{order.user.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align:center;font-weight:bold;">
+                                <p></p>
+                                <h4>ЗАХИАЛГЫН ХУУДАС № {{order.orderId}}</h4>
+                            </td>
+                        </tr>
+                    </table>
+                    <p></p>
+                    <table id="data" class="table-bordered" border="1">
+                        <thead>
+                        <tr>
+                            <td style="width:35%;font-weight:bold;">Барааны нэр</td>
+                            <td style="width:5%;text-align: right;font-weight:bold;">%</td>
+                            <td style="width:10%;text-align: right;font-weight:bold;">Тоо</td>
+                            <td style="width:20%;text-align: right;font-weight:bold;">Үнэ</td>
+                            <td style="width:15%;text-align: right;font-weight:bold;">Дүн</td>
+                            <td style="width:15%;text-align: right;font-weight:bold;">Бүгд дүн</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="item in order.detailsList | filter:{product:{descr:descr}}">
+                                <td style="width:35%">{{item.product.name}}</td>
+                                <td style="width:5%;text-align: right;">{{item.product.discount}}</td>
+                                <td style="width:10%;text-align: right;">{{item.qty}}</td>
+                                <td style="width:20%;text-align: right;">{{item.price}}</td>
+                                <td style="width:15%;text-align: right;">{{item.amount}}</td>
+                                <td style="width:15%;text-align: right;">{{item.amount}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" style="font-weight:bold;">Нийт үнэ</td>
+                                <td colspan="2">{{order.amount}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="font-weight:bold;">Хөнгөлөлт /Бэлэн худ.авалт/</td>
+                                <td colspan="2">0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="font-weight:bold;">Хөнгөлөлт хассан дүн</td>
+                                <td colspan="2">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <p></p>
+                    <table border="0" style="width:100%;">
+                        <tr>
+                            <td style="width:25%;font-weight:bold;">Огноо:</td>
+                            <td style="width:25%;">{{order.createdDate}}</td>
+                            <td style="width:25%;font-weight:bold;">Түгээгч: </td>
+                            <td style="width:25%;">.............</td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%;font-weight:bold;">Хүлээн авсан</td>
+                            <td style="width:25%;">.............</td>
+                            <td style="width:25%;font-weight:bold;">Машины дугаар: </td>
+                            <td style="width:25%;">.............</td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%;font-weight:bold;">Хүлээлгэн өгсөн</td>
+                            <td style="width:25%;">...............</td>
+                            <td style="width:25%;font-weight:bold;">Утас:</td>
+                            <td style="width:25%;">...............</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <select ng-model="descr" class="form-control" placeholder="Нярав сонгох...">
+                        <option value="{{undefined}}" selected="selected">Нярав сонгох...</option>
+                        <option data-ng-repeat="item in descriptions" value="{{item.descr}}">{{item.descr}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-left">
+                   <a class="btn btn-default no-print" ng-click="print()"><i class="glyphicon glyphicon-print"></i> Хэвлэх</a>
+                    <a class="btn btn-warning no-print"><i class="glyphicon glyphicon-arrow-left"></i> Буцах</a>
+                </div>
+            </div>
+            <div id="section" style="display:none;"></div>
+        </div>
+    </div>
+</div>

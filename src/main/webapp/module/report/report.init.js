@@ -49,6 +49,13 @@ angular.module('report_init', []).controller('report_init', function($rootScope,
             $scope.list = 0;
         });
     };
+    $scope.export = function(){
+        var fun = 'view';
+        var start = $('#range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var end = $('#range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var field = '&startDate='+start+'&endDate='+end;
+        window.location.href = 'report/export?report='+$scope.report_name+'&page='+$scope.page+'&size='+$scope.size+field;
+    };
 
     $scope.find();
 

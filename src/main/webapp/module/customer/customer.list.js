@@ -118,7 +118,13 @@ angular.module('customer_list', ['ngFileUpload']).controller('customer_list', fu
         $('#modal').modal('show');
         $scope.findOrder(item.id);
     };
-
+    $scope.delete_customer = function(item){
+      bootbox.confirm("Та "+item.name+" нэртэй харилцагчийг устгахдаа итгэлтэй байна уу?",function(r){
+          if(r==true){
+              $scope.delete(item);
+          }
+      });
+    };
     $scope.route_dialog = function(item) {
         $scope.selectedRoute = item;
         $('#route_modal').modal('show');

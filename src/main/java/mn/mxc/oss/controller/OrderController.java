@@ -1,5 +1,6 @@
 package mn.mxc.oss.controller;
 
+import mn.mxc.oss.domain.Details;
 import mn.mxc.oss.domain.Orders;
 import mn.mxc.oss.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -32,7 +34,15 @@ public class OrderController {
 		service.close();
 		return pageable;
 	}
-
+	@RequestMapping(value = "order/findOne", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findOne(@RequestParam int id) {
+		Orders order = service.findOne(id);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", service.total());
+		pageable.put("data", order);
+		service.close();
+		return pageable;
+	}
 	@RequestMapping(value = "order/findBySearch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findBySearch(@RequestParam int userId, @RequestParam String start, @RequestParam String end, @RequestParam int page, @RequestParam int size) {
 		List list = service.findBySearch(userId, start, end, page, size);
@@ -56,6 +66,16 @@ public class OrderController {
 	@RequestMapping(value = "order/findByNewOrder", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findByNewOrder(@RequestParam int page, @RequestParam int size) {
 		List list = service.findByNewOrder(page, size);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", service.total());
+		pageable.put("data", list);
+		service.close();
+		return pageable;
+	}
+	@RequestMapping(value = "order/findByStatus", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findByStatus(@RequestParam int uid, @RequestParam String status,@RequestParam String date,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		List<Orders> list = service.findByStatus(uid,status,date);
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);
@@ -100,6 +120,15 @@ public class OrderController {
 	public Hashtable approveSelected(@RequestBody List<Orders> orders) {
 		Hashtable pageable = new Hashtable();
 		service.updateMany(orders);
+		return pageable;
+	}
+	@RequestMapping(value = "order/recentOrders", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hashtable findHistoryProducts(@RequestParam int customer_id,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		List<Orders> list = service.recentOrders(customer_id);
+		Hashtable pageable = new Hashtable();
+		pageable.put("total", list.size());
+		pageable.put("data", list);
 		return pageable;
 	}
 }

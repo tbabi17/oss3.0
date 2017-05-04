@@ -9,6 +9,7 @@ import mn.mxc.oss.services.CustomerService;
 import mn.mxc.oss.services.PricesService;
 import mn.mxc.oss.services.ProductService;
 import mn.mxc.oss.services.UserService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.*;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +40,9 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 public class ApiController {
-    private static String UPLOADED_FOLDER = "e://tmp//";
+    private static String UPLOADED_FOLDER = "e://tmp/";
+    private static String PRODUCT_FOLDER ="c:/xampp/htdocs/products/";
+    private static String USER_FOLDER = "c:/xampp/htdocs/products/users/";
     @Autowired(required=true)
     private ProductService service;
     @Qualifier(value="service")
@@ -87,6 +91,74 @@ public class ApiController {
         }else{
             pageable.put("status", false);
             pageable.put("msg", "Эксел файл оруулна уу?");
+        }
+        return pageable;
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "uploadImage")
+    public  Hashtable uploadImage(@RequestParam("file") MultipartFile file,@RequestParam("name") String name,@RequestParam("code") String code, HttpServletRequest req) throws IOException {
+        System.out.println("upload name: "+name);
+        HttpSession session = req.getSession();
+        String userid = session.getAttribute("owner").toString();
+        byte[] bytes;
+        Hashtable pageable = new Hashtable();
+        if (!file.isEmpty()) {
+            bytes = file.getBytes();
+            String ext = file.getOriginalFilename().split("\\.")[1];
+            String uploadedPath = code+"."+ext;
+            Path path = null;
+            if(name.equals("product"))
+                path = Paths.get(PRODUCT_FOLDER + file.getOriginalFilename());
+            if(name.equals("user"))
+                path = Paths.get(USER_FOLDER + file.getOriginalFilename());
+            Files.write(path, bytes);
+            if(name.equals("product")){
+                File f1  = new File(PRODUCT_FOLDER + file.getOriginalFilename());
+                File newFile = new File(f1.getParent(), uploadedPath);
+                Files.move(f1.toPath(), newFile.toPath());
+                System.out.println("new file:  "+newFile.toString());
+            }
+            if(name.equals("user")){
+                File f1  = new File(USER_FOLDER + file.getOriginalFilename());
+                File f2 = new File(USER_FOLDER+uploadedPath);
+                boolean success = f1.renameTo(f2);
+                if (!success) {
+                    System.out.println("Unable to rename user....");
+                }
+            }
+            pageable.put("status",true);
+            pageable.put("name",name);
+            pageable.put("path",uploadedPath);
+
+        }else{
+            pageable.put("status", false);
+            pageable.put("msg", "Файл хоосон байна");
+        }
+        return pageable;
+    }
+    @RequestMapping(value="delete/img", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Hashtable delete(@RequestParam("file") String file,@RequestParam("name") String name,HttpServletRequest req){
+        Hashtable pageable = new Hashtable();
+        try{
+            String path = "";
+            if(name.equals("product")){
+                path = PRODUCT_FOLDER+file;
+            }
+            if(name.equals("user")){
+                path = USER_FOLDER+file;
+            }
+            File f = new File(path);
+
+            if(f.delete()){
+                System.out.println(f.getName() + " is deleted!");
+            }else{
+                System.out.println("Delete operation is failed.");
+            }
+            pageable.put("status",true);
+        }catch(Exception e){
+            pageable.put("status",false);
+            e.printStackTrace();
+
         }
         return pageable;
     }
@@ -154,18 +226,21 @@ public class ApiController {
                         String type = "";
                         double size = 1;
                         double discount = 0;
+                        String descr = "";
                         if(row.getCell(0) != null)
                             code = Double.toString(row.getCell(0).getNumericCellValue());
-                        if(row.getCell(3) != null)
-                            size = row.getCell(3).getNumericCellValue();
-                        if(row.getCell(5) != null)
-                            discount = row.getCell(5).getNumericCellValue();
                         if(row.getCell(1) != null)
                             pname = row.getCell(1).getStringCellValue();
                         if(row.getCell(2) != null)
                             brand = row.getCell(2).getStringCellValue();
+                        if(row.getCell(3) != null)
+                            size = row.getCell(3).getNumericCellValue();
                         if(row.getCell(4) != null)
                             type = row.getCell(4).getStringCellValue();
+                        if(row.getCell(5) != null)
+                            discount = row.getCell(5).getNumericCellValue();
+                        if(row.getCell(6) != null)
+                            descr = row.getCell(6).getStringCellValue();
 
                         Product product = new Product();
                         //product.setId(0);
@@ -178,6 +253,7 @@ public class ApiController {
                         product.setStatus("active");
                         product.setImg("product.png");
                         product.setDiscount(discount);
+                        product.setDescr(descr);
                         service.save(product);
                         System.out.println(code+" | "+pname+" | "+brand+" | "+size+" | "+type+" | "+datetime+" | "+discount);
                     }else

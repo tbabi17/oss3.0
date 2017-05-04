@@ -24,6 +24,7 @@ public class DetailsService {
 	public List<Details> findByOrderId(int orderId, int page, int size) {
 		return dao.findByOrderId(orderId, page, size);
 	}
+	public List<Details> recentProducts(List<String> orders){ return dao.recentProducts(orders);};
 	public void update(Details entity) {
 		dao.update(entity);
 	}

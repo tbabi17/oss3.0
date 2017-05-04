@@ -30,6 +30,15 @@ public class Product implements java.io.Serializable{
     @Column String type;
     @Column double size;
     @Column double discount;
+    @Column String descr;
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
 
     public double getDiscount() {
         return discount;

@@ -1,4 +1,4 @@
-angular.module('product_list', ['ngFileUpload']).controller('product_list', function($rootScope, $http, $scope, $location,fileUpload,Upload,$timeout) {
+angular.module('product_list', ['ngFileUpload','dcbImgFallback']).controller('product_list', function($rootScope, $http, $scope, $location,fileUpload,Upload,$timeout) {
     $scope.search = {'value': ''};
     $scope.list = [];
     $scope.total = 0;
@@ -6,6 +6,7 @@ angular.module('product_list', ['ngFileUpload']).controller('product_list', func
     $scope.size = 15;
     $scope.error = '';
     $scope.success = '';
+    $scope.selected = {};
     $scope.find = function() {
         var fun = 'findAll';
         if ($scope.search.value) fun = 'findBySearch';
@@ -19,9 +20,13 @@ angular.module('product_list', ['ngFileUpload']).controller('product_list', func
     };
 
     $scope.delete = function(item) {
-        $http.delete('product/delete?id='+item.id).then(function(response) {
-            $scope.find();
-        }, function(response) {
+        bootbox.confirm("Барааны мэдээллийг устгана гэдэгтэй итгэлтэй байн уу?",function(r){
+            if(r==true){
+                http.delete('product/delete?id='+item.id).then(function(response) {
+                    $scope.find();
+                }, function(response) {
+                });
+            }
         });
     };
 
@@ -117,6 +122,103 @@ angular.module('product_list', ['ngFileUpload']).controller('product_list', func
             }, function (evt) {
                 file.progress = Math.min(100, parseInt(100.0 *
                     evt.loaded / evt.total));
+            });
+        }
+    };
+    $scope.menuOptions = [
+        ['Нэмэх', function ($itemScope) {
+            $scope.add();
+            console.log($itemScope.item);
+        }],
+        ['Засах', function ($itemScope) {
+            $scope.dialog($itemScope.item);
+            console.log($itemScope.item);
+        }],
+        ['Устгах', function ($itemScope) {
+            $scope.delete($itemScope.item);
+            console.log($itemScope.item);
+        }],
+        null,
+        ['Зураг оруулах', function ($itemScope) {
+            console.log($itemScope.item);
+            $scope.selected = $itemScope.item;
+            $("#img").attr('src',$scope.productPath+$itemScope.item.img);
+            $("#imageModal").modal('show');
+        }],
+        ['Импорт', function ($itemScope) {
+            $scope.openImportWindow();
+            console.log($itemScope.item);
+        }],
+        ['Экспорт', function ($itemScope) {
+            console.log($itemScope.item);
+            window.location.href="export/data?name=Products";
+        }],
+        null,
+        ['Тусламж', function ($itemScope) {
+            console.log($itemScope.item);
+            $("#helpModal").modal('show');
+        }],
+    ];
+    $scope.deleteImg = function(img,name){
+        $http.get('delete/img?file='+img+'&name='+name).then(function(response) {
+            console.log(response.data);
+        }, function(response) {
+        });
+    };
+    $scope.uploadProductImage = function(file, errFiles) {
+        console.log("upload progress...");
+        $scope.deleteImg($scope.selected.img,"product");
+        $scope.f = file;
+        $scope.errFile = errFiles && errFiles[0];
+        if (file) {
+            file.upload = Upload.upload({
+                url: $rootScope.base_url+'/uploadImage',
+                data: {file: file, name:"product",code:$scope.selected.code}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    var res = response.data;
+                    if(res.status==true){
+                        $("#img").attr('src',$scope.imgPath+res.path);
+                        $scope.selected.img = res.path;
+                        $http.put('product/update', $scope.selected).then(function(response) {
+                            $scope.success = 'Амжилттай хадгаллаа !';
+                            $scope.find();
+                        }, function(response) {
+                        });
+                    }else{
+                        bootbox.alert(res.msg,function(){
+
+                        });
+                    }
+                    console.log(response.data);
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 *
+                    evt.loaded / evt.total));
+            });
+        }
+    };
+    $('img[rel=popover]').mouseenter(function(){
+        $(this).popover({
+            html: true,
+            trigger: 'hover',
+            content: function () {
+                return '<img src="'+$(this).attr('src') + '" style="height:140px; width:160px;"/>';
+            }
+        });
+    });
+}).directive('onErrorSrc', function() {
+    return {
+        link: function(scope, element, attrs) {
+            element.bind('error', function() {
+                if (attrs.src != attrs.onErrorSrc) {
+                    attrs.$set('src', attrs.onErrorSrc);
+                }
             });
         }
     }

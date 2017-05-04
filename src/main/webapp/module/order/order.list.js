@@ -9,6 +9,8 @@ angular.module('order_list', ['ui.bootstrap.contextMenu','ngBootbox']).controlle
     $scope.statusName = [];
     $scope.selected_rows = [];
     $scope.selected_items = [];
+    $scope.selected_rows1 = [];
+    $scope.selected_items1 = [];
     $scope.statusName['info'] = "Шинэ захиалга";
     $scope.statusName['success'] = "Зөвшөөрсөн";
     $scope.statusName['danger'] = "Буцаасан";
@@ -43,6 +45,26 @@ angular.module('order_list', ['ui.bootstrap.contextMenu','ngBootbox']).controlle
                     $scope.delete($itemScope.item);
                 }
             });
+        }]
+    ];
+    $scope.menuOptions2 = [
+        ['Дэлгэрэнгүй',function ($itemScope){
+            $scope.dialog($itemScope.item);
+        }],
+        ['Хэвлэх',function($itemScope){
+            console.log($itemScope.item);
+            $rootScope.activeOrder = $itemScope.item.id;
+            window.location.href = "#/invoice_list";
+        }],
+        ['НӨАТ-н баримт хэвлэх',function($itemScope){
+
+        }],
+        ['Буцаах',function($itemScope){
+
+        }],
+        null,
+        ['Тусламж',function($itemScope){
+
         }]
     ];
     $('input[name="daterange"]').daterangepicker({
@@ -85,6 +107,27 @@ angular.module('order_list', ['ui.bootstrap.contextMenu','ngBootbox']).controlle
             console.log("other");
         }
         console.log($scope.selected_rows);
+    };
+    $scope.select_row1 = function (event,item){
+        //console.log(item);
+        if(event.ctrlKey) {
+            var id = item.id;
+            if ($scope.in_array($scope.selected_rows1, id) == -1) {
+                $scope.selected_rows1.push(id);
+                $("#rowo" + item .id).attr('style', 'background-color:#b0e0e6');
+                console.log("push");
+            } else {
+                $scope.selected_rows1.remByVal(id);
+                $("#rowo" + item.id).attr('style', '');
+                console.log("pop");
+            }
+        }else{
+            $scope.selected_rows = [item.id];
+            $("#rowo" + item.id).attr('style', 'background-color:#b0e0e6');
+            $("#rowo" + item.id).siblings('tr').attr('style', '');
+            console.log("other");
+        }
+        console.log($scope.selected_rows1);
     };
     $scope.findNew = function() {
         var fun = 'findByNewOrder';
