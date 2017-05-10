@@ -11,25 +11,25 @@ public class Gps {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     @Column(name="userId")
-    private int UserId;
+    private int userId;
     @Column
     private Double lat;
     @Column
     private Double lng;
-    @Column(name="createdDate")
-    private String Date;
+    private String createdDate;
     @Column(name="customer_id")
-    private int CustomerId;
-    @Column
-    private float Battery;
+    private int customerId;
 
     public float getBattery() {
-        return Battery;
+        return battery;
     }
 
     public void setBattery(float battery) {
-        Battery = battery;
+        this.battery = battery;
     }
+
+    @Column
+    private float battery;
 
     public int getId() {
         return id;
@@ -40,11 +40,11 @@ public class Gps {
     }
 
     public int getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(int userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public Double getLat() {
@@ -63,19 +63,19 @@ public class Gps {
         this.lng = lng;
     }
 
-    public String getDate() {
-        return Date;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDate(String date) {
-        Date = date;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
     public int getCustomerId() {
-        return CustomerId;
+        return customerId;
     }
 
     public void setCustomerId(int customerId) {
-        CustomerId = customerId;
+        this.customerId = customerId;
     }
 }

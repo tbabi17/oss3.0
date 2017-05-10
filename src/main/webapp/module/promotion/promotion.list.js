@@ -111,9 +111,13 @@ angular.module('promotion_list', ['ui.select']).controller('promotion_list', fun
     };
 
     $scope.delete = function(item) {
-        $http.delete('promotion/delete?id='+item.id).then(function(response) {
-            $scope.findNew();
-        }, function(response) {
+        bootbox.confirm("Та "+item.name+" нэртэй урамшууллын мэдээллийг устгахдаа итгэлтэй байна уу,",function(r){
+            if(r){
+                $http.delete('promotion/delete?id='+item.id).then(function(response) {
+                    $scope.findNew();
+                }, function(response) {
+                });
+            }
         });
     };
 
@@ -199,8 +203,17 @@ angular.module('promotion_list', ['ui.select']).controller('promotion_list', fun
     $scope.delete_product = [];
 
     $scope.deleteproduct = function(product) {
-        $scope.delete_product.push(product);
-        findAndRemove($scope.promotion.detailsList, 'id', product.id);
+        console.log(product);
+        bootbox.confirm("Та дараах урамшууллын барааны мэдээллийг устгахдаа итгэлтэй байна уу?",function(r){
+            if(r){
+                $scope.delete_product.push(product);
+                $http.put('promotiondetail/delete', product).then(function(response) {
+                    $scope.findNew();
+                }, function(response) {
+                });
+            }
+        });
+
     };
     /*
     $scope.log = function() {

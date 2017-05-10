@@ -59,9 +59,9 @@ public class OrderDao extends GenericDao<Orders> {
         Transaction tx = session.beginTransaction();
         String SQL_QUERY = "";
         if(status.equals("all")){
-            SQL_QUERY = "SELECT o FROM Orders o WHERE o.userId='"+uid+"' AND DATE(o.createdDate)='"+date+"'";
+            SQL_QUERY = "SELECT o FROM Orders o WHERE o.userId='"+uid+"' AND DATE(o.createdDate)='"+date+"' ORDER BY o.createdDate desc";
         }else{
-            SQL_QUERY = "SELECT o FROM Orders o WHERE o.status='"+status+"' AND o.userId='"+uid+"' AND DATE(o.createdDate)='"+date+"'";
+            SQL_QUERY = "SELECT o FROM Orders o WHERE o.status='"+status+"' AND o.userId='"+uid+"' AND DATE(o.createdDate)='"+date+"' ORDER BY o.createdDate desc";
         }
          Query query = session.createQuery(SQL_QUERY);
         List<Orders> list = query.list();
@@ -196,7 +196,6 @@ public class OrderDao extends GenericDao<Orders> {
         }
 
         tx.commit();
-        session.close();
     }
     public void updateMany(final List<Orders> orders) {
         session = sessionFactory.openSession();

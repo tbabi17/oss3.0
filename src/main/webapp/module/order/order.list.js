@@ -14,6 +14,11 @@ angular.module('order_list', ['ui.bootstrap.contextMenu','ngBootbox']).controlle
     $scope.statusName['info'] = "Шинэ захиалга";
     $scope.statusName['success'] = "Зөвшөөрсөн";
     $scope.statusName['danger'] = "Буцаасан";
+    $scope.statusName['warning'] = "Борлуулалт хийгээгүй";
+    $scope.statusName['default'] = 'Хаалттай';
+    $scope.statusFilter = {
+        status:"info"
+    };
     $scope.menuOptions = [
         ['Зөвшөөрөх', function ($itemScope) {
             console.log($itemScope.item.OrderId);

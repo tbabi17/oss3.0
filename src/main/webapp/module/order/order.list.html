@@ -11,6 +11,14 @@
                         <div class="col-sm-6">
                             <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Хүлээгдэж байгаа захиалга
                         </div>
+                        <div class="col-sm-offset-4 col-sm-2">
+                            <select data-ng-model="statusFilter.status" class="form-control input input-sm btn-primary">
+                                <option value="info">Шинэ захиалга</option>
+                                <option value="danger">Буцаасан</option>
+                                <option value="warning">Борлуулалт хийгээгүй</option>
+                                <option value="default">Хаалттай</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                     <div class="row">
@@ -32,7 +40,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-ng-repeat="item in list" context-menu="menuOptions" ng-click="select_row($event,item)" id="row{{item.id}}">
+                            <tr data-ng-repeat="item in list | filter:statusFilter" context-menu="menuOptions" ng-click="select_row($event,item)" id="row{{item.id}}">
                                 <td><span class="label label-{{item.mode=='orlogo'?'success':'primary'}}">{{item.orderId}}</span></td>
                                 <td>{{item.customer.name}}</td>
                                 <td>{{item.user.firstName}}</td>

@@ -100,7 +100,6 @@ public class OrderController {
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);
-		service.close();
 		return pageable;
 	}
 

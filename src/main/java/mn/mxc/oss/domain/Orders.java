@@ -2,6 +2,7 @@ package mn.mxc.oss.domain;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 
 import javax.persistence.*;
 import java.sql.Date;

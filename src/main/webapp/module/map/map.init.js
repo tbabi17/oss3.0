@@ -27,9 +27,12 @@ angular.module('map_init', ['uiGmapgoogle-maps']).controller('map_init', functio
             $scope.total = response.data.total;
 
             $scope.list.forEach(function(item) {
-                item.lat = 47.0+(1/(Math.random()*100.0));
-                item.lng = 107.0+(1/(Math.random()*100.0));
+                //item.lat = 47.0+(1/(Math.random()*100.0));
+                //item.lng = 107.0+(1/(Math.random()*100.0));
+                var coords = {latitude:item.lat,longitude:item.lng}
+                item.coords = coords;
                 $scope.marker(item);
+                console.log(item);
             });
         }, function (response) {
             $scope.list = [];
