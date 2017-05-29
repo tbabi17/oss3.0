@@ -66,6 +66,7 @@
 				<value>mn.mxc.oss.domain.ReportWeekDay</value>
 				<value>mn.mxc.oss.domain.ReportProduct</value>
 				<value>mn.mxc.oss.domain.ReportCustomer</value>
+				<value>mn.mxc.oss.domain.ReportCompareCustomer</value>
 			</list>
         </property> 
 		<property name="hibernateProperties">
@@ -132,6 +133,7 @@
 	<bean id="reportWeekDao" class="mn.mxc.oss.dao.ReportWeekDao"/>
 	<bean id="reportProductDao" class="mn.mxc.oss.dao.ReportProductDao"/>
 	<bean id="reportCustomerDao" class="mn.mxc.oss.dao.ReportCustomerDao"/>
+	<bean id="ReportCompareCustomerDao" class="mn.mxc.oss.dao.ReportCompareCustomerDao"/>
 	<bean id="reportService" class="mn.mxc.oss.services.ReportService"/>
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="5000000"/>

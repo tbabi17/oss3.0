@@ -271,4 +271,48 @@
         </div>
     </div>
 </div>
+<div id="passwordModal" class="modal fade">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Нууц үг тохируулах {{selected.firstName}} ({{selected.owner}})</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form name="passwordForm" ng-submit="submit(password)">
+                            <fieldset>
+                                <input type="hidden" data-ng-model="password.user.id" value="{{selected.id}}">
+                                <!-- Text input-->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Шинэ нууц үг</label>
+                                    <div class="col-md-8">
+                                        <input type="password" class="form-control" name="newPassword" data-ng-model="password.new" required>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Нууц үг давт</label>
+                                    <div class="col-md-8">
+                                        <input type="password" class="form-control" match-password="newPassword" name="confirmPassword" data-ng-model="password.confirm" required>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"></label>
+                                    <div class="col-md-4">
+                                        <a class="btn btn-primary btn-block" ng-click="updatePassword(password,selected)"><i class="glyphicon glyphicon-lock"></i> Солих</a>
+                                        <div ng-messages="passwordForm.confirmPassword.$error" ng-if="passwordForm.$submitted || passwordForm.confirmPassword.$dirty" ng-messages-multiple="ng-messages-multiple" class="error-messages slide-right">
+                                            <div ng-show="password.new!=password.confirm" class="message slide-left">Давтсан нууц үг тохирохгүй байна</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

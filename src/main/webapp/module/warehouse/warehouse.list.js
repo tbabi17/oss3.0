@@ -17,7 +17,7 @@ angular.module('warehouse_list', ['angucomplete-alt','ui.select']).controller('w
                 $scope.order.customerId = newValue.originalObject.id;
         }
     );
-
+   $scope.filter = { name:''};
     $scope.search = {warehouse: 1, range: ''};
     $scope.list = [];
     $scope.total = 0;

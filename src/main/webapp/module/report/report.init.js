@@ -14,6 +14,9 @@ angular.module('report_init', []).controller('report_init', function($rootScope,
     },{
         'name': 'customerReport',
         'title': 'Харилцагчийн тайлан'
+    },{
+        'name': 'compareCustomerReport',
+        'title': 'Харилцагчийн харьцуулалтын тайлан'
     }];
 
     $scope.report_title = $scope.reports[0].title;

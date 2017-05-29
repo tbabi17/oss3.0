@@ -1,5 +1,6 @@
 package mn.mxc.oss.services;
 
+import mn.mxc.oss.dao.ReportCompareCustomerDao;
 import mn.mxc.oss.dao.ReportCustomerDao;
 import mn.mxc.oss.dao.ReportProductDao;
 import mn.mxc.oss.dao.ReportWeekDao;
@@ -18,11 +19,16 @@ public class ReportService {
 	@Autowired
 	ReportCustomerDao daoCustomer;
 
+	@Autowired
+	ReportCompareCustomerDao daoCompareCustomer;
+
+
 	public List report(String report, String startDate, String endDate, int page, int size) {
 		switch (report) {
 			case "weekDay": return daoWeek.report(startDate, endDate, page, size);
 			case "productReport": return daoProduct.report(startDate, endDate, page, size);
 			case "customerReport": return daoCustomer.report(startDate, endDate, page, size);
+			case "compareCustomerReport":return daoCompareCustomer.report(startDate,page,size);
 		}
 		return null;
 	}
@@ -32,6 +38,7 @@ public class ReportService {
 			case "weekDay": return daoWeek.total();
 			case "productReport": return daoProduct.total();
 			case "customerReport": return daoCustomer.total();
+			case "customerCompareReport": return daoCompareCustomer.total();
 		}
 		return 0;
 	}

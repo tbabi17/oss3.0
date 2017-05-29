@@ -14,22 +14,25 @@
                             <div class="col-sm-2">
                                 <div class="alert alert-success alert-dismissible" role="alert" ng-show="success.length>0?true:false">{{success}}</div>
                             </div>
+                            <div class="col-md-2">
+                                <input class="form-control" type="text" data-ng-model="filter.name" placeholder="Нэрээр болон кодоор">
+                            </div>
                             <div class="col-sm-3">
                                 <div class="input-group">
                                     <select class="form-control input-sm" data-ng-model="search.warehouse" style="height: 29px;" ng-change="selectWareHouse(search.warehouse)">
                                         <option data-ng-repeat="item in warehouses" value="{{item.id}}">{{item.name}}</option>
                                     </select>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-sm btn-success" type="button" ng-click="dialog()">Шинэ захиалга оруулах</button>
+                                        <button class="btn btn-sm btn-success" type="button" ng-click="dialog()"><i class="glyphicon glyphicon-plus"></i> Захиалга </button>
                                      </span>
                                 </div>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <div class="input-group">
                                     <input type="text" class="form-control input input-sm" name="daterange" value="" id="range"/>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary" type="button" ng-click="find(true)"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary" type="button" ng-click="find(true)"><span class="glyphicon glyphicon-search"></span></button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +55,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr data-ng-repeat="item in productlist">
+                                    <tr data-ng-repeat="item in productlist | filter:{product:filter}">
                                         <td><b>{{item.product.code}}</b></td>
                                         <td>{{item.product.name}}</td>
                                         <td>{{item.product.brand}}</td>

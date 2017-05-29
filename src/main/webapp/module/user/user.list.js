@@ -1,4 +1,4 @@
-angular.module('user_list', ['ngFileUpload']).controller('user_list', function($rootScope, $http, $scope, $location,fileUpload,Upload,$timeout) {
+angular.module('user_list', ['ngFileUpload','ngPassword']).controller('user_list', function($rootScope, $http, $scope, $location,fileUpload,Upload,$timeout) {
     $scope.search = {'value': ''};
     $scope.list = [];
     $scope.total = 0;
@@ -12,6 +12,11 @@ angular.module('user_list', ['ngFileUpload']).controller('user_list', function($
     $scope.statusName = [];
     $scope.statusName['success'] = "Идэвхтэй";
     $scope.statusName['danger'] = "Идэвхгүй";
+    $scope.password = {
+        user:{id:0},
+        new:"",
+        confirm:""
+    };
     $scope.menuOptions = [
         ['Нэмэх', function ($itemScope) {
             $scope.adduser();
@@ -23,6 +28,11 @@ angular.module('user_list', ['ngFileUpload']).controller('user_list', function($
         }],
         ['Устгах', function ($itemScope) {
             $scope.delete($itemScope.item);
+            console.log($itemScope.item);
+        }],
+        ['Нууц үг тохируулах', function ($itemScope) {
+            $("#passwordModal").modal('show');
+            $scope.selected = $itemScope.item;
             console.log($itemScope.item);
         }],
         null,
@@ -147,6 +157,22 @@ angular.module('user_list', ['ngFileUpload']).controller('user_list', function($
         }, function(response) {
         });
     };
+    $scope.updatePassword = function(password,selected){
+        if(password.new == password.confirm){
+            selected.password = password.new;
+            $http.put('user/update', selected).then(function(response) {
+                $scope.password = {
+                    user:{id:0},
+                    new:"",
+                    confirm:""
+                };
+                bootbox.alert("Амжилттай",function(){
+                    $('#passwordModal').modal('hide');
+                });
+            }, function(response) {
+            });
+        }
+    };
     $scope.uploadUserImage = function(file, errFiles) {
         console.log("upload progress...");
         $scope.deleteImg($scope.selected.user_img,"user");
@@ -165,7 +191,9 @@ angular.module('user_list', ['ngFileUpload']).controller('user_list', function($
                         $("#img").attr('src',$scope.imgPath+"users/"+res.path);
                         $scope.selected.user_image = res.path;
                         $http.put('user/update', $scope.selected).then(function(response) {
+
                         }, function(response) {
+
                         });
                     }else{
                         bootbox.alert(res.msg,function(){

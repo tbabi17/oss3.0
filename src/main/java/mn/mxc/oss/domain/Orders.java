@@ -1,16 +1,16 @@
 package mn.mxc.oss.domain;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.springframework.http.converter.HttpMessageNotWritableException;
-
 import javax.persistence.*;
-import java.sql.Date;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.fasterxml.jackson.databind.JsonMappingException;
 @Entity
-public class Orders implements java.io.Serializable{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Orders implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -59,8 +59,8 @@ public class Orders implements java.io.Serializable{
     @Column
     private String mode;
 
-    @OneToMany(mappedBy="details", cascade = CascadeType.ALL)
-    @NotFound(action = NotFoundAction.IGNORE)
+    @OneToMany(mappedBy="details", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("details")
     private List<Details> detailsList = new ArrayList<Details>();
 
     @OneToOne
@@ -173,8 +173,14 @@ public class Orders implements java.io.Serializable{
     public void setLng(float lng) {
         this.lng = lng;
     }
-
+    @JsonIgnore
     public List<Details> getDetailsList() {
+        System.out.println(detailsList.toString());
+        if(detailsList!=null){
+            detailsList = detailsList;
+        }else{
+            detailsList = new ArrayList<Details>();
+        }
         return detailsList;
     }
 

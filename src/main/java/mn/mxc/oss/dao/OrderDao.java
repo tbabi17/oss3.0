@@ -84,32 +84,6 @@ public class OrderDao extends GenericDao<Orders> {
         tx.commit();
         return list;
     }
-    /*
-    public List<Orders> findBs(int uid,String status,String date){
-
-        DateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-        Date dt = null;
-        try {
-            SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd-yyyy");
-            dt = sdf1.parse(date);
-            System.out.println(dt.toString());
-        }catch(ParseException ex){
-            System.out.println(ex);
-        }
-        session = getSession();
-        Transaction tx = session.beginTransaction();
-        crit = session.createCriteria(Orders.class);
-        crit.add(Restrictions.eq("status", status));
-        crit.add(Restrictions.eq("userId",uid));
-        crit.add(Restrictions.ge("createdDate",dt));
-        crit.addOrder(Order.desc("createdDate"));
-        List<Orders> list = crit.list();
-        total = totalUniq(crit);
-        tx.commit();
-        return list;
-
-    }
-     */
     public List<Orders> findBySearch(int userId, String start, String end, int page, int size) {
         session = getSession();
         Transaction tx = session.beginTransaction();
@@ -171,7 +145,7 @@ public class OrderDao extends GenericDao<Orders> {
             session.delete(stock);
         }
 
-        if ("success".equals(entity.getStatus())) {
+        if ("success".equals(entity.getStatus()) || "info".equals(entity.getStatus())) {
             List<Details> list = entity.getDetailsList();
             if (list != null)
                 for (int i = 0; i < list.size(); i++) {

@@ -1,13 +1,16 @@
 package mn.mxc.oss.controller;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import mn.mxc.oss.domain.Details;
 import mn.mxc.oss.domain.Orders;
 import mn.mxc.oss.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -31,7 +34,6 @@ public class OrderController {
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);
-		service.close();
 		return pageable;
 	}
 	@RequestMapping(value = "order/findOne", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,7 +42,6 @@ public class OrderController {
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", order);
-		service.close();
 		return pageable;
 	}
 	@RequestMapping(value = "order/findBySearch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,7 +50,6 @@ public class OrderController {
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);
-		service.close();
 		return pageable;
 	}
 
@@ -59,7 +59,6 @@ public class OrderController {
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);
-		service.close();
 		return pageable;
 	}
 
@@ -69,17 +68,19 @@ public class OrderController {
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);
-		service.close();
 		return pageable;
 	}
 	@RequestMapping(value = "order/findByStatus", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findByStatus(@RequestParam int uid, @RequestParam String status,@RequestParam String date,HttpServletResponse response) {
 		response.setHeader("Access-Control-Allow-Origin", "*");
-		List<Orders> list = service.findByStatus(uid,status,date);
 		Hashtable pageable = new Hashtable();
-		pageable.put("total", service.total());
-		pageable.put("data", list);
-		service.close();
+		try {
+			List<Orders> list = service.findByStatus(uid, status, date);
+			pageable.put("total", service.total());
+			pageable.put("data", list);
+		}catch(HttpMessageNotWritableException e){
+			System.out.println(e.getMessage());
+		}
 		return pageable;
 	}
 
@@ -89,17 +90,22 @@ public class OrderController {
 		Hashtable pageable = new Hashtable();
 		pageable.put("total", service.total());
 		pageable.put("data", list);
-		service.close();
 		return pageable;
 	}
 
 	@RequestMapping(value = "order/findByCustomerOrder", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hashtable findByCustomerOrder(@RequestParam int customer_id,@RequestParam int page, @RequestParam int size,HttpServletResponse response) {
 		response.setHeader("Access-Control-Allow-Origin", "*");
-		List<Orders> list = service.findByCustomerOrder(customer_id,page,size);
 		Hashtable pageable = new Hashtable();
-		pageable.put("total", service.total());
-		pageable.put("data", list);
+		try {
+			List<Orders> list = service.findByCustomerOrder(customer_id, page, size);
+			pageable.put("total", service.total());
+			pageable.put("data", list);
+		}catch(HttpMessageNotWritableException e){
+			System.out.println(e.getMessage());
+		}catch(NullPointerException e){
+			System.out.println(e.getMessage());
+		}
 		return pageable;
 	}
 

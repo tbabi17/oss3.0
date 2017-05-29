@@ -3,7 +3,7 @@ angular.module('invoice_list', []).controller('invoice_list', function($rootScop
     $scope.total = 0;
     $scope.size = 50;
     $scope.descriptions = [];
-    $scope.descr;
+    $scope.descr = {descr:''};
     $scope.findOrder = function(id){
         $http.get('order/findOne?id='+$rootScope.activeOrder).then(function (response) {
             $scope.order = response.data.data;

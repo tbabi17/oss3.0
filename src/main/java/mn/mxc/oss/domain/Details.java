@@ -1,12 +1,17 @@
 package mn.mxc.oss.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Details {
+public class Details implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -23,9 +28,9 @@ public class Details {
     @Column
     private double amount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="orderId", referencedColumnName = "orderId", insertable=false, updatable=false)
-    @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnoreProperties("details")
     private Orders details;
 
     @OneToOne

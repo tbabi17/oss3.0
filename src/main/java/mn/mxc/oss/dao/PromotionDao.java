@@ -58,8 +58,6 @@ public class PromotionDao extends GenericDao<Promotion> {
         Transaction tx = session.beginTransaction();
         session.delete(promotionDetails);
         tx.commit();
-        session.close();
-
         return promotionDetails;
     }
 

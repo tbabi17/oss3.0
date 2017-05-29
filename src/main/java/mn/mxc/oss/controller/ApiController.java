@@ -196,7 +196,6 @@ public class ApiController {
                     System.out.println("Import name: "+row.getCell(0));
                     switch(name){
                         case "Storage":{
-
                             pageable.put("status", true);
                             pageable.put("msg","формат "+name);
                         } break;
@@ -568,7 +567,7 @@ public class ApiController {
                 case "Customers": {
                     Row row = sheet.createRow(++rowCount);
                     Cell cell = row.createCell(0);
-                    cell.setCellValue("Нэр");
+                cell.setCellValue("Нэр");
 
                     cell = row.createCell(1);
                     cell.setCellValue("Утас");
