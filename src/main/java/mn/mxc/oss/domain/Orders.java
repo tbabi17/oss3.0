@@ -173,7 +173,7 @@ public class Orders implements Serializable {
     public void setLng(float lng) {
         this.lng = lng;
     }
-    @JsonIgnore
+    //@JsonIgnore
     public List<Details> getDetailsList() {
         System.out.println(detailsList.toString());
         if(detailsList!=null){

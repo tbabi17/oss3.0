@@ -142,8 +142,9 @@ angular.module('order_list', ['ui.bootstrap.contextMenu','ngBootbox']).controlle
 
             $scope.findOld();
         }, function (response) {
-            $scope.list = [];
-            $scope.total = 0;
+            $scope.findNew();
+            //$scope.list = [];
+            //$scope.total = 0;
         });
     };
 
@@ -157,8 +158,9 @@ angular.module('order_list', ['ui.bootstrap.contextMenu','ngBootbox']).controlle
             $scope.old = response.data.data;
             $scope.oldtotal = response.data.total;
         }, function (response) {
-            $scope.old = [];
-            $scope.oldtotal = 0;
+            $scope.findOld();
+            //$scope.old = [];
+            //$scope.oldtotal = 0;
         });
     };
 
